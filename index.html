@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شهريتي — أذكى طريقة لإدارة مصاريفك</title>
+    <meta name="description" content="شهريتي — تطبيق إدارة المصاريف الشهرية. تتبع مصاريفك، ادخر بذكاء، وحقق أهدافك المالية.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #0D6E6E;
+            --primary-light: #1A9494;
+            --primary-dark: #084E4E;
+            --primary-glow: rgba(13, 110, 110, 0.15);
+            --positive: #22C55E;
+            --negative: #EF4444;
+            --surface: #F8F9FA;
+            --card: #FFFFFF;
+            --text-primary: #1A1A2E;
+            --text-secondary: #94A3B8;
+            --border: #E2E8F0;
+            --warning: #F59E0B;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Cairo', 'Inter', sans-serif;
+            background: var(--surface);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        [dir="ltr"] body { font-family: 'Inter', 'Cairo', sans-serif; }
+
+        /* ─── Scrollbar ─── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 3px; }
+
+        /* ─── Animations ─── */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.9); opacity: 0.6; }
+            50% { transform: scale(1.05); opacity: 0.3; }
+            100% { transform: scale(0.9); opacity: 0.6; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(60px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(80px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-80px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes blob {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            50% { border-radius: 50% 60% 30% 60% / 30% 50% 70% 50%; }
+            75% { border-radius: 60% 40% 60% 30% / 70% 30% 50% 60%; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        [dir="ltr"] .reveal-left {
+            transform: translateX(60px);
+        }
+
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        [dir="ltr"] .reveal-right {
+            transform: translateX(-60px);
+        }
+
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.85);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-scale.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+        .stagger-6 { transition-delay: 0.6s; }
+
+        /* ─── Navigation ─── */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            transition: all 0.4s ease;
+        }
+
+        .nav.scrolled {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 30px rgba(0, 0, 0, 0.06);
+            padding: 10px 0;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav.scrolled .nav-logo { color: var(--primary); }
+        .nav:not(.scrolled) .nav-logo { color: #fff; }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav:not(.scrolled) .nav-links a { color: rgba(255,255,255,0.85); }
+        .nav:not(.scrolled) .nav-links a:hover { color: #fff; }
+        .nav.scrolled .nav-links a { color: var(--text-secondary); }
+        .nav.scrolled .nav-links a:hover { color: var(--primary); }
+
+        .lang-toggle {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 100px;
+            padding: 4px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .nav.scrolled .lang-toggle {
+            background: var(--surface);
+            border-color: var(--border);
+        }
+
+        .lang-btn {
+            padding: 6px 14px;
+            border-radius: 100px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .nav:not(.scrolled) .lang-btn { color: rgba(255,255,255,0.7); }
+        .nav.scrolled .lang-btn { color: var(--text-secondary); }
+
+        .lang-btn.active {
+            background: var(--primary) !important;
+            color: #fff !important;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            margin: 6px 0;
+            transition: all 0.3s;
+        }
+
+        .nav:not(.scrolled) .mobile-menu-btn span { background: #fff; }
+        .nav.scrolled .mobile-menu-btn span { background: var(--text-primary); }
+
+        /* ─── Hero ─── */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(160deg, var(--primary-dark) 0%, var(--primary) 40%, var(--primary-light) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 700px;
+            height: 700px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 50%;
+            animation: blob 15s infinite ease-in-out;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -15%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+            animation: blob 12s infinite ease-in-out reverse;
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .particle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; animation-duration: 8s; }
+        .particle:nth-child(2) { top: 60%; left: 80%; animation-delay: 1s; animation-duration: 6s; width: 6px; height: 6px; }
+        .particle:nth-child(3) { top: 30%; left: 60%; animation-delay: 2s; animation-duration: 7s; }
+        .particle:nth-child(4) { top: 70%; left: 30%; animation-delay: 0.5s; animation-duration: 9s; width: 3px; height: 3px; }
+        .particle:nth-child(5) { top: 40%; left: 90%; animation-delay: 1.5s; animation-duration: 5s; width: 5px; height: 5px; }
+        .particle:nth-child(6) { top: 80%; left: 50%; animation-delay: 3s; animation-duration: 7s; }
+        .particle:nth-child(7) { top: 15%; left: 40%; animation-delay: 2.5s; animation-duration: 8s; width: 3px; height: 3px; }
+        .particle:nth-child(8) { top: 50%; left: 15%; animation-delay: 4s; animation-duration: 6s; }
+
+        .hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 32px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 100px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--positive);
+            border-radius: 50%;
+            animation: pulse-ring 2s infinite;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            color: #fff;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-title span {
+            display: inline;
+            background: linear-gradient(120deg, #fff 30%, rgba(255,255,255,0.6));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.8;
+            margin-bottom: 40px;
+            max-width: 500px;
+            font-weight: 400;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: var(--primary);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .btn-teal {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 30px var(--primary-glow);
+        }
+
+        .btn-teal:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 40px rgba(13, 110, 110, 0.3);
+        }
+
+        .hero-phone-wrapper {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            animation: slideInLeft 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+        }
+
+        [dir="ltr"] .hero-phone-wrapper {
+            animation-name: slideInRight;
+        }
+
+        .hero-phone {
+            position: relative;
+            z-index: 2;
+        }
+
+        .phone-mockup {
+            width: 280px;
+            background: #000;
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255,255,255,0.1);
+            animation: floatSlow 6s infinite ease-in-out;
+        }
+
+        .phone-mockup img {
+            width: 100%;
+            border-radius: 30px;
+            display: block;
+        }
+
+        .phone-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(26, 148, 148, 0.3) 0%, transparent 70%);
+            z-index: 1;
+            animation: pulse-ring 4s infinite;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 48px;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-num {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .hero-stat-label {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+            margin-top: 4px;
+        }
+
+        /* ─── Wave Divider ─── */
+        .wave-divider {
+            position: relative;
+            margin-top: -2px;
+        }
+
+        .wave-divider svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* ─── Section Base ─── */
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: var(--primary-glow);
+            border-radius: 100px;
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ─── Features Grid ─── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 36px;
+            border: 1px solid var(--border);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(13, 110, 110, 0.08);
+            border-color: transparent;
+        }
+
+        .feature-card:hover::before { opacity: 1; }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .feature-icon.teal { background: rgba(13, 110, 110, 0.08); color: var(--primary); }
+        .feature-icon.green { background: rgba(34, 197, 94, 0.08); color: var(--positive); }
+        .feature-icon.red { background: rgba(239, 68, 68, 0.08); color: var(--negative); }
+        .feature-icon.amber { background: rgba(245, 158, 11, 0.08); color: var(--warning); }
+
+        .feature-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .feature-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ─── Showcase (Phone Screenshots) ─── */
+        .showcase {
+            background: linear-gradient(180deg, var(--surface) 0%, #fff 100%);
+        }
+
+        .showcase-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-bottom: 120px;
+        }
+
+        .showcase-item:last-child { margin-bottom: 0; }
+
+        .showcase-item.reverse { direction: ltr; }
+        [dir="ltr"] .showcase-item.reverse { direction: rtl; }
+        .showcase-item.reverse > * { direction: rtl; }
+        [dir="ltr"] .showcase-item.reverse > * { direction: ltr; }
+
+        .showcase-phone {
+            display: flex;
+            justify-content: center;
+        }
+
+        .showcase-phone .phone-mockup {
+            width: 260px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .showcase-content { }
+
+        .showcase-tag {
+            display: inline-flex;
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .showcase-tag.teal { background: rgba(13,110,110,0.08); color: var(--primary); }
+        .showcase-tag.green { background: rgba(34,197,94,0.08); color: var(--positive); }
+        .showcase-tag.amber { background: rgba(245,158,11,0.08); color: var(--warning); }
+
+        .showcase-title {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .showcase-desc {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 28px;
+        }
+
+        .showcase-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .showcase-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .showcase-features li svg {
+            flex-shrink: 0;
+            color: var(--positive);
+        }
+
+        /* ─── Why Section ─── */
+        .why-section {
+            background: linear-gradient(160deg, var(--primary-dark), var(--primary), var(--primary-light));
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .why-section::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+            animation: blob 10s infinite;
+        }
+
+        .why-section .section-title { color: #fff; }
+        .why-section .section-subtitle { color: rgba(255,255,255,0.7); }
+        .why-section .section-tag {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .why-card {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s;
+        }
+
+        .why-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-4px);
+        }
+
+        .why-card-icon {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+
+        .why-card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .why-card-desc {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* ─── Quote Section ─── */
+        .quote-section {
+            background: #fff;
+            text-align: center;
+        }
+
+        .quote-text {
+            font-size: clamp(1.5rem, 3vw, 2.4rem);
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.5;
+            max-width: 700px;
+            margin: 0 auto 16px;
+            position: relative;
+        }
+
+        .quote-text::before {
+            content: '\201C';
+            position: absolute;
+            top: -30px;
+            right: -20px;
+            font-size: 6rem;
+            color: var(--primary-glow);
+            font-family: serif;
+            line-height: 1;
+        }
+
+        [dir="ltr"] .quote-text::before {
+            right: auto;
+            left: -20px;
+        }
+
+        .quote-attr {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* ─── Screenshots Carousel ─── */
+        .carousel-section {
+            background: var(--surface);
+            overflow: hidden;
+        }
+
+        .carousel-wrapper {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+            direction: ltr; /* force LTR so translateX is predictable */
+            mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 24px;
+            padding: 20px 0;
+            width: max-content;
+            will-change: transform;
+        }
+
+        .carousel-phone {
+            flex-shrink: 0;
+            width: 200px;
+            background: #000;
+            border-radius: 28px;
+            padding: 8px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: transform 0.4s;
+        }
+
+        .carousel-phone:hover {
+            transform: scale(1.05);
+        }
+
+        .carousel-phone img {
+            width: 100%;
+            border-radius: 22px;
+            display: block;
+        }
+
+        /* ─── CTA Section ─── */
+        .cta-section {
+            background: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box {
+            background: linear-gradient(160deg, var(--primary-dark), var(--primary));
+            border-radius: 32px;
+            padding: 80px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.05) 0%, transparent 60%);
+        }
+
+        .cta-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .cta-subtitle {
+            color: rgba(255,255,255,0.7);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        /* ─── Footer ─── */
+        .footer {
+            background: var(--text-primary);
+            color: rgba(255,255,255,0.6);
+            padding: 60px 0 30px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 48px;
+        }
+
+        .footer-brand-name {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .footer-brand-desc {
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .footer-col-title {
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover { color: #fff; }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 968px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding-top: 140px;
+            }
+
+            .hero-subtitle { margin: 0 auto 40px; }
+            .hero-cta-group { justify-content: center; }
+            .hero-stats { justify-content: center; }
+
+            .hero-phone-wrapper { order: -1; margin-bottom: 40px; }
+            .phone-mockup { width: 220px; }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .showcase-item {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .showcase-item.reverse { direction: inherit; }
+            .showcase-item.reverse > * { direction: inherit; }
+
+            .showcase-features { align-items: center; }
+
+            .why-grid { grid-template-columns: 1fr; }
+
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+
+            .features-grid { grid-template-columns: 1fr; }
+
+            .hero-stats { gap: 24px; }
+            .hero-stat-num { font-size: 1.4rem; }
+
+            .section { padding: 70px 0; }
+            .section-inner { padding: 0 20px; }
+
+            .cta-box { padding: 50px 24px; border-radius: 24px; }
+
+            .hero-cta-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn { width: 100%; justify-content: center; }
+        }
+
+        /* ─── Mobile Menu ─── */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+        }
+
+        .mobile-nav.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .mobile-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .mobile-nav a:hover { color: var(--primary-light); }
+
+        .mobile-nav-close {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        [dir="ltr"] .mobile-nav-close {
+            left: auto;
+            right: 24px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ─── Mobile Menu ─── -->
+<div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-close" onclick="document.getElementById('mobileNav').classList.remove('open')">&times;</button>
+    <a href="#features" onclick="document.getElementById('mobileNav').classList.remove('open')" data-i18n="nav_features">المميزات</a>
+    <a href="#showcase" onclick="document.getElementById('mobileNav').classList.remove('open')" data-i18n="nav_showcase">كيف تعمل</a>
+    <a href="#why" onclick="document.getElementById('mobileNav').classList.remove('open')" data-i18n="nav_why">لماذا شهريتي</a>
+    <a href="#download" onclick="document.getElementById('mobileNav').classList.remove('open')" data-i18n="nav_download">حمّل التطبيق</a>
+</div>
+
+<!-- ─── Navigation ─── -->
+<nav class="nav" id="mainNav">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">شهريتي</a>
+        <ul class="nav-links">
+            <li><a href="#features" data-i18n="nav_features">المميزات</a></li>
+            <li><a href="#showcase" data-i18n="nav_showcase">كيف تعمل</a></li>
+            <li><a href="#why" data-i18n="nav_why">لماذا شهريتي</a></li>
+            <li><a href="#download" data-i18n="nav_download">حمّل التطبيق</a></li>
+            <li>
+                <div class="lang-toggle">
+                    <button class="lang-btn active" onclick="setLang('ar')">عربي</button>
+                    <button class="lang-btn" onclick="setLang('fr')">FR</button>
+                </div>
+            </li>
+        </ul>
+        <button class="mobile-menu-btn" onclick="document.getElementById('mobileNav').classList.add('open')">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ─── Hero ─── -->
+<section class="hero" id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-particles">
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    </div>
+    <div class="hero-inner">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <div class="hero-badge-dot"></div>
+                <span data-i18n="hero_badge">تطبيق جزائري 100%</span>
+            </div>
+            <h1 class="hero-title">
+                <span data-i18n="hero_title">أذكى طريقة لإدارة مصاريفك الشهرية</span>
+            </h1>
+            <p class="hero-subtitle" data-i18n="hero_subtitle">
+                تتبع مصاريفك، حدد ميزانيتك، ادخر بذكاء، وحقق أهدافك المالية — كل شيء في تطبيق واحد بسيط وأنيق.
+            </p>
+            <div class="hero-cta-group">
+                <a href="#download" class="btn btn-primary" data-i18n="hero_cta_primary">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                    حمّل التطبيق مجاناً
+                </a>
+                <a href="#showcase" class="btn btn-outline" data-i18n="hero_cta_secondary">اكتشف المميزات</a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-num" data-i18n="stat_1_num">100%</div>
+                    <div class="hero-stat-label" data-i18n="stat_1_label">مجاني</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-num" data-i18n="stat_2_num">0</div>
+                    <div class="hero-stat-label" data-i18n="stat_2_label">إعلانات</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-num" data-i18n="stat_3_num">100%</div>
+                    <div class="hero-stat-label" data-i18n="stat_3_label">خصوصية</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-phone-wrapper">
+            <div class="phone-glow"></div>
+            <div class="hero-phone">
+                <div class="phone-mockup">
+                    <img src="screenshots/dashboard.png" alt="Chahriyti Dashboard">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Wave ─── -->
+<div class="wave-divider">
+    <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0 40C240 80 480 100 720 80C960 60 1200 20 1440 40V100H0V40Z" fill="var(--surface)"/>
+        <path d="M0 50C240 90 480 100 720 85C960 70 1200 30 1440 50V100H0V50Z" fill="var(--surface)" opacity="0.5"/>
+    </svg>
+</div>
+
+<!-- ─── Features ─── -->
+<section class="section" id="features">
+    <div class="section-inner">
+        <div class="section-header reveal">
+            <div class="section-tag" data-i18n="features_tag">كل ما تحتاجه</div>
+            <h2 class="section-title" data-i18n="features_title">أدوات مالية ذكية في جيبك</h2>
+            <p class="section-subtitle" data-i18n="features_subtitle">شهريتي مصممة خصيصاً لتناسب حياتك اليومية — بسيطة، ذكية، وفعّالة.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card reveal stagger-1">
+                <div class="feature-icon teal">
+                    <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                </div>
+                <h3 class="feature-title" data-i18n="feat_1_title">تتبع المصاريف</h3>
+                <p class="feature-desc" data-i18n="feat_1_desc">سجّل مصاريفك لحظة بلحظة مع تصنيفات ذكية — طعام، مواصلات، صحة، وأكثر.</p>
+            </div>
+            <div class="feature-card reveal stagger-2">
+                <div class="feature-icon green">
+                    <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                </div>
+                <h3 class="feature-title" data-i18n="feat_2_title">إدارة المدخرات</h3>
+                <p class="feature-desc" data-i18n="feat_2_desc">ادخر من رصيدك بسهولة مع تتبع كامل لكل إيداع وسحب من حساب مدخراتك.</p>
+            </div>
+            <div class="feature-card reveal stagger-3">
+                <div class="feature-icon amber">
+                    <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                </div>
+                <h3 class="feature-title" data-i18n="feat_3_title">إحصائيات ذكية</h3>
+                <p class="feature-desc" data-i18n="feat_3_desc">رسوم بيانية واضحة توضح أين يذهب مالك — مع تقييم ذكي لعاداتك المالية.</p>
+            </div>
+            <div class="feature-card reveal stagger-4">
+                <div class="feature-icon teal">
+                    <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 8l-4 4-4-4"/><path d="M8 16l4-4 4 4"/></svg>
+                </div>
+                <h3 class="feature-title" data-i18n="feat_4_title">الديون والسلفات</h3>
+                <p class="feature-desc" data-i18n="feat_4_desc">تتبع من تدين له ومن يدين لك — مع نسبة السداد والمبلغ المتبقي لكل دين.</p>
+            </div>
+            <div class="feature-card reveal stagger-5">
+                <div class="feature-icon green">
+                    <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h3 class="feature-title" data-i18n="feat_5_title">أهداف مالية</h3>
+                <p class="feature-desc" data-i18n="feat_5_desc">حدد أهدافك — زواج، سيارة، سفر — وتابع تقدمك نحو تحقيقها يومياً.</p>
+            </div>
+            <div class="feature-card reveal stagger-6">
+                <div class="feature-icon red">
+                    <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+                </div>
+                <h3 class="feature-title" data-i18n="feat_6_title">تنبيهات ذكية</h3>
+                <p class="feature-desc" data-i18n="feat_6_desc">يحسب لك المبلغ الآمن للصرف يومياً — وينبهك قبل نفاد رصيدك.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Screenshots Carousel ─── -->
+<section class="section carousel-section">
+    <div class="section-inner">
+        <div class="section-header reveal">
+            <div class="section-tag" data-i18n="carousel_tag">واجهة أنيقة</div>
+            <h2 class="section-title" data-i18n="carousel_title">تصميم نظيف يحبه الجميع</h2>
+        </div>
+    </div>
+    <div class="carousel-wrapper">
+        <div class="carousel-track" id="carouselTrack">
+            <div class="carousel-phone"><img src="screenshots/dashboard.png" alt="Dashboard"></div>
+            <div class="carousel-phone"><img src="screenshots/statistics.png" alt="Statistics"></div>
+            <div class="carousel-phone"><img src="screenshots/categories.png" alt="Categories"></div>
+            <div class="carousel-phone"><img src="screenshots/goals.png" alt="Goals"></div>
+            <div class="carousel-phone"><img src="screenshots/savings.png" alt="Savings"></div>
+            <div class="carousel-phone"><img src="screenshots/debts.png" alt="Debts"></div>
+            <div class="carousel-phone"><img src="screenshots/summary.png" alt="Summary"></div>
+            <div class="carousel-phone"><img src="screenshots/benefits.png" alt="Benefits"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Showcase ─── -->
+<section class="section showcase" id="showcase">
+    <div class="section-inner">
+        <div class="section-header reveal">
+            <div class="section-tag" data-i18n="showcase_tag">شاهد بنفسك</div>
+            <h2 class="section-title" data-i18n="showcase_title">كل شيء واضح وبسيط</h2>
+            <p class="section-subtitle" data-i18n="showcase_subtitle">صُممت كل شاشة لتكون سهلة الفهم من النظرة الأولى.</p>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="showcase-item">
+            <div class="showcase-phone reveal-right">
+                <div class="phone-mockup">
+                    <img src="screenshots/dashboard.png" alt="Dashboard">
+                </div>
+            </div>
+            <div class="showcase-content reveal-left">
+                <div class="showcase-tag teal" data-i18n="sc_1_tag">لوحة التحكم</div>
+                <h3 class="showcase-title" data-i18n="sc_1_title">كل شيء في نظرة واحدة</h3>
+                <p class="showcase-desc" data-i18n="sc_1_desc">رصيدك، مصاريفك، ديونك، سلفاتك، ونسبة استهلاكك — كلها أمامك في شاشة واحدة أنيقة ومرتبة.</p>
+                <ul class="showcase-features">
+                    <li>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                        <span data-i18n="sc_1_f1">الرصيد الحالي والمصاريف</span>
+                    </li>
+                    <li>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                        <span data-i18n="sc_1_f2">المبلغ الآمن للصرف يومياً</span>
+                    </li>
+                    <li>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                        <span data-i18n="sc_1_f3">نسبة الاستهلاك الشهري</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="showcase-item reverse">
+            <div class="showcase-phone reveal-left">
+                <div class="phone-mockup">
+                    <img src="screenshots/statistics.png" alt="Statistics">
+                </div>
+            </div>
+            <div class="showcase-content reveal-right">
+                <div class="showcase-tag amber" data-i18n="sc_2_tag">الإحصائيات</div>
+                <h3 class="showcase-title" data-i18n="sc_2_title">اعرف أين يذهب مالك</h3>
+                <p class="showcase-desc" data-i18n="sc_2_desc">رسوم بيانية واضحة تكشف لك عاداتك المالية — مع تقييم ذكي يخبرك إن كنت مدخراً أم مبذراً.</p>
+                <ul class="showcase-features">
+                    <li>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                        <span data-i18n="sc_2_f1">مسار الإنفاق مقارنة بالميزانية</span>
+                    </li>
+                    <li>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                        <span data-i18n="sc_2_f2">توزيع المصاريف حسب الفئة</span>
+                    </li>
+                    <li>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                        <span data-i18n="sc_2_f3">تقييم ذكي لأدائك المالي</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Goals -->
+        <div class="showcase-item">
+            <div class="showcase-phone reveal-right">
+                <div class="phone-mockup">
+                    <img src="screenshots/goals.png" alt="Goals">
+                </div>
+            </div>
+            <div class="showcase-content reveal-left">
+                <div class="showcase-tag green" data-i18n="sc_3_tag">الأهداف المالية</div>
+                <h3 class="showcase-title" data-i18n="sc_3_title">حلمك أقرب مما تتصور</h3>
+                <p class="showcase-desc" data-i18n="sc_3_desc">حدد أهدافك المالية — زواج، سيارة، مشروع — وتابع تقدمك مع شريط واضح يحفزك يومياً.</p>
+                <ul class="showcase-features">
+                    <li>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                        <span data-i18n="sc_3_f1">أهداف متعددة في نفس الوقت</span>
+                    </li>
+                    <li>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                        <span data-i18n="sc_3_f2">تتبع نسبة التقدم بصرياً</span>
+                    </li>
+                    <li>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                        <span data-i18n="sc_3_f3">أرشيف الأهداف المكتملة</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Quote ─── -->
+<section class="section quote-section">
+    <div class="section-inner">
+        <div class="reveal">
+            <p class="quote-text" data-i18n="quote_text">المال الذي لا تديره، يديرك.</p>
+            <p class="quote-attr" data-i18n="quote_attr">— حكمة مالية</p>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Why Chahriyti ─── -->
+<section class="section why-section" id="why">
+    <div class="section-inner">
+        <div class="section-header reveal">
+            <div class="section-tag" data-i18n="why_tag">لماذا شهريتي؟</div>
+            <h2 class="section-title" data-i18n="why_title">ليست مجرد تطبيق — إنها عادة مالية</h2>
+            <p class="section-subtitle" data-i18n="why_subtitle">شهريتي صُممت لتكون جزءاً من يومك — تفتحها، تسجل، وتمضي.</p>
+        </div>
+        <div class="why-grid">
+            <div class="why-card reveal stagger-1">
+                <div class="why-card-icon">&#127465;&#127487;</div>
+                <h3 class="why-card-title" data-i18n="why_1_title">مصممة للجزائريين</h3>
+                <p class="why-card-desc" data-i18n="why_1_desc">واجهة عربية بالكامل مع دعم الدينار الجزائري — مصممة لتناسب واقعنا المالي اليومي.</p>
+            </div>
+            <div class="why-card reveal stagger-2">
+                <div class="why-card-icon">&#9889;</div>
+                <h3 class="why-card-title" data-i18n="why_2_title">بسيطة وسريعة</h3>
+                <p class="why-card-desc" data-i18n="why_2_desc">لا حسابات معقدة، لا ربط بنكي — فقط سجّل مصروفك في ثوان وامضِ في يومك.</p>
+            </div>
+            <div class="why-card reveal stagger-3">
+                <div class="why-card-icon">&#128274;</div>
+                <h3 class="why-card-title" data-i18n="why_3_title">خصوصية تامة</h3>
+                <p class="why-card-desc" data-i18n="why_3_desc">بياناتك تبقى في جهازك فقط — لا نجمع أي معلومات شخصية أو مالية.</p>
+            </div>
+            <div class="why-card reveal stagger-4">
+                <div class="why-card-icon">&#128161;</div>
+                <h3 class="why-card-title" data-i18n="why_4_title">ذكاء مالي حقيقي</h3>
+                <p class="why-card-desc" data-i18n="why_4_desc">يحلل عاداتك ويعطيك تقييم ذكي — هل أنت مدخر، ذكي، أم تحتاج تحسين؟</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section class="section cta-section" id="download">
+    <div class="section-inner">
+        <div class="cta-box reveal-scale">
+            <h2 class="cta-title" data-i18n="cta_title">ابدأ رحلتك المالية الآن</h2>
+            <p class="cta-subtitle" data-i18n="cta_subtitle">حمّل شهريتي مجاناً وابدأ بإدارة مصاريفك بذكاء من اليوم.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary" data-i18n="cta_btn_android">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 2.237a.4.4 0 00-.7.347l1.2 2.4a10.1 10.1 0 00-12.05 0l1.2-2.4a.4.4 0 00-.7-.347l-1.3 2.6A7.5 7.5 0 002 12v1h20v-1a7.5 7.5 0 00-3.177-6.163zM7 10a1 1 0 110-2 1 1 0 010 2zm10 0a1 1 0 110-2 1 1 0 010 2zM3 14h18v7a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+                    تحميل للأندرويد
+                </a>
+                <a href="#" class="btn btn-outline" style="border-color: rgba(255,255,255,0.3); color: #fff;" data-i18n="cta_btn_ios">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    قريباً على iOS
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── Footer ─── -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-brand-name">شهريتي</div>
+                <p class="footer-brand-desc" data-i18n="footer_desc">تطبيق جزائري لإدارة المصاريف الشهرية — بسيط، ذكي، ومجاني. صُمم بحب لمساعدتك على تحقيق أهدافك المالية.</p>
+            </div>
+            <div>
+                <h4 class="footer-col-title" data-i18n="footer_links_title">روابط سريعة</h4>
+                <ul class="footer-links">
+                    <li><a href="#features" data-i18n="nav_features">المميزات</a></li>
+                    <li><a href="#showcase" data-i18n="nav_showcase">كيف تعمل</a></li>
+                    <li><a href="#why" data-i18n="nav_why">لماذا شهريتي</a></li>
+                    <li><a href="#download" data-i18n="nav_download">حمّل التطبيق</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-col-title" data-i18n="footer_contact_title">تواصل معنا</h4>
+                <ul class="footer-links">
+                    <li><a href="#">contact@chahriyti.com</a></li>
+                    <li><a href="#" data-i18n="footer_privacy">سياسة الخصوصية</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span data-i18n="footer_copy">&copy; 2026 شهريتي. جميع الحقوق محفوظة.</span>
+            <span data-i18n="footer_made">صُنع بحب في الجزائر &#127465;&#127487;</span>
+        </div>
+    </div>
+</footer>
+
+<script>
+// ─── i18n ───
+const translations = {
+    ar: {
+        nav_features: 'المميزات',
+        nav_showcase: 'كيف تعمل',
+        nav_why: 'لماذا شهريتي',
+        nav_download: 'حمّل التطبيق',
+        hero_badge: 'تطبيق جزائري 100%',
+        hero_title: 'أذكى طريقة لإدارة مصاريفك الشهرية',
+        hero_subtitle: 'تتبع مصاريفك، حدد ميزانيتك، ادخر بذكاء، وحقق أهدافك المالية — كل شيء في تطبيق واحد بسيط وأنيق.',
+        hero_cta_primary: '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> حمّل التطبيق مجاناً',
+        hero_cta_secondary: 'اكتشف المميزات',
+        stat_1_num: '100%', stat_1_label: 'مجاني',
+        stat_2_num: '0', stat_2_label: 'إعلانات',
+        stat_3_num: '100%', stat_3_label: 'خصوصية',
+        features_tag: 'كل ما تحتاجه',
+        features_title: 'أدوات مالية ذكية في جيبك',
+        features_subtitle: 'شهريتي مصممة خصيصاً لتناسب حياتك اليومية — بسيطة، ذكية، وفعّالة.',
+        feat_1_title: 'تتبع المصاريف', feat_1_desc: 'سجّل مصاريفك لحظة بلحظة مع تصنيفات ذكية — طعام، مواصلات، صحة، وأكثر.',
+        feat_2_title: 'إدارة المدخرات', feat_2_desc: 'ادخر من رصيدك بسهولة مع تتبع كامل لكل إيداع وسحب من حساب مدخراتك.',
+        feat_3_title: 'إحصائيات ذكية', feat_3_desc: 'رسوم بيانية واضحة توضح أين يذهب مالك — مع تقييم ذكي لعاداتك المالية.',
+        feat_4_title: 'الديون والسلفات', feat_4_desc: 'تتبع من تدين له ومن يدين لك — مع نسبة السداد والمبلغ المتبقي لكل دين.',
+        feat_5_title: 'أهداف مالية', feat_5_desc: 'حدد أهدافك — زواج، سيارة، سفر — وتابع تقدمك نحو تحقيقها يومياً.',
+        feat_6_title: 'تنبيهات ذكية', feat_6_desc: 'يحسب لك المبلغ الآمن للصرف يومياً — وينبهك قبل نفاد رصيدك.',
+        carousel_tag: 'واجهة أنيقة',
+        carousel_title: 'تصميم نظيف يحبه الجميع',
+        showcase_tag: 'شاهد بنفسك',
+        showcase_title: 'كل شيء واضح وبسيط',
+        showcase_subtitle: 'صُممت كل شاشة لتكون سهلة الفهم من النظرة الأولى.',
+        sc_1_tag: 'لوحة التحكم', sc_1_title: 'كل شيء في نظرة واحدة',
+        sc_1_desc: 'رصيدك، مصاريفك، ديونك، سلفاتك، ونسبة استهلاكك — كلها أمامك في شاشة واحدة أنيقة ومرتبة.',
+        sc_1_f1: 'الرصيد الحالي والمصاريف', sc_1_f2: 'المبلغ الآمن للصرف يومياً', sc_1_f3: 'نسبة الاستهلاك الشهري',
+        sc_2_tag: 'الإحصائيات', sc_2_title: 'اعرف أين يذهب مالك',
+        sc_2_desc: 'رسوم بيانية واضحة تكشف لك عاداتك المالية — مع تقييم ذكي يخبرك إن كنت مدخراً أم مبذراً.',
+        sc_2_f1: 'مسار الإنفاق مقارنة بالميزانية', sc_2_f2: 'توزيع المصاريف حسب الفئة', sc_2_f3: 'تقييم ذكي لأدائك المالي',
+        sc_3_tag: 'الأهداف المالية', sc_3_title: 'حلمك أقرب مما تتصور',
+        sc_3_desc: 'حدد أهدافك المالية — زواج، سيارة، مشروع — وتابع تقدمك مع شريط واضح يحفزك يومياً.',
+        sc_3_f1: 'أهداف متعددة في نفس الوقت', sc_3_f2: 'تتبع نسبة التقدم بصرياً', sc_3_f3: 'أرشيف الأهداف المكتملة',
+        quote_text: 'المال الذي لا تديره، يديرك.', quote_attr: '— حكمة مالية',
+        why_tag: 'لماذا شهريتي؟',
+        why_title: 'ليست مجرد تطبيق — إنها عادة مالية',
+        why_subtitle: 'شهريتي صُممت لتكون جزءاً من يومك — تفتحها، تسجل، وتمضي.',
+        why_1_title: 'مصممة للجزائريين', why_1_desc: 'واجهة عربية بالكامل مع دعم الدينار الجزائري — مصممة لتناسب واقعنا المالي اليومي.',
+        why_2_title: 'بسيطة وسريعة', why_2_desc: 'لا حسابات معقدة، لا ربط بنكي — فقط سجّل مصروفك في ثوان وامضِ في يومك.',
+        why_3_title: 'خصوصية تامة', why_3_desc: 'بياناتك تبقى في جهازك فقط — لا نجمع أي معلومات شخصية أو مالية.',
+        why_4_title: 'ذكاء مالي حقيقي', why_4_desc: 'يحلل عاداتك ويعطيك تقييم ذكي — هل أنت مدخر، ذكي، أم تحتاج تحسين؟',
+        cta_title: 'ابدأ رحلتك المالية الآن',
+        cta_subtitle: 'حمّل شهريتي مجاناً وابدأ بإدارة مصاريفك بذكاء من اليوم.',
+        cta_btn_android: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 2.237a.4.4 0 00-.7.347l1.2 2.4a10.1 10.1 0 00-12.05 0l1.2-2.4a.4.4 0 00-.7-.347l-1.3 2.6A7.5 7.5 0 002 12v1h20v-1a7.5 7.5 0 00-3.177-6.163zM7 10a1 1 0 110-2 1 1 0 010 2zm10 0a1 1 0 110-2 1 1 0 010 2zM3 14h18v7a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg> تحميل للأندرويد',
+        cta_btn_ios: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg> قريباً على iOS',
+        footer_desc: 'تطبيق جزائري لإدارة المصاريف الشهرية — بسيط، ذكي، ومجاني. صُمم بحب لمساعدتك على تحقيق أهدافك المالية.',
+        footer_links_title: 'روابط سريعة',
+        footer_contact_title: 'تواصل معنا',
+        footer_privacy: 'سياسة الخصوصية',
+        footer_copy: '&copy; 2026 شهريتي. جميع الحقوق محفوظة.',
+        footer_made: 'صُنع بحب في الجزائر \u{1F1E9}\u{1F1FF}',
+    },
+    fr: {
+        nav_features: 'Fonctionnalités',
+        nav_showcase: 'Comment ça marche',
+        nav_why: 'Pourquoi Chahriyti',
+        nav_download: 'Télécharger',
+        hero_badge: 'Application 100% Algérienne',
+        hero_title: 'La façon la plus intelligente de gérer vos dépenses',
+        hero_subtitle: 'Suivez vos dépenses, définissez votre budget, épargnez intelligemment et atteignez vos objectifs financiers — tout dans une seule application simple et élégante.',
+        hero_cta_primary: '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> Télécharger gratuitement',
+        hero_cta_secondary: 'Découvrir les fonctionnalités',
+        stat_1_num: '100%', stat_1_label: 'Gratuit',
+        stat_2_num: '0', stat_2_label: 'Publicité',
+        stat_3_num: '100%', stat_3_label: 'Privé',
+        features_tag: 'Tout ce qu\'il vous faut',
+        features_title: 'Des outils financiers intelligents dans votre poche',
+        features_subtitle: 'Chahriyti est conçue pour s\'adapter à votre quotidien — simple, intelligente et efficace.',
+        feat_1_title: 'Suivi des dépenses', feat_1_desc: 'Enregistrez vos dépenses en temps réel avec des catégories intelligentes — alimentation, transport, santé et plus.',
+        feat_2_title: 'Gestion de l\'épargne', feat_2_desc: 'Épargnez facilement avec un suivi complet de chaque dépôt et retrait de votre compte épargne.',
+        feat_3_title: 'Statistiques intelligentes', feat_3_desc: 'Des graphiques clairs montrent où va votre argent — avec une évaluation intelligente de vos habitudes financières.',
+        feat_4_title: 'Dettes et prêts', feat_4_desc: 'Suivez ce que vous devez et ce qu\'on vous doit — avec le pourcentage de remboursement et le montant restant.',
+        feat_5_title: 'Objectifs financiers', feat_5_desc: 'Définissez vos objectifs — mariage, voiture, voyage — et suivez vos progrès quotidiennement.',
+        feat_6_title: 'Alertes intelligentes', feat_6_desc: 'Calcule votre montant sûr à dépenser par jour — et vous alerte avant l\'épuisement de votre solde.',
+        carousel_tag: 'Interface élégante',
+        carousel_title: 'Un design épuré que tout le monde adore',
+        showcase_tag: 'Voyez par vous-même',
+        showcase_title: 'Tout est clair et simple',
+        showcase_subtitle: 'Chaque écran est conçu pour être compris au premier coup d\'œil.',
+        sc_1_tag: 'Tableau de bord', sc_1_title: 'Tout en un coup d\'œil',
+        sc_1_desc: 'Votre solde, dépenses, dettes, prêts et taux de consommation — tout devant vous dans un seul écran élégant.',
+        sc_1_f1: 'Solde actuel et dépenses', sc_1_f2: 'Montant sûr à dépenser par jour', sc_1_f3: 'Taux de consommation mensuel',
+        sc_2_tag: 'Statistiques', sc_2_title: 'Sachez où va votre argent',
+        sc_2_desc: 'Des graphiques clairs révèlent vos habitudes financières — avec une évaluation qui vous dit si vous êtes économe ou dépensier.',
+        sc_2_f1: 'Courbe de dépenses vs budget', sc_2_f2: 'Répartition par catégorie', sc_2_f3: 'Évaluation intelligente de votre performance',
+        sc_3_tag: 'Objectifs financiers', sc_3_title: 'Votre rêve est plus proche que vous ne pensez',
+        sc_3_desc: 'Définissez vos objectifs — mariage, voiture, projet — et suivez vos progrès avec une barre visuelle motivante.',
+        sc_3_f1: 'Objectifs multiples simultanés', sc_3_f2: 'Suivi visuel de la progression', sc_3_f3: 'Archive des objectifs atteints',
+        quote_text: 'L\'argent que vous ne gérez pas, vous gère.', quote_attr: '— Sagesse financière',
+        why_tag: 'Pourquoi Chahriyti ?',
+        why_title: 'Pas juste une app — c\'est une habitude financière',
+        why_subtitle: 'Chahriyti est conçue pour faire partie de votre journée — ouvrez, enregistrez, continuez.',
+        why_1_title: 'Conçue pour les Algériens', why_1_desc: 'Interface entièrement en arabe avec support du Dinar Algérien — adaptée à notre réalité financière.',
+        why_2_title: 'Simple et rapide', why_2_desc: 'Pas de calculs complexes, pas de liaison bancaire — enregistrez vos dépenses en secondes.',
+        why_3_title: 'Confidentialité totale', why_3_desc: 'Vos données restent uniquement sur votre appareil — nous ne collectons aucune information.',
+        why_4_title: 'Intelligence financière réelle', why_4_desc: 'Analyse vos habitudes et vous donne une évaluation — êtes-vous économe, intelligent ou avez-vous besoin d\'amélioration ?',
+        cta_title: 'Commencez votre parcours financier',
+        cta_subtitle: 'Téléchargez Chahriyti gratuitement et gérez vos dépenses intelligemment dès aujourd\'hui.',
+        cta_btn_android: '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 2.237a.4.4 0 00-.7.347l1.2 2.4a10.1 10.1 0 00-12.05 0l1.2-2.4a.4.4 0 00-.7-.347l-1.3 2.6A7.5 7.5 0 002 12v1h20v-1a7.5 7.5 0 00-3.177-6.163zM7 10a1 1 0 110-2 1 1 0 010 2zm10 0a1 1 0 110-2 1 1 0 010 2zM3 14h18v7a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg> Télécharger pour Android',
+        cta_btn_ios: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg> Bientôt sur iOS',
+        footer_desc: 'Application algérienne de gestion des dépenses mensuelles — simple, intelligente et gratuite. Conçue avec amour pour vous aider à atteindre vos objectifs financiers.',
+        footer_links_title: 'Liens rapides',
+        footer_contact_title: 'Contactez-nous',
+        footer_privacy: 'Politique de confidentialité',
+        footer_copy: '&copy; 2026 Chahriyti. Tous droits réservés.',
+        footer_made: 'Fait avec amour en Algérie \u{1F1E9}\u{1F1FF}',
+    }
+};
+
+let currentLang = 'ar';
+
+function setLang(lang) {
+    currentLang = lang;
+    const html = document.documentElement;
+
+    if (lang === 'fr') {
+        html.setAttribute('dir', 'ltr');
+        html.setAttribute('lang', 'fr');
+    } else {
+        html.setAttribute('dir', 'rtl');
+        html.setAttribute('lang', 'ar');
+    }
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+            el.innerHTML = translations[lang][key];
+        }
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+}
+
+// ─── Scroll reveal ───
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
+    observer.observe(el);
+});
+
+// ─── Nav scroll effect ───
+window.addEventListener('scroll', () => {
+    const nav = document.getElementById('mainNav');
+    if (window.scrollY > 60) {
+        nav.classList.add('scrolled');
+    } else {
+        nav.classList.remove('scrolled');
+    }
+});
+
+// ─── Smooth anchor scroll ───
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+
+// ─── Infinite carousel (JS-driven, RTL-safe) ───
+(function() {
+    const track = document.getElementById('carouselTrack');
+    if (!track) return;
+
+    const originalItems = Array.from(track.children).map(c => c.cloneNode(true));
+    const gap = 24;
+    let speed = 0.7;
+    let pos = 0;
+    let singleSetWidth = 0;
+
+    function setup() {
+        // Clear and rebuild with enough clones to fill screen + buffer
+        track.innerHTML = '';
+        const viewportW = window.innerWidth;
+        // We need at least 3 full sets (one scrolling out, one visible, one scrolling in)
+        for (let s = 0; s < 4; s++) {
+            originalItems.forEach(item => {
+                track.appendChild(item.cloneNode(true));
+            });
+        }
+
+        // Measure one set width
+        const allPhones = track.querySelectorAll('.carousel-phone');
+        const setCount = originalItems.length;
+        singleSetWidth = 0;
+        for (let i = 0; i < setCount; i++) {
+            singleSetWidth += allPhones[i].offsetWidth + gap;
+        }
+
+        // Start from first set (items already visible)
+        pos = 0;
+    }
+
+    function animate() {
+        pos += speed;
+        // When we've scrolled past one full set, jump back by one set width
+        if (pos >= singleSetWidth) {
+            pos -= singleSetWidth;
+        }
+        track.style.transform = `translateX(${-pos}px)`;
+        requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('load', () => {
+        setup();
+        animate();
+    });
+
+    window.addEventListener('resize', () => {
+        setup();
+    });
+})();
+</script>
+
+</body>
+</html>
