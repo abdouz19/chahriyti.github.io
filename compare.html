@@ -1,0 +1,2180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شهريتي — مازال تكتب في الكارني؟ | قارن وشوف الفرق</title>
+    <meta name="description" content="قارن بين الكارني، Excel وشهريتي. شوف علاه وقت الكتابة اليدوية راح وكيفاش تنظّم مصاريفك بذكاء.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --teal: #0D6E6E;
+            --teal-light: #0F8B8B;
+            --teal-dark: #094e4e;
+            --teal-glow: rgba(13, 110, 110, 0.3);
+            --teal-glow-strong: rgba(13, 110, 110, 0.6);
+            --old-brown: #8B6914;
+            --old-sepia: #d4a853;
+            --old-paper: #f5e6c8;
+            --old-paper-dark: #c4a46a;
+            --danger: #C0392B;
+            --danger-light: #E74C3C;
+            --success: #27AE60;
+            --success-light: #2ECC71;
+            --horror-red: #8B0000;
+            --horror-bg: #0d0508;
+            --dark-bg: #0a0a0f;
+            --dark-surface: #111118;
+            --card-glass: rgba(255, 255, 255, 0.06);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f0f0f0;
+            --text-secondary: rgba(255, 255, 255, 0.65);
+            --text-muted: rgba(255, 255, 255, 0.4);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
+
+        /* ===========================
+           HERO SECTION
+        =========================== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .hero-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 30px;
+            position: relative;
+            z-index: 2;
+            min-height: 50vh;
+        }
+
+        /* Old side - notebook */
+        .hero-old {
+            background: linear-gradient(135deg, #2a1e0e 0%, #1a140a 100%);
+        }
+
+        .hero-old::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 40% 50%, rgba(139, 105, 20, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* New side - شهريتي */
+        .hero-new {
+            background: linear-gradient(135deg, #061a1a 0%, #0a2e2e 50%, #0d3d3d 100%);
+        }
+
+        .hero-new::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(13, 110, 110, 0.2) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-divider {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.15), transparent);
+            z-index: 5;
+        }
+
+        .hero-vs {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            background: var(--dark-bg);
+            border: 2px solid rgba(255,255,255,0.15);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        /* CSS Notebook illustration */
+        .notebook-illust {
+            width: 180px;
+            height: 220px;
+            background: var(--old-paper);
+            border-radius: 4px 12px 12px 4px;
+            position: relative;
+            box-shadow: 4px 4px 20px rgba(0,0,0,0.4);
+            transform: rotate(-3deg);
+            margin-bottom: 30px;
+        }
+
+        .notebook-illust::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            bottom: 10px;
+            right: 15px;
+            left: 15px;
+            background: repeating-linear-gradient(
+                transparent,
+                transparent 24px,
+                #b8d4e3 24px,
+                #b8d4e3 25px
+            );
+        }
+
+        .notebook-illust::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20px;
+            width: 2px;
+            height: 100%;
+            background: #e8a0a0;
+        }
+
+        .notebook-scribble {
+            position: absolute;
+            font-family: 'Cairo', cursive;
+            color: #333;
+            opacity: 0.6;
+            font-size: 0.7rem;
+        }
+        .notebook-scribble:nth-child(1) { top: 35px; right: 25px; transform: rotate(-2deg); }
+        .notebook-scribble:nth-child(2) { top: 60px; right: 30px; transform: rotate(1deg); color: #666; }
+        .notebook-scribble:nth-child(3) { top: 85px; right: 20px; transform: rotate(-1deg); text-decoration: line-through; }
+        .notebook-scribble:nth-child(4) { top: 115px; right: 35px; transform: rotate(2deg); color: #888; }
+        .notebook-scribble:nth-child(5) { top: 145px; right: 22px; transform: rotate(-3deg); }
+
+        .notebook-stain {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(139, 90, 43, 0.25) 0%, transparent 70%);
+            bottom: 30px;
+            left: 25px;
+        }
+
+        .notebook-corner-fold {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, transparent 50%, #e0cca0 50%);
+            border-radius: 0 0 0 4px;
+        }
+
+        /* CSS Phone illustration */
+        .phone-illust {
+            width: 140px;
+            height: 260px;
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border-radius: 24px;
+            position: relative;
+            box-shadow: 0 0 40px rgba(13, 110, 110, 0.3), 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .phone-illust::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+        }
+
+        .phone-screen {
+            position: absolute;
+            top: 20px;
+            left: 8px;
+            right: 8px;
+            bottom: 20px;
+            background: linear-gradient(180deg, #0a2a2a, #0d3535);
+            border-radius: 16px;
+            overflow: hidden;
+            padding: 12px 8px;
+        }
+
+        .phone-header {
+            text-align: center;
+            font-size: 0.55rem;
+            color: var(--teal-light);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .phone-bar {
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 6px;
+            animation: phone-bar-fill 2s ease-in-out infinite alternate;
+        }
+        .phone-bar:nth-child(2) { background: var(--teal); width: 80%; }
+        .phone-bar:nth-child(3) { background: var(--teal-light); width: 60%; animation-delay: 0.3s; }
+        .phone-bar:nth-child(4) { background: var(--success); width: 45%; animation-delay: 0.6s; }
+        .phone-bar:nth-child(5) { background: var(--teal); width: 70%; animation-delay: 0.9s; }
+
+        .phone-amount {
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--teal-light);
+            margin-top: 10px;
+        }
+
+        .phone-label {
+            text-align: center;
+            font-size: 0.45rem;
+            color: var(--text-secondary);
+        }
+
+        .phone-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid var(--teal);
+            margin: 8px auto 0;
+            position: relative;
+        }
+
+        .phone-circle::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 16px;
+            height: 30px;
+            background: var(--teal-light);
+            border-radius: 50% 0 0 50%;
+            transform-origin: right center;
+        }
+
+        @keyframes phone-bar-fill {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .hero-label {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .hero-title-old {
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-weight: 800;
+            color: var(--old-sepia);
+            text-align: center;
+        }
+
+        .hero-title-new {
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-weight: 800;
+            color: var(--teal-light);
+            text-align: center;
+        }
+
+        /* Hero text overlay */
+        .hero-text-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        .hero-main-title {
+            font-size: clamp(1.8rem, 5vw, 3.2rem);
+            font-weight: 900;
+            color: var(--text-primary);
+            text-shadow: 0 2px 30px rgba(0,0,0,0.8);
+            margin-bottom: 12px;
+            padding: 0 20px;
+        }
+
+        .hero-main-sub {
+            font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+            color: var(--text-secondary);
+            text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===========================
+           OLD WAYS SECTION
+        =========================== */
+        .old-ways {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--dark-bg), #0e0e15, var(--dark-bg));
+        }
+
+        .old-ways-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .old-card {
+            position: relative;
+            border-radius: 16px;
+            padding: 32px 24px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .old-card:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Deliberately worn/dated styling */
+        .old-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            background:
+                repeating-linear-gradient(
+                    transparent,
+                    transparent 28px,
+                    rgba(180, 160, 120, 0.06) 28px,
+                    rgba(180, 160, 120, 0.06) 29px
+                );
+            pointer-events: none;
+        }
+
+        .old-card-notebook {
+            background: linear-gradient(135deg, rgba(139, 105, 20, 0.12), rgba(139, 105, 20, 0.04));
+            border: 1px solid rgba(139, 105, 20, 0.2);
+        }
+
+        .old-card-paper {
+            background: linear-gradient(135deg, rgba(160, 140, 100, 0.12), rgba(160, 140, 100, 0.04));
+            border: 1px solid rgba(160, 140, 100, 0.2);
+        }
+
+        .old-card-excel {
+            background: linear-gradient(135deg, rgba(33, 115, 70, 0.12), rgba(33, 115, 70, 0.04));
+            border: 1px solid rgba(33, 115, 70, 0.2);
+        }
+
+        .old-card-notes {
+            background: linear-gradient(135deg, rgba(200, 180, 60, 0.12), rgba(200, 180, 60, 0.04));
+            border: 1px solid rgba(200, 180, 60, 0.2);
+        }
+
+        .old-card-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+
+        .old-card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--old-sepia);
+        }
+
+        .old-card-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* ===========================
+           COMPARISON TABLE
+        =========================== */
+        .comparison {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--dark-bg), #080812);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.02);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        .compare-table thead th {
+            padding: 20px 16px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-align: center;
+            border-bottom: 2px solid rgba(255,255,255,0.08);
+        }
+
+        .compare-table thead th:first-child {
+            text-align: right;
+            min-width: 140px;
+        }
+
+        .th-old {
+            color: var(--old-sepia);
+            background: rgba(139, 105, 20, 0.08);
+        }
+
+        .th-excel {
+            color: #6fbc8d;
+            background: rgba(33, 115, 70, 0.08);
+        }
+
+        .th-chahriyti {
+            color: var(--teal-light);
+            background: linear-gradient(180deg, rgba(13, 110, 110, 0.15), rgba(13, 110, 110, 0.08));
+            position: relative;
+        }
+
+        .th-chahriyti::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--teal);
+        }
+
+        .compare-table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        .compare-table tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .compare-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .compare-table td {
+            padding: 16px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 0.95rem;
+            vertical-align: middle;
+        }
+
+        .compare-table td:first-child {
+            text-align: right;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .td-old {
+            color: var(--text-muted);
+        }
+
+        .td-excel {
+            color: var(--text-secondary);
+        }
+
+        .td-chahriyti {
+            background: rgba(13, 110, 110, 0.06);
+            color: var(--teal-light);
+            font-weight: 600;
+            position: relative;
+        }
+
+        /* Glowing column effect */
+        .td-chahriyti::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-left: 1px solid rgba(13, 110, 110, 0.15);
+            border-right: 1px solid rgba(13, 110, 110, 0.15);
+            pointer-events: none;
+        }
+
+        .cell-bad {
+            color: var(--danger-light);
+        }
+
+        .cell-meh {
+            color: var(--old-sepia);
+        }
+
+        .cell-good {
+            color: var(--success-light);
+        }
+
+        /* Mobile cards for comparison */
+        .compare-cards-mobile {
+            display: none;
+        }
+
+        /* ===========================
+           NOTEBOOK GRAVEYARD
+        =========================== */
+        .graveyard {
+            padding: 100px 0;
+            background: linear-gradient(180deg, #080812, #0a0510, #080812);
+            position: relative;
+        }
+
+        .graveyard::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(100, 50, 0, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(100, 50, 0, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .graveyard .section-title {
+            color: var(--old-sepia);
+        }
+
+        .graves-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .grave {
+            width: 180px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px) rotate(0deg);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .grave.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .grave:nth-child(1) { transition-delay: 0.1s; }
+        .grave:nth-child(2) { transition-delay: 0.3s; }
+        .grave:nth-child(3) { transition-delay: 0.5s; }
+        .grave:nth-child(4) { transition-delay: 0.7s; }
+        .grave:nth-child(5) { transition-delay: 0.9s; }
+
+        .grave:nth-child(odd) .grave-notebook {
+            transform: rotate(-3deg);
+        }
+        .grave:nth-child(even) .grave-notebook {
+            transform: rotate(2deg);
+        }
+        .grave:nth-child(3) .grave-notebook {
+            transform: rotate(5deg);
+        }
+
+        .grave-notebook {
+            width: 100px;
+            height: 130px;
+            margin: 0 auto 16px;
+            background: var(--old-paper);
+            border-radius: 3px 8px 8px 3px;
+            position: relative;
+            box-shadow: 3px 3px 15px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .grave:hover .grave-notebook {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        /* Lined paper effect */
+        .grave-notebook::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            bottom: 8px;
+            left: 12px;
+            right: 12px;
+            background: repeating-linear-gradient(
+                transparent,
+                transparent 18px,
+                #b8d4e3 18px,
+                #b8d4e3 19px
+            );
+        }
+
+        /* Red margin line */
+        .grave-notebook::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 16px;
+            width: 1.5px;
+            height: 100%;
+            background: #e8a0a0;
+        }
+
+        /* Different damage states */
+        .grave-lost .grave-notebook {
+            opacity: 0.5;
+            filter: blur(0.5px);
+        }
+
+        .grave-washed .grave-notebook {
+            background: linear-gradient(180deg, #d4ccc0 0%, #b8b0a4 50%, #c4bab0 100%);
+            filter: saturate(0.3);
+        }
+
+        .grave-washed .grave-notebook::before {
+            opacity: 0.2;
+        }
+
+        .grave-drawn .grave-notebook::after {
+            background: transparent;
+        }
+
+        .grave-drawn .grave-notebook-scribbles {
+            position: absolute;
+            inset: 10px;
+            z-index: 2;
+        }
+
+        .grave-drawn .grave-notebook-scribbles::before {
+            content: '~~~';
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            font-size: 1.5rem;
+            color: #e44;
+            transform: rotate(-20deg);
+        }
+
+        .grave-drawn .grave-notebook-scribbles::after {
+            content: 'O';
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            font-size: 2rem;
+            color: #44e;
+            font-weight: 900;
+        }
+
+        .grave-forgotten .grave-notebook {
+            opacity: 0.4;
+        }
+
+        .grave-unknown .grave-notebook {
+            border: 2px dashed rgba(139, 105, 20, 0.5);
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .grave-unknown .grave-notebook::before,
+        .grave-unknown .grave-notebook::after {
+            display: none;
+        }
+
+        .grave-unknown .grave-notebook-q {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            color: var(--teal-light);
+            font-weight: 900;
+            animation: pulse-q 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-q {
+            0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .grave-year {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--old-sepia);
+            margin-bottom: 4px;
+        }
+
+        .grave-caption {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ===========================
+           SPEED TEST
+        =========================== */
+        .speed-test {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--dark-bg), #0a0a18, var(--dark-bg));
+        }
+
+        .speed-task {
+            text-align: center;
+            padding: 20px 24px;
+            background: var(--card-glass);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            margin-bottom: 50px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .speed-task-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .speed-task-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .race-lanes {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .race-lane {
+            position: relative;
+        }
+
+        .race-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .race-emoji {
+            font-size: 1.5rem;
+        }
+
+        .race-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .race-name-old { color: var(--old-sepia); }
+        .race-name-excel { color: #6fbc8d; }
+        .race-name-app { color: var(--teal-light); }
+
+        .race-track {
+            height: 50px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .race-bar {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            bottom: 4px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-right: 16px;
+            padding-left: 16px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            width: 0%;
+            transition: width 2.5s ease-out;
+        }
+
+        .race-bar-old {
+            background: linear-gradient(90deg, rgba(139, 105, 20, 0.3), rgba(139, 105, 20, 0.5));
+            color: var(--old-sepia);
+        }
+
+        .race-bar-excel {
+            background: linear-gradient(90deg, rgba(33, 115, 70, 0.3), rgba(33, 115, 70, 0.5));
+            color: #6fbc8d;
+        }
+
+        .race-bar-app {
+            background: linear-gradient(90deg, rgba(13, 110, 110, 0.4), rgba(13, 110, 110, 0.7));
+            color: #fff;
+            box-shadow: 0 0 20px rgba(13, 110, 110, 0.3);
+        }
+
+        .race-bar.animate {
+            width: var(--target-width);
+        }
+
+        .race-steps {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .race-step-arrow {
+            color: var(--text-muted);
+        }
+
+        .race-time {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 1rem;
+            font-weight: 800;
+            padding: 4px 14px;
+            border-radius: 8px;
+        }
+
+        .race-time-slow {
+            background: rgba(192, 57, 43, 0.15);
+            color: var(--danger-light);
+        }
+
+        .race-time-fast {
+            background: rgba(13, 110, 110, 0.2);
+            color: var(--teal-light);
+        }
+
+        /* ===========================
+           HORROR STORIES
+        =========================== */
+        .horror {
+            padding: 100px 0;
+            background: linear-gradient(180deg, #080812, var(--horror-bg), #080812);
+            position: relative;
+        }
+
+        .horror::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 30% 50%, rgba(139, 0, 0, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(139, 0, 0, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .horror .section-title {
+            color: var(--danger-light);
+        }
+
+        .horror-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .horror-card {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.1), rgba(139, 0, 0, 0.03));
+            border: 1px solid rgba(139, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .horror-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(139, 0, 0, 0.15);
+        }
+
+        .horror-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139, 0, 0, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .horror-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .horror-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--danger-light);
+            margin-bottom: 8px;
+        }
+
+        .horror-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .horror-excel-badge {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(139, 0, 0, 0.15);
+            color: var(--danger-light);
+            border: 1px solid rgba(139, 0, 0, 0.2);
+        }
+
+        /* ===========================
+           MIGRATION
+        =========================== */
+        .migration {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--dark-bg), #0a1515, var(--dark-bg));
+        }
+
+        .migration-steps {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .migration-step {
+            text-align: center;
+            max-width: 220px;
+            position: relative;
+        }
+
+        .migration-step-num {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--teal-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #fff;
+            box-shadow: 0 4px 20px var(--teal-glow);
+        }
+
+        .migration-step-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .migration-step-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .migration-step-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .migration-arrow {
+            font-size: 1.5rem;
+            color: var(--teal-glow-strong);
+            margin-top: 35px;
+            flex-shrink: 0;
+        }
+
+        /* ===========================
+           CTA SECTION
+        =========================== */
+        .cta {
+            padding: 100px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--dark-bg), #061a1a);
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 60%, rgba(13, 110, 110, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .cta-notebook-anim {
+            position: relative;
+            width: 120px;
+            height: 150px;
+            margin: 0 auto 40px;
+        }
+
+        .cta-notebook {
+            width: 100px;
+            height: 130px;
+            background: var(--old-paper);
+            border-radius: 3px 8px 8px 3px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 3px 3px 15px rgba(0,0,0,0.3);
+            animation: notebook-fall 4s ease-in-out infinite;
+        }
+
+        .cta-notebook::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            bottom: 8px;
+            left: 12px;
+            right: 12px;
+            background: repeating-linear-gradient(
+                transparent,
+                transparent 18px,
+                #b8d4e3 18px,
+                #b8d4e3 19px
+            );
+        }
+
+        .cta-notebook::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 16px;
+            width: 1.5px;
+            height: 100%;
+            background: #e8a0a0;
+        }
+
+        .cta-trash {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            opacity: 0;
+            animation: trash-appear 4s ease-in-out infinite;
+        }
+
+        /* Torn pieces flying off */
+        .cta-torn-piece {
+            position: absolute;
+            width: 20px;
+            height: 25px;
+            background: var(--old-paper);
+            opacity: 0;
+        }
+
+        .cta-torn-piece:nth-child(1) {
+            animation: tear-fly-1 4s ease-in-out infinite;
+        }
+        .cta-torn-piece:nth-child(2) {
+            animation: tear-fly-2 4s ease-in-out infinite;
+            animation-delay: 0.2s;
+        }
+        .cta-torn-piece:nth-child(3) {
+            animation: tear-fly-3 4s ease-in-out infinite;
+            animation-delay: 0.4s;
+        }
+
+        @keyframes notebook-fall {
+            0%, 30% { transform: translateX(-50%) translateY(0) rotate(0deg); opacity: 1; }
+            50% { transform: translateX(-50%) translateY(10px) rotate(-5deg); opacity: 0.8; }
+            70% { transform: translateX(-50%) translateY(40px) rotate(-15deg); opacity: 0.3; }
+            80%, 100% { transform: translateX(-50%) translateY(60px) rotate(-20deg); opacity: 0; }
+        }
+
+        @keyframes trash-appear {
+            0%, 65% { opacity: 0; transform: translateX(-50%) scale(0.8); }
+            75%, 90% { opacity: 1; transform: translateX(-50%) scale(1); }
+            100% { opacity: 0; transform: translateX(-50%) scale(0.8); }
+        }
+
+        @keyframes tear-fly-1 {
+            0%, 45% { opacity: 0; transform: translate(0, 0) rotate(0deg); }
+            55% { opacity: 0.8; transform: translate(-40px, -20px) rotate(-30deg); }
+            70%, 100% { opacity: 0; transform: translate(-60px, 30px) rotate(-60deg); }
+        }
+
+        @keyframes tear-fly-2 {
+            0%, 45% { opacity: 0; transform: translate(0, 0) rotate(0deg); }
+            55% { opacity: 0.8; transform: translate(30px, -30px) rotate(25deg); }
+            70%, 100% { opacity: 0; transform: translate(50px, 20px) rotate(50deg); }
+        }
+
+        @keyframes tear-fly-3 {
+            0%, 45% { opacity: 0; transform: translate(0, 0) rotate(0deg); }
+            55% { opacity: 0.8; transform: translate(-10px, -40px) rotate(-15deg); }
+            70%, 100% { opacity: 0; transform: translate(-20px, 10px) rotate(-40deg); }
+        }
+
+        .cta-title {
+            font-size: clamp(1.8rem, 4.5vw, 3rem);
+            font-weight: 900;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-title span {
+            color: var(--teal-light);
+        }
+
+        .cta-sub {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 48px;
+            background: linear-gradient(135deg, var(--teal), var(--teal-light));
+            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 25px var(--teal-glow);
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 35px var(--teal-glow-strong);
+        }
+
+        .cta-free {
+            margin-top: 16px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ===========================
+           FOOTER
+        =========================== */
+        .footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            background: #060610;
+        }
+
+        .footer-brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--teal-light);
+            margin-bottom: 8px;
+        }
+
+        .footer-tagline {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .footer-link:hover {
+            color: var(--teal-light);
+        }
+
+        .footer-copy {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ===========================
+           RESPONSIVE
+        =========================== */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+            }
+
+            .hero-divider {
+                display: none;
+            }
+
+            .hero-vs {
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none;
+                margin: -30px auto -30px;
+                z-index: 10;
+            }
+
+            .hero-text-overlay {
+                position: relative;
+                padding: 40px 20px 20px;
+                background: linear-gradient(180deg, var(--dark-bg), transparent);
+            }
+
+            .hero-side {
+                min-height: auto;
+                padding: 50px 20px;
+            }
+
+            .notebook-illust {
+                width: 140px;
+                height: 170px;
+            }
+
+            .phone-illust {
+                width: 110px;
+                height: 200px;
+            }
+
+            /* Switch to card layout on mobile */
+            .table-wrapper {
+                display: none;
+            }
+
+            .compare-cards-mobile {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .compare-mobile-card {
+                background: var(--card-glass);
+                border: 1px solid var(--card-border);
+                border-radius: 16px;
+                padding: 20px;
+                backdrop-filter: blur(10px);
+            }
+
+            .compare-mobile-feature {
+                font-size: 1.1rem;
+                font-weight: 700;
+                margin-bottom: 14px;
+                color: var(--text-primary);
+                padding-bottom: 10px;
+                border-bottom: 1px solid rgba(255,255,255,0.06);
+            }
+
+            .compare-mobile-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 0;
+            }
+
+            .compare-mobile-row:not(:last-child) {
+                border-bottom: 1px solid rgba(255,255,255,0.03);
+            }
+
+            .compare-mobile-label {
+                font-weight: 600;
+                font-size: 0.85rem;
+            }
+
+            .compare-mobile-label-old { color: var(--old-sepia); }
+            .compare-mobile-label-excel { color: #6fbc8d; }
+            .compare-mobile-label-app { color: var(--teal-light); }
+
+            .compare-mobile-value {
+                font-size: 0.85rem;
+                text-align: left;
+            }
+
+            .graves-grid {
+                gap: 20px;
+            }
+
+            .grave {
+                width: 140px;
+            }
+
+            .grave-notebook {
+                width: 80px;
+                height: 100px;
+            }
+
+            .migration-steps {
+                gap: 24px;
+            }
+
+            .migration-arrow {
+                display: none;
+            }
+
+            .race-steps {
+                font-size: 0.65rem;
+            }
+
+            .horror-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .old-ways-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .grave {
+                width: 120px;
+            }
+
+            .grave-notebook {
+                width: 65px;
+                height: 85px;
+            }
+
+            .cta-btn {
+                padding: 16px 36px;
+                font-size: 1.05rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===========================
+         HERO SECTION
+    =========================== -->
+    <section class="hero">
+        <div class="hero-text-overlay">
+            <h1 class="hero-main-title">مازال تكتب في الكارني؟</h1>
+            <p class="hero-main-sub">في 2024، وقت الكارني راح. مرحبا بالذكاء المالي.</p>
+        </div>
+
+        <div class="hero-side hero-old">
+            <div class="notebook-illust">
+                <span class="notebook-scribble">خبز... 80 دج</span>
+                <span class="notebook-scribble">فاتورة ؟؟</span>
+                <span class="notebook-scribble" style="text-decoration:line-through">حليب 50</span>
+                <span class="notebook-scribble">كراء 25000</span>
+                <span class="notebook-scribble">المجموع = ؟؟؟</span>
+                <div class="notebook-stain"></div>
+                <div class="notebook-corner-fold"></div>
+            </div>
+            <span class="hero-label">الأمس</span>
+            <span class="hero-title-old">فوضى، نسيان، ضياع</span>
+        </div>
+
+        <div class="hero-divider"></div>
+        <div class="hero-vs">VS</div>
+
+        <div class="hero-side hero-new">
+            <div class="phone-illust">
+                <div class="phone-screen">
+                    <div class="phone-header">شهريتي</div>
+                    <div class="phone-bar"></div>
+                    <div class="phone-bar"></div>
+                    <div class="phone-bar"></div>
+                    <div class="phone-bar"></div>
+                    <div class="phone-amount">32,500 دج</div>
+                    <div class="phone-label">المصاريف هاد الشهر</div>
+                    <div class="phone-circle"></div>
+                </div>
+            </div>
+            <span class="hero-label">اليوم</span>
+            <span class="hero-title-new">تنظيم، وضوح، تحكّم</span>
+        </div>
+    </section>
+
+    <!-- ===========================
+         THE OLD WAYS
+    =========================== -->
+    <section class="old-ways">
+        <div class="container">
+            <h2 class="section-title reveal" style="color: var(--old-sepia);">الطرق القديمة</h2>
+            <p class="section-subtitle reveal reveal-delay-1">هكذا كنّا نتبعو مصاريفنا... وهكذا كنّا نضيعوها</p>
+
+            <div class="old-ways-grid">
+                <div class="old-card old-card-notebook reveal reveal-delay-1">
+                    <div class="old-card-emoji">📓</div>
+                    <h3 class="old-card-title">الكارني</h3>
+                    <p class="old-card-desc">تكتب، تنسى، تضيع الورقة. وكي تلقاه بعد شهر، ما تفهم والو من خطّك.</p>
+                </div>
+
+                <div class="old-card old-card-paper reveal reveal-delay-2">
+                    <div class="old-card-emoji">📝</div>
+                    <h3 class="old-card-title">ورقة في الجيب</h3>
+                    <p class="old-card-desc">تغسلها في الغسالة مع السروال. وكي تخرج، تولّي كورة ورق مبلّلة.</p>
+                </div>
+
+                <div class="old-card old-card-excel reveal reveal-delay-3">
+                    <div class="old-card-emoji">📊</div>
+                    <h3 class="old-card-title">Excel في الكمبيوتر</h3>
+                    <p class="old-card-desc">تفتحو مرة في الشهر وتنساه. والصيغ ديالو أصعب من الرياضيات نتاع الباك.</p>
+                </div>
+
+                <div class="old-card old-card-notes reveal reveal-delay-4">
+                    <div class="old-card-emoji">📱</div>
+                    <h3 class="old-card-title">الملاحظات في التليفون</h3>
+                    <p class="old-card-desc">ضايعة بين 500 ملاحظة أخرى. بين قائمة المشتريات وأرقام ما تعرف نتاع من.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         COMPARISON TABLE
+    =========================== -->
+    <section class="comparison">
+        <div class="container">
+            <h2 class="section-title reveal">المقارنة الكاملة</h2>
+            <p class="section-subtitle reveal reveal-delay-1">شوف الفرق بعينيك</p>
+
+            <!-- Desktop table -->
+            <div class="table-wrapper reveal reveal-delay-2">
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th>الميزة</th>
+                            <th class="th-old">📓 الكارني</th>
+                            <th class="th-excel">📊 Excel</th>
+                            <th class="th-chahriyti">📱 شهريتي</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>التسجيل</td>
+                            <td class="td-old cell-bad">يدوي / بطيء</td>
+                            <td class="td-excel cell-meh">يدوي / معقد</td>
+                            <td class="td-chahriyti cell-good">تلقائي / ثانية وحدة</td>
+                        </tr>
+                        <tr>
+                            <td>الحساب</td>
+                            <td class="td-old cell-bad">بالراس / أخطاء</td>
+                            <td class="td-excel cell-meh">صيغ معقدة</td>
+                            <td class="td-chahriyti cell-good">تلقائي / دقيق</td>
+                        </tr>
+                        <tr>
+                            <td>التصنيف</td>
+                            <td class="td-old cell-bad">بلا تصنيف</td>
+                            <td class="td-excel cell-meh">لازم تديرو بيدك</td>
+                            <td class="td-chahriyti cell-good">تلقائي</td>
+                        </tr>
+                        <tr>
+                            <td>التذكير</td>
+                            <td class="td-old cell-bad">&#10060; ما كانش</td>
+                            <td class="td-excel cell-bad">&#10060; ما كانش</td>
+                            <td class="td-chahriyti cell-good">&#9989; تنبيهات ذكية</td>
+                        </tr>
+                        <tr>
+                            <td>الرسوم البيانية</td>
+                            <td class="td-old cell-bad">&#10060;</td>
+                            <td class="td-excel cell-meh">معقدة</td>
+                            <td class="td-chahriyti cell-good">&#9989; فورية</td>
+                        </tr>
+                        <tr>
+                            <td>الديون</td>
+                            <td class="td-old cell-bad">&#10060;</td>
+                            <td class="td-excel cell-meh">صعيب</td>
+                            <td class="td-chahriyti cell-good">&#9989; كامل</td>
+                        </tr>
+                        <tr>
+                            <td>المشاركة</td>
+                            <td class="td-old cell-bad">&#10060;</td>
+                            <td class="td-excel cell-bad">صعيب جدا</td>
+                            <td class="td-chahriyti cell-good">&#9989; سهل</td>
+                        </tr>
+                        <tr>
+                            <td>النسخ الاحتياطي</td>
+                            <td class="td-old cell-bad">&#10060; يضيع</td>
+                            <td class="td-excel cell-meh">ممكن</td>
+                            <td class="td-chahriyti cell-good">&#9989; تلقائي</td>
+                        </tr>
+                        <tr>
+                            <td>الوصول</td>
+                            <td class="td-old cell-bad">في الدار فقط</td>
+                            <td class="td-excel cell-meh">في الكمبيوتر</td>
+                            <td class="td-chahriyti cell-good">&#9989; في جيبك 24/7</td>
+                        </tr>
+                        <tr>
+                            <td>السعر</td>
+                            <td class="td-old cell-meh">ثمن الكارني</td>
+                            <td class="td-excel cell-bad">مكلف</td>
+                            <td class="td-chahriyti cell-good">&#9989; مجاني</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile cards -->
+            <div class="compare-cards-mobile">
+                <div class="compare-mobile-card reveal">
+                    <div class="compare-mobile-feature">التسجيل</div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-old">📓 الكارني</span>
+                        <span class="compare-mobile-value cell-bad">يدوي / بطيء</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-excel">📊 Excel</span>
+                        <span class="compare-mobile-value cell-meh">يدوي / معقد</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-app">📱 شهريتي</span>
+                        <span class="compare-mobile-value cell-good">تلقائي / ثانية وحدة</span>
+                    </div>
+                </div>
+
+                <div class="compare-mobile-card reveal">
+                    <div class="compare-mobile-feature">الحساب</div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-old">📓 الكارني</span>
+                        <span class="compare-mobile-value cell-bad">بالراس / أخطاء</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-excel">📊 Excel</span>
+                        <span class="compare-mobile-value cell-meh">صيغ معقدة</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-app">📱 شهريتي</span>
+                        <span class="compare-mobile-value cell-good">تلقائي / دقيق</span>
+                    </div>
+                </div>
+
+                <div class="compare-mobile-card reveal">
+                    <div class="compare-mobile-feature">التصنيف</div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-old">📓 الكارني</span>
+                        <span class="compare-mobile-value cell-bad">بلا تصنيف</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-excel">📊 Excel</span>
+                        <span class="compare-mobile-value cell-meh">لازم تديرو بيدك</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-app">📱 شهريتي</span>
+                        <span class="compare-mobile-value cell-good">تلقائي</span>
+                    </div>
+                </div>
+
+                <div class="compare-mobile-card reveal">
+                    <div class="compare-mobile-feature">التذكير</div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-old">📓 الكارني</span>
+                        <span class="compare-mobile-value cell-bad">&#10060; ما كانش</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-excel">📊 Excel</span>
+                        <span class="compare-mobile-value cell-bad">&#10060; ما كانش</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-app">📱 شهريتي</span>
+                        <span class="compare-mobile-value cell-good">&#9989; تنبيهات ذكية</span>
+                    </div>
+                </div>
+
+                <div class="compare-mobile-card reveal">
+                    <div class="compare-mobile-feature">الرسوم البيانية</div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-old">📓 الكارني</span>
+                        <span class="compare-mobile-value cell-bad">&#10060;</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-excel">📊 Excel</span>
+                        <span class="compare-mobile-value cell-meh">معقدة</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-app">📱 شهريتي</span>
+                        <span class="compare-mobile-value cell-good">&#9989; فورية</span>
+                    </div>
+                </div>
+
+                <div class="compare-mobile-card reveal">
+                    <div class="compare-mobile-feature">الديون</div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-old">📓 الكارني</span>
+                        <span class="compare-mobile-value cell-bad">&#10060;</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-excel">📊 Excel</span>
+                        <span class="compare-mobile-value cell-meh">صعيب</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-app">📱 شهريتي</span>
+                        <span class="compare-mobile-value cell-good">&#9989; كامل</span>
+                    </div>
+                </div>
+
+                <div class="compare-mobile-card reveal">
+                    <div class="compare-mobile-feature">المشاركة</div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-old">📓 الكارني</span>
+                        <span class="compare-mobile-value cell-bad">&#10060;</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-excel">📊 Excel</span>
+                        <span class="compare-mobile-value cell-bad">صعيب جدا</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-app">📱 شهريتي</span>
+                        <span class="compare-mobile-value cell-good">&#9989; سهل</span>
+                    </div>
+                </div>
+
+                <div class="compare-mobile-card reveal">
+                    <div class="compare-mobile-feature">النسخ الاحتياطي</div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-old">📓 الكارني</span>
+                        <span class="compare-mobile-value cell-bad">&#10060; يضيع</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-excel">📊 Excel</span>
+                        <span class="compare-mobile-value cell-meh">ممكن</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-app">📱 شهريتي</span>
+                        <span class="compare-mobile-value cell-good">&#9989; تلقائي</span>
+                    </div>
+                </div>
+
+                <div class="compare-mobile-card reveal">
+                    <div class="compare-mobile-feature">الوصول</div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-old">📓 الكارني</span>
+                        <span class="compare-mobile-value cell-bad">في الدار فقط</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-excel">📊 Excel</span>
+                        <span class="compare-mobile-value cell-meh">في الكمبيوتر</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-app">📱 شهريتي</span>
+                        <span class="compare-mobile-value cell-good">&#9989; في جيبك 24/7</span>
+                    </div>
+                </div>
+
+                <div class="compare-mobile-card reveal">
+                    <div class="compare-mobile-feature">السعر</div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-old">📓 الكارني</span>
+                        <span class="compare-mobile-value cell-meh">ثمن الكارني</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-excel">📊 Excel</span>
+                        <span class="compare-mobile-value cell-bad">مكلف</span>
+                    </div>
+                    <div class="compare-mobile-row">
+                        <span class="compare-mobile-label compare-mobile-label-app">📱 شهريتي</span>
+                        <span class="compare-mobile-value cell-good">&#9989; مجاني</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         NOTEBOOK GRAVEYARD
+    =========================== -->
+    <section class="graveyard">
+        <div class="container">
+            <h2 class="section-title reveal">مقبرة الكوارن</h2>
+            <p class="section-subtitle reveal reveal-delay-1">كل كارني عندو قصة... وكلهم نفس النهاية</p>
+
+            <div class="graves-grid">
+                <div class="grave grave-lost">
+                    <div class="grave-notebook"></div>
+                    <div class="grave-year">كارني 2020</div>
+                    <div class="grave-caption">ضاع في الدمنجمو</div>
+                </div>
+
+                <div class="grave grave-washed">
+                    <div class="grave-notebook"></div>
+                    <div class="grave-year">كارني 2021</div>
+                    <div class="grave-caption">غسلتو مرتي في الغسالة</div>
+                </div>
+
+                <div class="grave grave-drawn">
+                    <div class="grave-notebook">
+                        <div class="grave-notebook-scribbles"></div>
+                    </div>
+                    <div class="grave-year">كارني 2022</div>
+                    <div class="grave-caption">ولدي رسم فيه</div>
+                </div>
+
+                <div class="grave grave-forgotten">
+                    <div class="grave-notebook"></div>
+                    <div class="grave-year">كارني 2023</div>
+                    <div class="grave-caption">بديتو ونساتو بعد أسبوع</div>
+                </div>
+
+                <div class="grave grave-unknown">
+                    <div class="grave-notebook">
+                        <span class="grave-notebook-q">؟؟؟</span>
+                    </div>
+                    <div class="grave-year" style="color: var(--teal-light);">كارني 2024</div>
+                    <div class="grave-caption" style="color: var(--teal-light);">وقتاش تبدّل لشهريتي؟</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         SPEED TEST
+    =========================== -->
+    <section class="speed-test">
+        <div class="container">
+            <h2 class="section-title reveal">سباق السرعة</h2>
+            <p class="section-subtitle reveal reveal-delay-1">نفس المهمة، ثلاث طرق. شوف الفرق.</p>
+
+            <div class="speed-task reveal reveal-delay-2">
+                <div class="speed-task-label">المهمة:</div>
+                <div class="speed-task-text">سجّل مصروف 500 دج — ماكلة</div>
+            </div>
+
+            <div class="race-lanes">
+                <!-- الكارني -->
+                <div class="race-lane reveal reveal-delay-1" data-race="notebook">
+                    <div class="race-header">
+                        <span class="race-emoji">📓</span>
+                        <span class="race-name race-name-old">الكارني</span>
+                    </div>
+                    <div class="race-track">
+                        <div class="race-bar race-bar-old" style="--target-width: 55%;">
+                            <span>⏱️ 2 دقيقة</span>
+                        </div>
+                    </div>
+                    <div class="race-steps">
+                        <span>فتح الكارني</span>
+                        <span class="race-step-arrow">←</span>
+                        <span>لقا القلم</span>
+                        <span class="race-step-arrow">←</span>
+                        <span>كتب التاريخ</span>
+                        <span class="race-step-arrow">←</span>
+                        <span>كتب المبلغ</span>
+                        <span class="race-step-arrow">←</span>
+                        <span>حسب المجموع</span>
+                    </div>
+                    <div class="race-time race-time-slow">⏱️ 2 دقيقة</div>
+                </div>
+
+                <!-- Excel -->
+                <div class="race-lane reveal reveal-delay-2" data-race="excel">
+                    <div class="race-header">
+                        <span class="race-emoji">📊</span>
+                        <span class="race-name race-name-excel">Excel</span>
+                    </div>
+                    <div class="race-track">
+                        <div class="race-bar race-bar-excel" style="--target-width: 80%;">
+                            <span>⏱️ 3 دقائق</span>
+                        </div>
+                    </div>
+                    <div class="race-steps">
+                        <span>فتح اللابتوب</span>
+                        <span class="race-step-arrow">←</span>
+                        <span>فتح الملف</span>
+                        <span class="race-step-arrow">←</span>
+                        <span>لقا الخانة</span>
+                        <span class="race-step-arrow">←</span>
+                        <span>كتب البيانات</span>
+                        <span class="race-step-arrow">←</span>
+                        <span>حفظ</span>
+                    </div>
+                    <div class="race-time race-time-slow">⏱️ 3 دقائق</div>
+                </div>
+
+                <!-- شهريتي -->
+                <div class="race-lane reveal reveal-delay-3" data-race="app">
+                    <div class="race-header">
+                        <span class="race-emoji">📱</span>
+                        <span class="race-name race-name-app">شهريتي</span>
+                    </div>
+                    <div class="race-track">
+                        <div class="race-bar race-bar-app" style="--target-width: 14%;">
+                            <span>&#9989;</span>
+                        </div>
+                    </div>
+                    <div class="race-steps">
+                        <span>فتح التطبيق</span>
+                        <span class="race-step-arrow">←</span>
+                        <span>ضغط</span>
+                        <span class="race-step-arrow">←</span>
+                        <span>خلاص!</span>
+                    </div>
+                    <div class="race-time race-time-fast">⏱️ 5 ثواني</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         HORROR STORIES
+    =========================== -->
+    <section class="horror">
+        <div class="container">
+            <h2 class="section-title reveal">قصص رعب Excel</h2>
+            <p class="section-subtitle reveal reveal-delay-1">قصص حقيقية من ناس حقيقيين... وملفات ضايعة</p>
+
+            <div class="horror-grid">
+                <div class="horror-card reveal reveal-delay-1">
+                    <span class="horror-icon">🗑️</span>
+                    <h3 class="horror-title">"مسحت الملف بالغلط"</h3>
+                    <p class="horror-desc">سنة كاملة من المصاريف... Delete واحد وراحو. لا Ctrl+Z لا والو. كأنهم ما كانو.</p>
+                    <span class="horror-excel-badge">ضحية Excel #1</span>
+                </div>
+
+                <div class="horror-card reveal reveal-delay-2">
+                    <span class="horror-icon">🔒</span>
+                    <h3 class="horror-title">"نسيت كلمة السر ديال الملف"</h3>
+                    <p class="horror-desc">حطّيت كلمة سر باش ما يشوفوهاش... ونسيتها أنا بنفسي. ملف فيه كل حياتي المالية ومحبوس.</p>
+                    <span class="horror-excel-badge">ضحية Excel #2</span>
+                </div>
+
+                <div class="horror-card reveal reveal-delay-3">
+                    <span class="horror-icon">💀</span>
+                    <h3 class="horror-title">"تفورماط الكمبيوتر وراح كلش"</h3>
+                    <p class="horror-desc">الكمبيوتر خسر، ودّيته للتقني، فورماطو... ونساو يديرو backup. 3 سنين من البيانات تبخّرو.</p>
+                    <span class="horror-excel-badge">ضحية Excel #3</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         MIGRATION
+    =========================== -->
+    <section class="migration">
+        <div class="container">
+            <h2 class="section-title reveal" style="color: var(--teal-light);">الانتقال سهل</h2>
+            <p class="section-subtitle reveal reveal-delay-1">ثلاث خطوات وخلاص. أسهل من شراء كارني جديد.</p>
+
+            <div class="migration-steps">
+                <div class="migration-step reveal reveal-delay-1">
+                    <div class="migration-step-num">1</div>
+                    <div class="migration-step-icon">📲</div>
+                    <h3 class="migration-step-title">حمّل شهريتي</h3>
+                    <p class="migration-step-desc">من Google Play أو App Store. مجاني 100%.</p>
+                </div>
+
+                <div class="migration-arrow reveal reveal-delay-2">&#8592;</div>
+
+                <div class="migration-step reveal reveal-delay-2">
+                    <div class="migration-step-num">2</div>
+                    <div class="migration-step-icon">✏️</div>
+                    <h3 class="migration-step-title">دخّل مصاريفك</h3>
+                    <p class="migration-step-desc">سجّل مصاريفك الحالية. في دقائق تولّي جاهز.</p>
+                </div>
+
+                <div class="migration-arrow reveal reveal-delay-3">&#8592;</div>
+
+                <div class="migration-step reveal reveal-delay-3">
+                    <div class="migration-step-num">3</div>
+                    <div class="migration-step-icon">🗑️</div>
+                    <h3 class="migration-step-title">ارمي الكارني</h3>
+                    <p class="migration-step-desc">ما تحتاجوش. كل شيء في جيبك، آمن ومنظّم.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         CTA SECTION
+    =========================== -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-notebook-anim reveal">
+                <div class="cta-notebook"></div>
+                <div class="cta-torn-piece"></div>
+                <div class="cta-torn-piece"></div>
+                <div class="cta-torn-piece"></div>
+                <div class="cta-trash">🗑️</div>
+            </div>
+
+            <h2 class="cta-title reveal reveal-delay-1">ودّع الكارني — حمّل <span>شهريتي</span></h2>
+            <p class="cta-sub reveal reveal-delay-2">وقت الورقة والقلم راح. حياتك المالية تستاهل أحسن.</p>
+
+            <a href="#" class="cta-btn reveal reveal-delay-3">
+                حمّل شهريتي مجانا
+            </a>
+            <p class="cta-free reveal reveal-delay-4">مجاني وأسهل من الكتابة</p>
+        </div>
+    </section>
+
+    <!-- ===========================
+         FOOTER
+    =========================== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-brand">شهريتي</div>
+            <p class="footer-tagline">ذكاءك المالي في جيبك</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">الرئيسية</a>
+                <a href="#" class="footer-link">المميزات</a>
+                <a href="#" class="footer-link">تواصل معنا</a>
+                <a href="#" class="footer-link">سياسة الخصوصية</a>
+            </div>
+            <p class="footer-copy">&copy; 2024 شهريتي. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ===========================
+        // IntersectionObserver — scroll reveals
+        // ===========================
+        (function() {
+            var revealEls = document.querySelectorAll('.reveal');
+            var graveEls = document.querySelectorAll('.grave');
+
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            revealEls.forEach(function(el) {
+                observer.observe(el);
+            });
+
+            // Graveyard observer
+            var graveObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.2,
+                rootMargin: '0px 0px -20px 0px'
+            });
+
+            graveEls.forEach(function(el) {
+                graveObserver.observe(el);
+            });
+        })();
+
+        // ===========================
+        // Race animation with requestAnimationFrame
+        // ===========================
+        (function() {
+            var raceLanes = document.querySelectorAll('.race-lane');
+            var raceStarted = false;
+
+            var raceObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting && !raceStarted) {
+                        raceStarted = true;
+                        startRace();
+                    }
+                });
+            }, {
+                threshold: 0.3
+            });
+
+            // Observe the first race lane to trigger animation
+            if (raceLanes.length > 0) {
+                raceObserver.observe(raceLanes[0]);
+            }
+
+            function startRace() {
+                var bars = document.querySelectorAll('.race-bar');
+
+                // Stagger the animations
+                // App bar (fastest) — starts and finishes first
+                // Notebook bar — starts at same time, finishes later
+                // Excel bar — starts at same time, finishes last
+
+                var appBar = document.querySelector('.race-bar-app');
+                var notebookBar = document.querySelector('.race-bar-old');
+                var excelBar = document.querySelector('.race-bar-excel');
+
+                // Use requestAnimationFrame for smooth start
+                requestAnimationFrame(function() {
+                    // App finishes almost instantly
+                    if (appBar) {
+                        appBar.style.transition = 'width 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
+                        appBar.classList.add('animate');
+                    }
+
+                    // Notebook crawls
+                    if (notebookBar) {
+                        notebookBar.style.transition = 'width 3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                        notebookBar.classList.add('animate');
+                    }
+
+                    // Excel crawls even slower
+                    if (excelBar) {
+                        excelBar.style.transition = 'width 4.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                        excelBar.classList.add('animate');
+                    }
+                });
+
+                // Counter animation for timing display
+                animateCounter('.race-bar-app', 5, 's', 600);
+                animateCounter('.race-bar-old', 120, 's', 3000);
+                animateCounter('.race-bar-excel', 180, 's', 4500);
+            }
+
+            function animateCounter(selector, target, unit, duration) {
+                var bar = document.querySelector(selector);
+                if (!bar) return;
+
+                var start = performance.now();
+
+                function update(now) {
+                    var elapsed = now - start;
+                    var progress = Math.min(elapsed / duration, 1);
+
+                    // Ease out
+                    var easedProgress = 1 - Math.pow(1 - progress, 3);
+                    var current = Math.round(easedProgress * target);
+
+                    if (current < 60) {
+                        bar.querySelector('span').textContent = current + ' ثانية';
+                    } else {
+                        var mins = Math.floor(current / 60);
+                        var secs = current % 60;
+                        if (secs > 0) {
+                            bar.querySelector('span').textContent = mins + ' د ' + secs + ' ث';
+                        } else {
+                            bar.querySelector('span').textContent = mins + ' دقيقة';
+                        }
+                    }
+
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    } else {
+                        // Final value
+                        if (selector === '.race-bar-app') {
+                            bar.querySelector('span').textContent = '5 ثواني ✓';
+                        } else if (selector === '.race-bar-old') {
+                            bar.querySelector('span').textContent = '2 دقيقة';
+                        } else {
+                            bar.querySelector('span').textContent = '3 دقائق';
+                        }
+                    }
+                }
+
+                requestAnimationFrame(update);
+            }
+        })();
+    </script>
+</body>
+</html>

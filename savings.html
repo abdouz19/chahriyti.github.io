@@ -1,0 +1,2187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شهريتي — حلمك أقرب مما تتخيل</title>
+    <meta name="description" content="شهريتي — وفّر شوية كل يوم وشوف كيفاش حلمك يتحقق. حاسبة التوفير الذكية باش توصل لأهدافك المالية.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #0D6E6E;
+            --primary-light: #1A9494;
+            --primary-dark: #084E4E;
+            --primary-glow: rgba(13, 110, 110, 0.15);
+            --gold: #D4A843;
+            --gold-light: #F0D078;
+            --gold-dark: #B8922E;
+            --amber: #F59E0B;
+            --positive: #22C55E;
+            --negative: #EF4444;
+            --surface: #FAFBFC;
+            --card: #FFFFFF;
+            --text-primary: #1A1A2E;
+            --text-secondary: #64748B;
+            --text-muted: #94A3B8;
+            --border: #E2E8F0;
+            --glass-bg: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--surface);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.7;
+        }
+
+        /* ─── Scrollbar ─── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 3px; }
+
+        /* ─── Keyframes ─── */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-18px); }
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+        }
+
+        @keyframes floatReverse {
+            0%, 100% { transform: translateY(-14px) rotate(-2deg); }
+            50% { transform: translateY(0px) rotate(2deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.08); opacity: 1; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes progressFill {
+            from { stroke-dashoffset: 283; }
+        }
+
+        @keyframes pathDraw {
+            from { stroke-dashoffset: 1000; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1) rotate(180deg); }
+        }
+
+        @keyframes gentleGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(13, 110, 110, 0.1); }
+            50% { box-shadow: 0 0 40px rgba(13, 110, 110, 0.2); }
+        }
+
+        /* ─── Scroll Reveal ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+        .delay-5 { transition-delay: 0.5s; }
+        .delay-6 { transition-delay: 0.6s; }
+
+        /* ─── Container ─── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ─── Section ─── */
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+        }
+
+        .section-title .highlight {
+            color: var(--primary);
+        }
+
+        .section-title .gold {
+            color: var(--gold);
+        }
+
+        /* ════════════════════════════════════════
+           1. HERO
+           ════════════════════════════════════════ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, #0a5c5c 0%, #0D6E6E 30%, #1A9494 60%, #0D6E6E 80%, #084E4E 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(212, 168, 67, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(212, 168, 67, 0.1) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Floating dream icons */
+        .hero-icon {
+            position: absolute;
+            font-size: 2.5rem;
+            opacity: 0.15;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+            pointer-events: none;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
+        }
+
+        .hero-icon:nth-child(1) { top: 12%; right: 10%; animation: float 6s infinite; font-size: 3rem; }
+        .hero-icon:nth-child(2) { top: 25%; left: 8%; animation: floatSlow 8s infinite; font-size: 2.2rem; }
+        .hero-icon:nth-child(3) { bottom: 20%; right: 15%; animation: floatReverse 7s infinite; font-size: 2.8rem; }
+        .hero-icon:nth-child(4) { bottom: 30%; left: 12%; animation: float 9s infinite; font-size: 2rem; }
+        .hero-icon:nth-child(5) { top: 60%; right: 25%; animation: floatSlow 7s infinite 1s; font-size: 2.5rem; }
+        .hero-icon:nth-child(6) { top: 15%; left: 30%; animation: floatReverse 8s infinite 2s; font-size: 2rem; }
+        .hero-icon:nth-child(7) { bottom: 15%; left: 35%; animation: float 10s infinite 0.5s; font-size: 1.8rem; }
+        .hero-icon:nth-child(8) { top: 40%; right: 8%; animation: floatSlow 6s infinite 1.5s; font-size: 2.3rem; }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: 40px 24px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 24px;
+            border-radius: 100px;
+            color: var(--gold-light);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 32px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 6vw, 3.8rem);
+            font-weight: 900;
+            color: #FFFFFF;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            animation: slideUp 0.8s ease-out 0.2s both;
+            text-shadow: 0 2px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-title .gold-text {
+            color: var(--gold-light);
+            position: relative;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 16px;
+            font-weight: 400;
+            animation: slideUp 0.8s ease-out 0.4s both;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-dreams {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--gold-light);
+            margin-bottom: 40px;
+            font-weight: 600;
+            animation: slideUp 0.8s ease-out 0.5s both;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: #FFFFFF;
+            padding: 16px 40px;
+            border-radius: 16px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s ease;
+            animation: slideUp 0.8s ease-out 0.6s both;
+            box-shadow: 0 8px 32px rgba(212, 168, 67, 0.3);
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(212, 168, 67, 0.45);
+        }
+
+        .hero-scroll-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            animation: float 3s ease-in-out infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-scroll-hint .arrow {
+            width: 24px;
+            height: 24px;
+            border-left: 2px solid rgba(255, 255, 255, 0.4);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+            transform: rotate(-45deg);
+        }
+
+        /* ════════════════════════════════════════
+           2. DREAM CARDS
+           ════════════════════════════════════════ */
+        .dreams-section {
+            background: linear-gradient(180deg, var(--surface) 0%, #f0f4f5 100%);
+        }
+
+        .dream-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .dream-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 24px;
+            padding: 32px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+        }
+
+        .dream-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(13, 110, 110, 0.03), rgba(212, 168, 67, 0.03));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .dream-card:hover::before,
+        .dream-card.selected::before {
+            opacity: 1;
+        }
+
+        .dream-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(13, 110, 110, 0.12);
+            border-color: rgba(13, 110, 110, 0.2);
+        }
+
+        .dream-card.selected {
+            border-color: var(--primary);
+            box-shadow: 0 8px 32px rgba(13, 110, 110, 0.18);
+            background: rgba(13, 110, 110, 0.04);
+        }
+
+        .dream-card.selected .dream-ring-progress {
+            stroke: var(--primary);
+            animation: none;
+        }
+
+        .dream-icon {
+            font-size: 2.8rem;
+            margin-bottom: 8px;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .dream-card:hover .dream-icon {
+            transform: scale(1.15);
+        }
+
+        .dream-ring-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 16px;
+        }
+
+        .dream-ring-container svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .dream-ring-bg {
+            fill: none;
+            stroke: #E8F0F0;
+            stroke-width: 6;
+        }
+
+        .dream-ring-progress {
+            fill: none;
+            stroke: var(--primary-light);
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            transition: stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .dream-ring-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+        }
+
+        .dream-ring-percent {
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            background: white;
+            padding: 2px 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .dream-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .dream-cost {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--primary);
+            direction: ltr;
+        }
+
+        .dream-card .select-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s ease;
+        }
+
+        .dream-card.selected .select-badge {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ════════════════════════════════════════
+           3. CALCULATOR
+           ════════════════════════════════════════ */
+        .calculator-section {
+            background: linear-gradient(180deg, #f0f4f5 0%, #e8eeef 50%, var(--surface) 100%);
+        }
+
+        .calc-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .calc-selected-goal {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            color: white;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .calc-selected-goal::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 30%, rgba(212, 168, 67, 0.15), transparent 60%);
+            pointer-events: none;
+        }
+
+        .calc-goal-icon {
+            font-size: 3rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .calc-goal-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 4px;
+        }
+
+        .calc-goal-name {
+            font-size: 1.6rem;
+            font-weight: 800;
+        }
+
+        .calc-goal-cost {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gold-light);
+            margin-top: 4px;
+            direction: ltr;
+        }
+
+        .calc-no-goal {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            padding: 20px;
+        }
+
+        .calc-input-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            margin-bottom: 32px;
+        }
+
+        .calc-input-label {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .calc-slider-container {
+            margin-bottom: 20px;
+        }
+
+        .calc-amount-display {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 20px;
+            direction: ltr;
+        }
+
+        .calc-amount-display span {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-right: 4px;
+        }
+
+        .calc-slider {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(to left, var(--primary), var(--primary-light));
+            border-radius: 4px;
+            outline: none;
+            position: relative;
+        }
+
+        .calc-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: 4px solid white;
+            box-shadow: 0 2px 12px rgba(13, 110, 110, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .calc-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        .calc-slider::-moz-range-thumb {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: 4px solid white;
+            box-shadow: 0 2px 12px rgba(13, 110, 110, 0.3);
+        }
+
+        .calc-slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            direction: ltr;
+        }
+
+        .calc-input-field {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .calc-input-field input {
+            width: 160px;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--primary);
+            direction: ltr;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .calc-input-field input:focus {
+            border-color: var(--primary);
+        }
+
+        .calc-input-field label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        /* Results */
+        .calc-results {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            margin-bottom: 32px;
+        }
+
+        .calc-results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .calc-result-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(13, 110, 110, 0.04);
+            border-radius: 16px;
+        }
+
+        .calc-result-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+
+        .calc-result-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .calc-result-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Timeline / Progress */
+        .calc-timeline {
+            margin-top: 24px;
+        }
+
+        .calc-timeline-label {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .calc-progress-bar {
+            position: relative;
+            height: 12px;
+            background: #E8F0F0;
+            border-radius: 6px;
+            overflow: visible;
+            margin-bottom: 40px;
+        }
+
+        .calc-progress-fill {
+            height: 100%;
+            background: linear-gradient(to left, var(--primary), var(--gold));
+            border-radius: 6px;
+            transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            min-width: 4px;
+        }
+
+        .calc-milestones {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+        }
+
+        .calc-milestone {
+            position: absolute;
+            top: 50%;
+            transform: translate(50%, -50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #CBD5E1;
+            transition: all 0.5s ease;
+            z-index: 2;
+        }
+
+        .calc-milestone.reached {
+            border-color: var(--primary);
+            background: var(--primary);
+        }
+
+        .calc-milestone-label {
+            position: absolute;
+            top: 28px;
+            right: 50%;
+            transform: translateX(50%);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .calc-milestone:nth-child(1) { right: 25%; }
+        .calc-milestone:nth-child(2) { right: 50%; }
+        .calc-milestone:nth-child(3) { right: 75%; }
+        .calc-milestone:nth-child(4) { right: 100%; }
+
+        /* Boost hint */
+        .calc-boost {
+            background: linear-gradient(135deg, rgba(212, 168, 67, 0.08), rgba(212, 168, 67, 0.03));
+            border: 1px solid rgba(212, 168, 67, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .calc-boost-label {
+            font-size: 0.95rem;
+            color: var(--gold-dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .calc-boost-result {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .calc-boost-result .saved {
+            color: var(--positive);
+            font-weight: 800;
+        }
+
+        /* ════════════════════════════════════════
+           4. SMALL SAVINGS POWER
+           ════════════════════════════════════════ */
+        .small-savings-section {
+            background: linear-gradient(180deg, var(--surface) 0%, #f0f4f5 100%);
+        }
+
+        .savings-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .savings-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            padding: 32px 24px;
+            text-align: center;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .savings-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .savings-card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .savings-card-habit {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .savings-card-math {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .savings-card-math .daily {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .savings-card-total {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary);
+            direction: ltr;
+            margin-bottom: 8px;
+        }
+
+        .savings-card-total-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .savings-card-could-buy {
+            background: rgba(13, 110, 110, 0.06);
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 0.85rem;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        .counter-value {
+            display: inline-block;
+        }
+
+        /* ════════════════════════════════════════
+           5. SAVINGS TIMELINE
+           ════════════════════════════════════════ */
+        .timeline-section {
+            background: linear-gradient(180deg, #f0f4f5 0%, var(--surface) 100%);
+            overflow: hidden;
+        }
+
+        .timeline-container {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline-path {
+            position: absolute;
+            right: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            transform: translateX(50%);
+        }
+
+        .timeline-path-bg {
+            position: absolute;
+            inset: 0;
+            background: #E0E8EA;
+            border-radius: 2px;
+        }
+
+        .timeline-path-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0%;
+            background: linear-gradient(to bottom, #EF4444, #F59E0B, #22C55E);
+            border-radius: 2px;
+            transition: height 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            right: 50%;
+            transform: translateX(50%);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 4px solid #E0E8EA;
+            background: white;
+            z-index: 2;
+            transition: all 0.5s ease;
+        }
+
+        .timeline-item.visible .timeline-dot {
+            border-color: var(--primary);
+            background: var(--primary);
+            box-shadow: 0 0 0 6px rgba(13, 110, 110, 0.15);
+        }
+
+        .timeline-content {
+            width: 42%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.5s ease;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: auto;
+            margin-right: calc(50% + 30px);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-right: auto;
+            margin-left: calc(50% + 30px);
+        }
+
+        .timeline-month {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            background: rgba(13, 110, 110, 0.08);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .timeline-text {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .timeline-amount {
+            font-size: 0.9rem;
+            color: var(--gold-dark);
+            font-weight: 600;
+        }
+
+        .timeline-emoji {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* ════════════════════════════════════════
+           6. MINDSET
+           ════════════════════════════════════════ */
+        .mindset-section {
+            background: linear-gradient(180deg, var(--surface) 0%, #f0f4f5 100%);
+        }
+
+        .mindset-grid {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mindset-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .mindset-card {
+            padding: 24px;
+            border-radius: 20px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.4s ease;
+        }
+
+        .mindset-card.bad {
+            background: rgba(239, 68, 68, 0.06);
+            border: 1px solid rgba(239, 68, 68, 0.12);
+            color: #B91C1C;
+        }
+
+        .mindset-card.good {
+            background: rgba(34, 197, 94, 0.06);
+            border: 1px solid rgba(34, 197, 94, 0.12);
+            color: #15803D;
+        }
+
+        .mindset-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .mindset-icon {
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .mindset-vs {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 800;
+            display: none;
+        }
+
+        /* ════════════════════════════════════════
+           7. CTA
+           ════════════════════════════════════════ */
+        .cta-section {
+            background: linear-gradient(135deg, #0a5c5c 0%, #0D6E6E 40%, #1A9494 70%, #0D6E6E 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 100px 0;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(212, 168, 67, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .cta-float-icons {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .cta-float-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+        }
+
+        .cta-float-icon:nth-child(1) { top: 15%; left: 10%; animation: floatSlow 7s infinite; }
+        .cta-float-icon:nth-child(2) { top: 60%; right: 8%; animation: float 6s infinite 1s; }
+        .cta-float-icon:nth-child(3) { bottom: 20%; left: 20%; animation: floatReverse 8s infinite; }
+        .cta-float-icon:nth-child(4) { top: 25%; right: 25%; animation: floatSlow 9s infinite 0.5s; }
+
+        .cta-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-personalized {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 16px 28px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            color: var(--gold-light);
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .cta-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 900;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .cta-subtitle {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 40px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            border-radius: 16px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            text-decoration: none;
+            font-family: 'Cairo', sans-serif;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: white;
+            box-shadow: 0 8px 32px rgba(212, 168, 67, 0.3);
+        }
+
+        .cta-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(212, 168, 67, 0.45);
+        }
+
+        .cta-btn-secondary {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        .cta-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .cta-free {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-top: 16px;
+        }
+
+        /* ════════════════════════════════════════
+           8. FOOTER
+           ════════════════════════════════════════ */
+        .footer {
+            background: #0a4f4f;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .footer-tagline {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold-light);
+        }
+
+        .footer-copy {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        /* ════════════════════════════════════════
+           RESPONSIVE
+           ════════════════════════════════════════ */
+        @media (max-width: 900px) {
+            .dream-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .savings-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                width: 38%;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .section {
+                padding: 70px 0;
+            }
+
+            .dream-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+
+            .dream-card {
+                padding: 24px 16px;
+            }
+
+            .dream-ring-container {
+                width: 80px;
+                height: 80px;
+            }
+
+            .dream-ring-icon {
+                font-size: 1.5rem;
+            }
+
+            .savings-cards-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .calc-results-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .calc-input-card,
+            .calc-results {
+                padding: 24px;
+            }
+
+            .timeline-content {
+                width: 100% !important;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content {
+                margin-right: 0;
+                margin-left: 0;
+            }
+
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .timeline-path {
+                right: 24px;
+                transform: none;
+            }
+
+            .timeline-dot {
+                right: 24px;
+                transform: translateX(50%);
+            }
+
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                flex-direction: row;
+                padding-right: 56px;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 0;
+                margin-right: 0;
+                width: 100%;
+            }
+
+            .mindset-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .mindset-card {
+                font-size: 0.95rem;
+                padding: 18px;
+            }
+
+            .hero-icon {
+                font-size: 1.8rem !important;
+                opacity: 0.1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dream-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .dream-card {
+                padding: 20px 12px;
+            }
+
+            .dream-ring-container {
+                width: 70px;
+                height: 70px;
+            }
+
+            .dream-name {
+                font-size: 1rem;
+            }
+
+            .dream-cost {
+                font-size: 0.85rem;
+            }
+
+            .calc-amount-display {
+                font-size: 1.6rem;
+            }
+
+            .calc-result-value {
+                font-size: 1.8rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ════════════════════════════════════════
+         1. HERO
+         ════════════════════════════════════════ -->
+    <section class="hero">
+        <!-- Floating dream icons -->
+        <div class="hero-icon">🚗</div>
+        <div class="hero-icon">✈️</div>
+        <div class="hero-icon">🏠</div>
+        <div class="hero-icon">💍</div>
+        <div class="hero-icon">🕋</div>
+        <div class="hero-icon">📱</div>
+        <div class="hero-icon">💰</div>
+        <div class="hero-icon">⭐</div>
+
+        <div class="hero-content">
+            <div class="hero-badge">
+                ✨ شهريتي — وفّر بذكاء
+            </div>
+            <h1 class="hero-title">
+                حلمك <span class="gold-text">أقرب</span><br>مما تتخيل
+            </h1>
+            <p class="hero-subtitle">
+                وفّر شوية كل يوم... وشوف كيفاش يتحقق
+            </p>
+            <p class="hero-dreams">
+                حاب تشري طوموبيل؟ تحج؟ تزوج؟ 🎯
+            </p>
+            <a href="#dreams" class="hero-cta">
+                ابدا احسب حلمك
+                <span>⬇</span>
+            </a>
+        </div>
+
+        <div class="hero-scroll-hint">
+            <span>اكتشف</span>
+            <div class="arrow"></div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         2. DREAM CARDS
+         ════════════════════════════════════════ -->
+    <section class="section dreams-section" id="dreams">
+        <div class="container">
+            <h2 class="section-title reveal">شحال يكلّف <span class="gold">حلمك</span>؟</h2>
+            <p class="section-subtitle reveal delay-1">اختار هدفك وشوف كيفاش توصلو خطوة بخطوة</p>
+
+            <div class="dream-grid">
+                <!-- Car -->
+                <div class="dream-card reveal delay-1" data-goal="car" data-cost="2500000" data-name="طوموبيل" data-icon="🚗" onclick="selectGoal(this)">
+                    <div class="select-badge">✓</div>
+                    <div class="dream-ring-container">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="dream-ring-bg" cx="50" cy="50" r="45"/>
+                            <circle class="dream-ring-progress" cx="50" cy="50" r="45"/>
+                        </svg>
+                        <span class="dream-ring-icon">🚗</span>
+                        <span class="dream-ring-percent">0%</span>
+                    </div>
+                    <div class="dream-name">طوموبيل</div>
+                    <div class="dream-cost">2,500,000 دج</div>
+                </div>
+
+                <!-- House -->
+                <div class="dream-card reveal delay-2" data-goal="house" data-cost="5000000" data-name="دار" data-icon="🏠" onclick="selectGoal(this)">
+                    <div class="select-badge">✓</div>
+                    <div class="dream-ring-container">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="dream-ring-bg" cx="50" cy="50" r="45"/>
+                            <circle class="dream-ring-progress" cx="50" cy="50" r="45"/>
+                        </svg>
+                        <span class="dream-ring-icon">🏠</span>
+                        <span class="dream-ring-percent">0%</span>
+                    </div>
+                    <div class="dream-name">دار</div>
+                    <div class="dream-cost">5,000,000 دج</div>
+                </div>
+
+                <!-- Wedding -->
+                <div class="dream-card reveal delay-3" data-goal="wedding" data-cost="1500000" data-name="عرس" data-icon="💍" onclick="selectGoal(this)">
+                    <div class="select-badge">✓</div>
+                    <div class="dream-ring-container">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="dream-ring-bg" cx="50" cy="50" r="45"/>
+                            <circle class="dream-ring-progress" cx="50" cy="50" r="45"/>
+                        </svg>
+                        <span class="dream-ring-icon">💍</span>
+                        <span class="dream-ring-percent">0%</span>
+                    </div>
+                    <div class="dream-name">عرس</div>
+                    <div class="dream-cost">1,500,000 دج</div>
+                </div>
+
+                <!-- Hajj -->
+                <div class="dream-card reveal delay-4" data-goal="hajj" data-cost="800000" data-name="حج" data-icon="🕋" onclick="selectGoal(this)">
+                    <div class="select-badge">✓</div>
+                    <div class="dream-ring-container">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="dream-ring-bg" cx="50" cy="50" r="45"/>
+                            <circle class="dream-ring-progress" cx="50" cy="50" r="45"/>
+                        </svg>
+                        <span class="dream-ring-icon">🕋</span>
+                        <span class="dream-ring-percent">0%</span>
+                    </div>
+                    <div class="dream-name">حج</div>
+                    <div class="dream-cost">800,000 دج</div>
+                </div>
+
+                <!-- Phone -->
+                <div class="dream-card reveal delay-5" data-goal="phone" data-cost="150000" data-name="هاتف جديد" data-icon="📱" onclick="selectGoal(this)">
+                    <div class="select-badge">✓</div>
+                    <div class="dream-ring-container">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="dream-ring-bg" cx="50" cy="50" r="45"/>
+                            <circle class="dream-ring-progress" cx="50" cy="50" r="45"/>
+                        </svg>
+                        <span class="dream-ring-icon">📱</span>
+                        <span class="dream-ring-percent">0%</span>
+                    </div>
+                    <div class="dream-name">هاتف جديد</div>
+                    <div class="dream-cost">150,000 دج</div>
+                </div>
+
+                <!-- Travel -->
+                <div class="dream-card reveal delay-6" data-goal="travel" data-cost="300000" data-name="سفرة" data-icon="✈️" onclick="selectGoal(this)">
+                    <div class="select-badge">✓</div>
+                    <div class="dream-ring-container">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="dream-ring-bg" cx="50" cy="50" r="45"/>
+                            <circle class="dream-ring-progress" cx="50" cy="50" r="45"/>
+                        </svg>
+                        <span class="dream-ring-icon">✈️</span>
+                        <span class="dream-ring-percent">0%</span>
+                    </div>
+                    <div class="dream-name">سفرة</div>
+                    <div class="dream-cost">300,000 دج</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         3. CALCULATOR
+         ════════════════════════════════════════ -->
+    <section class="section calculator-section" id="calculator">
+        <div class="container">
+            <h2 class="section-title reveal">احسب طريقك <span class="highlight">للحلم</span></h2>
+            <p class="section-subtitle reveal delay-1">اختار هدف من فوق، وحدد شحال تقدر توفّر في الشهر</p>
+
+            <div class="calc-wrapper">
+                <!-- Selected Goal Display -->
+                <div class="calc-selected-goal reveal delay-2" id="calcGoalDisplay">
+                    <div class="calc-no-goal" id="calcNoGoal">
+                        ☝️ اختار حلمك من الكروت فوق
+                    </div>
+                    <div id="calcGoalInfo" style="display: none;">
+                        <span class="calc-goal-icon" id="calcGoalIcon"></span>
+                        <div class="calc-goal-label">هدفك الحالي</div>
+                        <div class="calc-goal-name" id="calcGoalName"></div>
+                        <div class="calc-goal-cost" id="calcGoalCost"></div>
+                    </div>
+                </div>
+
+                <!-- Input Section -->
+                <div class="calc-input-card reveal delay-3">
+                    <div class="calc-input-label">شحال تقدر توفّر في الشهر؟</div>
+
+                    <div class="calc-amount-display">
+                        <span>دج</span>
+                        <span id="calcAmountDisplay">10,000</span>
+                    </div>
+
+                    <div class="calc-slider-container">
+                        <input type="range" class="calc-slider" id="calcSlider" min="1000" max="50000" step="1000" value="10000">
+                        <div class="calc-slider-labels">
+                            <span>50,000 دج</span>
+                            <span>1,000 دج</span>
+                        </div>
+                    </div>
+
+                    <div class="calc-input-field">
+                        <label>دج/الشهر</label>
+                        <input type="number" id="calcInput" value="10000" min="1000" max="50000" step="1000">
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div class="calc-results reveal delay-4" id="calcResults" style="display: none;">
+                    <div class="calc-results-grid">
+                        <div class="calc-result-item">
+                            <div class="calc-result-value" id="calcMonths">—</div>
+                            <div class="calc-result-label">شهر</div>
+                            <div class="calc-result-sub" id="calcYears"></div>
+                        </div>
+                        <div class="calc-result-item">
+                            <div class="calc-result-value" id="calcDaily">—</div>
+                            <div class="calc-result-label">دج / اليوم</div>
+                            <div class="calc-result-sub">يعني تقريبا</div>
+                        </div>
+                    </div>
+
+                    <!-- Progress timeline -->
+                    <div class="calc-timeline">
+                        <div class="calc-timeline-label">📍 رحلة التوفير</div>
+                        <div class="calc-progress-bar">
+                            <div class="calc-progress-fill" id="calcProgressFill" style="width: 0%"></div>
+                            <div class="calc-milestones">
+                                <div class="calc-milestone" id="milestone25"><span class="calc-milestone-label">25%</span></div>
+                                <div class="calc-milestone" id="milestone50"><span class="calc-milestone-label">50%</span></div>
+                                <div class="calc-milestone" id="milestone75"><span class="calc-milestone-label">75%</span></div>
+                                <div class="calc-milestone" id="milestone100"><span class="calc-milestone-label">🎉 100%</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Boost hint -->
+                    <div class="calc-boost" id="calcBoost">
+                        <div class="calc-boost-label">💡 وإذا زدت غير 1,000 دج...</div>
+                        <div class="calc-boost-result" id="calcBoostResult"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         4. SMALL SAVINGS POWER
+         ════════════════════════════════════════ -->
+    <section class="section small-savings-section">
+        <div class="container">
+            <h2 class="section-title reveal">ما تحقرش <span class="gold">الشوية</span></h2>
+            <p class="section-subtitle reveal delay-1">شوف شحال تقدر توفّر كي تنقّص حاجة صغيرة كل يوم</p>
+
+            <div class="savings-cards-grid">
+                <!-- Coffee -->
+                <div class="savings-card reveal delay-1">
+                    <span class="savings-card-icon">☕</span>
+                    <div class="savings-card-habit">قهوة وحدة في اليوم</div>
+                    <div class="savings-card-math">
+                        <span class="daily">200 دج</span> × 30 يوم = 6,000 دج/شهر
+                    </div>
+                    <div class="savings-card-total">
+                        <span class="counter-value" data-target="72000">0</span> دج
+                    </div>
+                    <div class="savings-card-total-label">في السنة 🤯</div>
+                    <div class="savings-card-could-buy">= تقريبا نص هاتف جديد 📱</div>
+                </div>
+
+                <!-- Soda -->
+                <div class="savings-card reveal delay-2">
+                    <span class="savings-card-icon">🥤</span>
+                    <div class="savings-card-habit">مشروب غازي في اليوم</div>
+                    <div class="savings-card-math">
+                        <span class="daily">100 دج</span> × 30 يوم = 3,000 دج/شهر
+                    </div>
+                    <div class="savings-card-total">
+                        <span class="counter-value" data-target="36000">0</span> دج
+                    </div>
+                    <div class="savings-card-total-label">في السنة 🤯</div>
+                    <div class="savings-card-could-buy">= سفرة داخلية 🏖️</div>
+                </div>
+
+                <!-- Cigarettes -->
+                <div class="savings-card reveal delay-3">
+                    <span class="savings-card-icon">🚬</span>
+                    <div class="savings-card-habit">باكية سجاير في اليوم</div>
+                    <div class="savings-card-math">
+                        <span class="daily">350 دج</span> × 30 يوم = 10,500 دج/شهر
+                    </div>
+                    <div class="savings-card-total">
+                        <span class="counter-value" data-target="126000">0</span> دج
+                    </div>
+                    <div class="savings-card-total-label">في السنة 🤯</div>
+                    <div class="savings-card-could-buy">= هاتف جديد كامل! 📱✨</div>
+                </div>
+
+                <!-- Eating out -->
+                <div class="savings-card reveal delay-4">
+                    <span class="savings-card-icon">🍕</span>
+                    <div class="savings-card-habit">أكلة برّا مرتين في الأسبوع</div>
+                    <div class="savings-card-math">
+                        <span class="daily">1,600 دج</span> × 4 أسابيع = 6,400 دج/شهر
+                    </div>
+                    <div class="savings-card-total">
+                        <span class="counter-value" data-target="76800">0</span> دج
+                    </div>
+                    <div class="savings-card-total-label">في السنة 🤯</div>
+                    <div class="savings-card-could-buy">= تقريبا 10% من الحج 🕋</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         5. SAVINGS TIMELINE
+         ════════════════════════════════════════ -->
+    <section class="section timeline-section">
+        <div class="container">
+            <h2 class="section-title reveal">رحلة <span class="highlight">التوفير</span></h2>
+            <p class="section-subtitle reveal delay-1">كل خطوة تقرّبك لحلمك... ابدا واستمر</p>
+
+            <div class="timeline-container" id="timelinePath">
+                <div class="timeline-path">
+                    <div class="timeline-path-bg"></div>
+                    <div class="timeline-path-fill" id="timelinePathFill"></div>
+                </div>
+
+                <!-- Month 1 -->
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-emoji">🌱</span>
+                        <span class="timeline-month">الشهر 1</span>
+                        <div class="timeline-text">البداية — أول 5,000 دج</div>
+                        <div class="timeline-amount">كل رحلة تبدا بخطوة وحدة</div>
+                    </div>
+                </div>
+
+                <!-- Month 3 -->
+                <div class="timeline-item reveal delay-1">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-emoji">💪</span>
+                        <span class="timeline-month">الشهر 3</span>
+                        <div class="timeline-text">ولّيت معتاد — 15,000 دج</div>
+                        <div class="timeline-amount">التوفير ولّا عادة يومية</div>
+                    </div>
+                </div>
+
+                <!-- Month 6 -->
+                <div class="timeline-item reveal delay-2">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-emoji">🔥</span>
+                        <span class="timeline-month">الشهر 6</span>
+                        <div class="timeline-text">نص الطريق — الحماس يزيد</div>
+                        <div class="timeline-amount">بدات تشوف النتيجة بعينك</div>
+                    </div>
+                </div>
+
+                <!-- Month 12 -->
+                <div class="timeline-item reveal delay-3">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-emoji">🎉</span>
+                        <span class="timeline-month">الشهر 12</span>
+                        <div class="timeline-text">سنة كاملة — شوف وين وصلت!</div>
+                        <div class="timeline-amount">حلمك ولّا واقع ان شاء الله</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         6. MINDSET
+         ════════════════════════════════════════ -->
+    <section class="section mindset-section">
+        <div class="container">
+            <h2 class="section-title reveal">الفرق بين اللي <span class="highlight">يوفر</span> واللي <span class="gold">ما يوفرش</span></h2>
+            <p class="section-subtitle reveal delay-1">غيّر تفكيرك... يتغير وضعك</p>
+
+            <div class="mindset-grid">
+                <div class="mindset-row">
+                    <div class="mindset-card bad reveal-right">
+                        <span class="mindset-icon">❌</span>
+                        <span>"غدوا نبدا"</span>
+                    </div>
+                    <div class="mindset-card good reveal-left">
+                        <span class="mindset-icon">✅</span>
+                        <span>"نبدا دروك"</span>
+                    </div>
+                </div>
+
+                <div class="mindset-row">
+                    <div class="mindset-card bad reveal-right delay-1">
+                        <span class="mindset-icon">❌</span>
+                        <span>"ما نقدرش نوفر"</span>
+                    </div>
+                    <div class="mindset-card good reveal-left delay-1">
+                        <span class="mindset-icon">✅</span>
+                        <span>"حتى 500 دج تفرق"</span>
+                    </div>
+                </div>
+
+                <div class="mindset-row">
+                    <div class="mindset-card bad reveal-right delay-2">
+                        <span class="mindset-icon">❌</span>
+                        <span>"الشهرية ما تكفيش"</span>
+                    </div>
+                    <div class="mindset-card good reveal-left delay-2">
+                        <span class="mindset-icon">✅</span>
+                        <span>"نبدا باللي عندي"</span>
+                    </div>
+                </div>
+
+                <div class="mindset-row">
+                    <div class="mindset-card bad reveal-right delay-3">
+                        <span class="mindset-icon">❌</span>
+                        <span>"التوفير صعيب"</span>
+                    </div>
+                    <div class="mindset-card good reveal-left delay-3">
+                        <span class="mindset-icon">✅</span>
+                        <span>"التوفير عادة"</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         7. CTA
+         ════════════════════════════════════════ -->
+    <section class="cta-section">
+        <div class="cta-float-icons">
+            <span class="cta-float-icon">🚗</span>
+            <span class="cta-float-icon">🏠</span>
+            <span class="cta-float-icon">💍</span>
+            <span class="cta-float-icon">🕋</span>
+        </div>
+
+        <div class="container">
+            <div class="cta-content">
+                <div class="cta-personalized reveal" id="ctaPersonalized" style="display: none;">
+                    <span id="ctaGoalIcon"></span>
+                    <span>ابدا وفّر على <span id="ctaGoalName"></span></span>
+                </div>
+
+                <h2 class="cta-title reveal delay-1">ابدا حلمك <span style="color: var(--gold-light);">اليوم</span></h2>
+                <p class="cta-subtitle reveal delay-2">
+                    شهريتي تساعدك توفّر، تتبّع أهدافك، وتحقق أحلامك.<br>
+                    حمّل التطبيق وابدا رحلة التوفير.
+                </p>
+
+                <div class="cta-buttons reveal delay-3">
+                    <a href="#" class="cta-btn cta-btn-primary">
+                        حمّل شهريتي الآن
+                        <span>📲</span>
+                    </a>
+                    <a href="#calculator" class="cta-btn cta-btn-secondary">
+                        احسب حلمك أولا
+                        <span>🧮</span>
+                    </a>
+                </div>
+
+                <p class="cta-free reveal delay-4">مجاني — ابدا الآن 🎁</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         8. FOOTER
+         ════════════════════════════════════════ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-brand">شهريتي</div>
+            <div class="footer-tagline">أذكى طريقة لإدارة مصاريفك</div>
+            <div class="footer-links">
+                <a href="#">سياسة الخصوصية</a>
+                <a href="#">شروط الاستخدام</a>
+                <a href="#">تواصل معنا</a>
+                <a href="#">المدونة</a>
+            </div>
+            <div class="footer-copy">© 2026 شهريتي — جميع الحقوق محفوظة</div>
+        </div>
+    </footer>
+
+    <script>
+        // ═══════════════════════════════════════════
+        // CONFIGURATION & STATE
+        // ═══════════════════════════════════════════
+        const formatter = new Intl.NumberFormat('ar-DZ', {
+            style: 'decimal',
+            maximumFractionDigits: 0
+        });
+
+        const state = {
+            selectedGoal: null,
+            selectedCost: 0,
+            selectedName: '',
+            selectedIcon: '',
+            monthlySaving: 10000
+        };
+
+        // ═══════════════════════════════════════════
+        // DREAM CARD SELECTION
+        // ═══════════════════════════════════════════
+        function selectGoal(card) {
+            // Deselect all cards
+            document.querySelectorAll('.dream-card').forEach(c => c.classList.remove('selected'));
+
+            // Select this card
+            card.classList.add('selected');
+
+            // Update state
+            state.selectedGoal = card.dataset.goal;
+            state.selectedCost = parseInt(card.dataset.cost);
+            state.selectedName = card.dataset.name;
+            state.selectedIcon = card.dataset.icon;
+
+            // Update calculator display
+            updateCalcGoalDisplay();
+            updateCalculation();
+
+            // Update CTA
+            updateCTA();
+
+            // Smooth scroll to calculator
+            setTimeout(() => {
+                document.getElementById('calculator').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 200);
+        }
+
+        function updateCalcGoalDisplay() {
+            const noGoal = document.getElementById('calcNoGoal');
+            const goalInfo = document.getElementById('calcGoalInfo');
+            const results = document.getElementById('calcResults');
+
+            if (state.selectedGoal) {
+                noGoal.style.display = 'none';
+                goalInfo.style.display = 'block';
+                results.style.display = 'block';
+
+                document.getElementById('calcGoalIcon').textContent = state.selectedIcon;
+                document.getElementById('calcGoalName').textContent = state.selectedName;
+                document.getElementById('calcGoalCost').textContent = formatter.format(state.selectedCost) + ' دج';
+            } else {
+                noGoal.style.display = 'block';
+                goalInfo.style.display = 'none';
+                results.style.display = 'none';
+            }
+        }
+
+        function updateCTA() {
+            const personalized = document.getElementById('ctaPersonalized');
+            if (state.selectedGoal) {
+                personalized.style.display = 'inline-flex';
+                document.getElementById('ctaGoalIcon').textContent = state.selectedIcon;
+                document.getElementById('ctaGoalName').textContent = state.selectedName;
+            }
+        }
+
+        // ═══════════════════════════════════════════
+        // CALCULATOR
+        // ═══════════════════════════════════════════
+        const slider = document.getElementById('calcSlider');
+        const input = document.getElementById('calcInput');
+        const amountDisplay = document.getElementById('calcAmountDisplay');
+
+        slider.addEventListener('input', function() {
+            const val = parseInt(this.value);
+            state.monthlySaving = val;
+            input.value = val;
+            amountDisplay.textContent = formatter.format(val);
+            updateCalculation();
+        });
+
+        input.addEventListener('input', function() {
+            let val = parseInt(this.value);
+            if (isNaN(val) || val < 1000) val = 1000;
+            if (val > 50000) val = 50000;
+            state.monthlySaving = val;
+            slider.value = val;
+            amountDisplay.textContent = formatter.format(val);
+            updateCalculation();
+        });
+
+        function updateCalculation() {
+            if (!state.selectedGoal) return;
+
+            const cost = state.selectedCost;
+            const monthly = state.monthlySaving;
+            const months = Math.ceil(cost / monthly);
+            const years = Math.floor(months / 12);
+            const remainingMonths = months % 12;
+            const dailyAmount = Math.round(monthly / 30);
+
+            // Animate month counter
+            animateCounter(document.getElementById('calcMonths'), months);
+
+            // Years display
+            const yearsEl = document.getElementById('calcYears');
+            if (years > 0) {
+                yearsEl.textContent = years + ' سنة' + (remainingMonths > 0 ? ' و ' + remainingMonths + ' شهر' : '');
+            } else {
+                yearsEl.textContent = '';
+            }
+
+            // Daily amount
+            animateCounter(document.getElementById('calcDaily'), dailyAmount);
+
+            // Progress bar animation (show at 40% for visual appeal)
+            const progressFill = document.getElementById('calcProgressFill');
+            setTimeout(() => {
+                progressFill.style.width = '100%';
+            }, 100);
+
+            // Milestones
+            const milestones = [25, 50, 75, 100];
+            milestones.forEach(pct => {
+                const el = document.getElementById('milestone' + pct);
+                setTimeout(() => {
+                    el.classList.add('reached');
+                }, pct * 15);
+            });
+
+            // Boost calculation
+            const boostMonthly = monthly + 1000;
+            const boostMonths = Math.ceil(cost / boostMonthly);
+            const savedMonths = months - boostMonths;
+            const boostResult = document.getElementById('calcBoostResult');
+            if (savedMonths > 0) {
+                boostResult.innerHTML = 'توصل <span class="saved">' + savedMonths + ' شهر قبل</span> — يعني ' + formatter.format(boostMonthly) + ' دج/الشهر بدل ' + formatter.format(monthly) + ' دج';
+            } else {
+                boostResult.innerHTML = 'حتى الزيادة الصغيرة تفرق في الطريق!';
+            }
+        }
+
+        // ═══════════════════════════════════════════
+        // ANIMATED COUNTERS
+        // ═══════════════════════════════════════════
+        function animateCounter(element, target, duration) {
+            if (!duration) duration = 800;
+            const start = parseInt(element.textContent.replace(/[^\d]/g, '')) || 0;
+            const range = target - start;
+            const startTime = performance.now();
+
+            function step(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease out cubic
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(start + range * eased);
+                element.textContent = formatter.format(current);
+
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                }
+            }
+
+            requestAnimationFrame(step);
+        }
+
+        // Scroll-triggered counters for savings cards
+        function animateCounterOnScroll(element) {
+            const target = parseInt(element.dataset.target);
+            if (!target || element.dataset.animated === 'true') return;
+            element.dataset.animated = 'true';
+            animateCounter(element, target, 1200);
+        }
+
+        // ═══════════════════════════════════════════
+        // INTERSECTION OBSERVER — SCROLL REVEALS
+        // ═══════════════════════════════════════════
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+
+                    // If it's a timeline item, animate the path fill
+                    if (entry.target.closest('.timeline-container')) {
+                        updateTimelineFill();
+                    }
+
+                    // Animate counters
+                    const counters = entry.target.querySelectorAll('.counter-value');
+                    counters.forEach(counter => animateCounterOnScroll(counter));
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -60px 0px'
+        });
+
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // Timeline specific observer
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    updateTimelineFill();
+                }
+            });
+        }, {
+            threshold: 0.3,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.timeline-item').forEach(el => {
+            timelineObserver.observe(el);
+        });
+
+        function updateTimelineFill() {
+            const items = document.querySelectorAll('.timeline-item');
+            const fill = document.getElementById('timelinePathFill');
+            let visibleCount = 0;
+
+            items.forEach(item => {
+                if (item.classList.contains('visible')) visibleCount++;
+            });
+
+            const pct = (visibleCount / items.length) * 100;
+            fill.style.height = pct + '%';
+        }
+
+        // ═══════════════════════════════════════════
+        // SLIDER TRACK FILL (visual fill for range)
+        // ═══════════════════════════════════════════
+        function updateSliderFill() {
+            const slider = document.getElementById('calcSlider');
+            const val = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
+            slider.style.background = `linear-gradient(to left, var(--primary) ${val}%, #E0E8EA ${val}%)`;
+        }
+
+        slider.addEventListener('input', updateSliderFill);
+        updateSliderFill();
+
+        // ═══════════════════════════════════════════
+        // DREAM RING ENTRANCE ANIMATION
+        // ═══════════════════════════════════════════
+        const ringObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const ring = entry.target.querySelector('.dream-ring-progress');
+                    if (ring) {
+                        // Animate ring to a small percentage to hint at the concept
+                        setTimeout(() => {
+                            ring.style.strokeDashoffset = 283 - (283 * 0.05);
+                        }, 400);
+                    }
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.dream-card').forEach(card => {
+            ringObserver.observe(card);
+        });
+
+        // ═══════════════════════════════════════════
+        // INITIAL STATE
+        // ═══════════════════════════════════════════
+        amountDisplay.textContent = formatter.format(10000);
+    </script>
+</body>
+</html>

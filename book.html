@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المال لا يحب الفوضى — شهريتي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+@page {
+    size: A5;
+    margin: 20mm 18mm 25mm 18mm;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --primary: #0D6E6E;
+    --primary-light: #1A9494;
+    --primary-dark: #084E4E;
+    --primary-pale: #E8F5F5;
+    --accent: #D4A853;
+    --accent-light: #F5E6C8;
+    --text: #1A1A2E;
+    --text-sec: #4A5568;
+    --text-light: #718096;
+    --bg: #FFFFFF;
+    --surface: #F7FAFA;
+    --border: #E2E8F0;
+}
+
+html { font-size: 11pt; }
+
+body {
+    font-family: 'Cairo', sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Page Breaks ─── */
+.page-break { page-break-after: always; break-after: page; }
+.avoid-break { page-break-inside: avoid; break-inside: avoid; }
+
+/* ═══════════════════════════════════ */
+/* COVER PAGE */
+/* ═══════════════════════════════════ */
+.cover {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    background: linear-gradient(160deg, var(--primary-dark) 0%, var(--primary) 40%, var(--primary-light) 100%);
+    color: #fff;
+    padding: 40px 30px;
+    position: relative;
+    overflow: hidden;
+}
+.cover::before {
+    content: '';
+    position: absolute; top: -50%; right: -30%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(212,168,83,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+}
+.cover::after {
+    content: '';
+    position: absolute; bottom: -40%; left: -20%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+    border-radius: 50%;
+}
+.cover-logo {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--accent);
+    margin-bottom: 50px;
+    position: relative; z-index: 1;
+}
+.cover-icon {
+    width: 80px; height: 80px;
+    border: 3px solid var(--accent);
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem;
+    margin: 0 auto 40px;
+    position: relative; z-index: 1;
+    background: rgba(255,255,255,0.05);
+}
+.cover h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1.4;
+    margin-bottom: 16px;
+    position: relative; z-index: 1;
+}
+.cover h1 em {
+    font-style: normal;
+    color: var(--accent);
+}
+.cover-subtitle {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.7);
+    max-width: 350px;
+    margin: 0 auto 60px;
+    line-height: 1.8;
+    position: relative; z-index: 1;
+}
+.cover-line {
+    width: 50px; height: 2px;
+    background: var(--accent);
+    margin: 0 auto 20px;
+    position: relative; z-index: 1;
+}
+.cover-author {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    position: relative; z-index: 1;
+}
+
+/* ═══════════════════════════════════ */
+/* QUOTE PAGES (between chapters) */
+/* ═══════════════════════════════════ */
+.quote-page {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 60px 40px;
+    background: var(--surface);
+    position: relative;
+}
+.quote-page::before {
+    content: '';
+    position: absolute; top: 30px; right: 30px;
+    width: 60px; height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+.quote-page::after {
+    content: '';
+    position: absolute; bottom: 30px; left: 30px;
+    width: 60px; height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+.quote-mark {
+    font-family: 'Amiri', serif;
+    font-size: 5rem;
+    color: var(--primary);
+    opacity: 0.15;
+    line-height: 1;
+    margin-bottom: -20px;
+}
+.quote-text {
+    font-family: 'Amiri', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 2;
+    max-width: 400px;
+}
+.quote-line {
+    width: 40px; height: 2px;
+    background: var(--accent);
+    margin: 30px auto;
+}
+.quote-source {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+/* ═══════════════════════════════════ */
+/* CHAPTER PAGES */
+/* ═══════════════════════════════════ */
+.chapter {
+    padding: 40px 0;
+    min-height: 100vh;
+}
+
+/* Chapter Opening */
+.chapter-opening {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 60px 30px;
+    position: relative;
+}
+.chapter-number {
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--primary);
+    opacity: 0.08;
+    position: absolute;
+    top: 40px; right: 30px;
+    line-height: 1;
+}
+.chapter-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--primary);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+.chapter-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+.chapter-title-line {
+    width: 50px; height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+}
+
+/* Chapter Content */
+.content {
+    padding: 30px 30px;
+}
+.content p {
+    margin-bottom: 18px;
+    font-size: 0.95rem;
+    color: var(--text);
+    line-height: 2;
+}
+.content p.lead {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--primary-dark);
+}
+.content p.dim {
+    color: var(--text-sec);
+}
+
+/* Section Heading within chapter */
+.content h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 30px 0 12px;
+    padding-right: 14px;
+    border-right: 3px solid var(--accent);
+}
+
+/* Bullet lists */
+.content ul {
+    list-style: none;
+    margin: 16px 0 24px;
+    padding: 0;
+}
+.content ul li {
+    position: relative;
+    padding-right: 24px;
+    margin-bottom: 10px;
+    font-size: 0.92rem;
+    color: var(--text-sec);
+    line-height: 1.9;
+}
+.content ul li::before {
+    content: '';
+    position: absolute;
+    right: 0; top: 10px;
+    width: 8px; height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+}
+
+/* Numbered lists */
+.content ol {
+    list-style: none;
+    counter-reset: step;
+    margin: 16px 0 24px;
+    padding: 0;
+}
+.content ol li {
+    counter-increment: step;
+    position: relative;
+    padding-right: 36px;
+    margin-bottom: 12px;
+    font-size: 0.92rem;
+    color: var(--text-sec);
+    line-height: 1.9;
+}
+.content ol li::before {
+    content: counter(step);
+    position: absolute;
+    right: 0; top: 4px;
+    width: 24px; height: 24px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+}
+
+/* Highlight box */
+.highlight-box {
+    background: var(--primary-pale);
+    border-right: 4px solid var(--primary);
+    border-radius: 0 12px 12px 0;
+    padding: 20px 24px;
+    margin: 24px 0;
+}
+.highlight-box p {
+    color: var(--primary-dark);
+    font-weight: 600;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+}
+
+/* Accent box (gold) */
+.accent-box {
+    background: var(--accent-light);
+    border-right: 4px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    padding: 20px 24px;
+    margin: 24px 0;
+}
+.accent-box p {
+    color: #7C5E24;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+/* Story card */
+.story-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 20px 0;
+}
+.story-card .story-name {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1rem;
+    margin-bottom: 8px;
+}
+.story-card p {
+    font-size: 0.88rem;
+    color: var(--text-sec);
+    margin-bottom: 0;
+}
+
+/* Resource card */
+.resource-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+.resource-icon {
+    width: 44px; height: 44px;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+.resource-info { flex: 1; }
+.resource-name { font-weight: 700; font-size: 0.95rem; color: var(--text); margin-bottom: 4px; }
+.resource-desc { font-size: 0.82rem; color: var(--text-light); line-height: 1.7; }
+
+/* Error list (financial mistakes) */
+.mistake-list {
+    list-style: none;
+    margin: 16px 0; padding: 0;
+}
+.mistake-list li {
+    padding: 12px 20px 12px 40px;
+    margin-bottom: 8px;
+    background: #FEF2F2;
+    border-right: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    font-size: 0.9rem;
+    color: #991B1B;
+    position: relative;
+}
+.mistake-list li::before {
+    content: '✕';
+    position: absolute;
+    left: 16px; top: 50%;
+    transform: translateY(-50%);
+    color: #DC2626;
+    font-weight: 700;
+}
+
+/* Rule cards */
+.rule-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    position: relative;
+}
+.rule-number {
+    position: absolute;
+    top: -12px; right: 20px;
+    background: var(--primary);
+    color: #fff;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; font-weight: 700;
+}
+.rule-card p {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* ═══════════════════════════════════ */
+/* TABLE OF CONTENTS */
+/* ═══════════════════════════════════ */
+.toc {
+    padding: 60px 30px;
+    min-height: 100vh;
+}
+.toc-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+.toc-line {
+    width: 40px; height: 3px;
+    background: var(--accent);
+    margin-bottom: 40px;
+    border-radius: 2px;
+}
+.toc-part {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 1px;
+    margin: 30px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+}
+.toc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dotted var(--border);
+}
+.toc-item-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+}
+.toc-item-page {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-variant-numeric: tabular-nums;
+}
+
+/* ═══════════════════════════════════ */
+/* INTRO / DEDICATION PAGES */
+/* ═══════════════════════════════════ */
+.intro-page {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 60px 30px;
+}
+.intro-page h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 24px;
+}
+
+/* ═══════════════════════════════════ */
+/* BACK COVER */
+/* ═══════════════════════════════════ */
+.back-cover {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    background: var(--primary-dark);
+    color: #fff;
+    padding: 60px 30px;
+    position: relative;
+}
+.back-cover-logo {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 16px;
+}
+.back-cover p {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.6);
+    max-width: 350px;
+    margin: 0 auto 12px;
+    line-height: 1.8;
+}
+.back-cover-line {
+    width: 40px; height: 2px;
+    background: var(--accent);
+    margin: 30px auto;
+}
+.back-cover-cta {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-top: 20px;
+}
+
+/* ═══════════════════════════════════ */
+/* PRINT STYLES */
+/* ═══════════════════════════════════ */
+@media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page-break { page-break-after: always; }
+    .avoid-break { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ COVER ═══════ -->
+<div class="cover">
+    <div class="cover-logo">شهريتي</div>
+    <div class="cover-icon">💰</div>
+    <h1>المال لا يحب <em>الفوضى</em></h1>
+    <div class="cover-subtitle">
+        الدليل العملي للجزائري<br>
+        لتنظيم راتبه وبناء مستقبله المالي
+    </div>
+    <div class="cover-line"></div>
+    <div class="cover-author">دليل مجاني من شهريتي</div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ TABLE OF CONTENTS ═══════ -->
+<div class="toc">
+    <div class="toc-title">المحتويات</div>
+    <div class="toc-line"></div>
+
+    <div class="toc-item">
+        <span class="toc-item-title">المقدمة</span>
+    </div>
+
+    <div class="toc-part">الجزء الأول — النظام المالي العملي</div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 1 — الشهرية ليست راتباً فقط</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 2 — الرصيد الحالي: الحقيقة التي لا تكذب</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 3 — تسجيل المصاريف: أين يذهب المال؟</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 4 — المدخرات: أساس الاستقرار المالي</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 5 — الأهداف المالية</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 6 — الديون: التزام يجب السيطرة عليه</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 7 — السلف: أموالك عند الآخرين</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 8 — مصادر الدخل الإضافية</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 9 — الاستثمار الحقيقي للجزائري</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 10 — الإحصائيات: مواجهة الحقيقة</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 11 — النظام المالي الشخصي</span></div>
+
+    <div class="toc-part">الجزء الثاني — العقلية المالية للجزائري الناجح</div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 12 — العقلية التي تصنع الثروة</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 13 — الموظفون الذين غيروا حياتهم</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 14 — لماذا يجب أن تبحث عن الفرص يومياً؟</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 15 — الاستثمار في المهارات</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 16 — أفضل المصادر العربية للتطور المالي</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 17 — الأخطاء المالية التي تدمر المستقبل</span></div>
+    <div class="toc-item"><span class="toc-item-title">الفصل 18 — قواعد مالية مختصرة</span></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ INTRODUCTION ═══════ -->
+<div class="intro-page">
+    <h2>المقدمة</h2>
+    <p style="font-size:0.95rem;color:var(--text);line-height:2;margin-bottom:18px">
+        معظم الناس لا يعانون من نقص المال فقط.
+    </p>
+    <p style="font-size:0.95rem;color:var(--text);line-height:2;margin-bottom:18px">
+        بل يعانون من عدم معرفة:
+    </p>
+    <ul style="list-style:none;padding:0;margin:0 0 24px">
+        <li style="padding-right:24px;position:relative;margin-bottom:8px;font-size:0.95rem;color:var(--text-sec)">
+            <span style="position:absolute;right:0;top:8px;width:8px;height:8px;background:var(--primary);border-radius:50%;display:inline-block"></span>
+            أين ذهب المال؟
+        </li>
+        <li style="padding-right:24px;position:relative;margin-bottom:8px;font-size:0.95rem;color:var(--text-sec)">
+            <span style="position:absolute;right:0;top:8px;width:8px;height:8px;background:var(--primary);border-radius:50%;display:inline-block"></span>
+            كم صرفوا؟
+        </li>
+        <li style="padding-right:24px;position:relative;margin-bottom:8px;font-size:0.95rem;color:var(--text-sec)">
+            <span style="position:absolute;right:0;top:8px;width:8px;height:8px;background:var(--primary);border-radius:50%;display:inline-block"></span>
+            كم ادخروا؟
+        </li>
+        <li style="padding-right:24px;position:relative;margin-bottom:8px;font-size:0.95rem;color:var(--text-sec)">
+            <span style="position:absolute;right:0;top:8px;width:8px;height:8px;background:var(--primary);border-radius:50%;display:inline-block"></span>
+            كم بقي لهم؟
+        </li>
+        <li style="padding-right:24px;position:relative;margin-bottom:8px;font-size:0.95rem;color:var(--text-sec)">
+            <span style="position:absolute;right:0;top:8px;width:8px;height:8px;background:var(--primary);border-radius:50%;display:inline-block"></span>
+            هل يقتربون من أهدافهم أم يبتعدون عنها؟
+        </li>
+    </ul>
+    <div class="highlight-box" style="margin-top:20px">
+        <p>هذا الكتاب يساعدك على تحويل راتبك من مبلغ يدخل ويختفي إلى خطة مالية واضحة.</p>
+    </div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ PART 1 DIVIDER ═══════ -->
+<div class="quote-page">
+    <div style="font-size:0.75rem;font-weight:700;color:var(--primary);letter-spacing:2px;margin-bottom:40px">الجزء الأول</div>
+    <div class="quote-text" style="font-size:1.8rem">النظام المالي العملي</div>
+    <div class="quote-line"></div>
+    <div class="quote-source">11 فصلاً لبناء نظامك المالي خطوة بخطوة</div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 1 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">01</div>
+    <div class="chapter-label">الفصل الأول</div>
+    <h2 class="chapter-title">الشهرية ليست راتباً فقط</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <p class="lead">عندما تدخل الشهرية إلى حسابك، فأنت أمام قرارين:</p>
+    <ul>
+        <li>أن تدير المال.</li>
+        <li>أو أن تدع المال يديرك.</li>
+    </ul>
+    <p>أغلب الناس يعرفون كم راتبهم.</p>
+    <p>لكن القليل يعرفون أين يذهب.</p>
+
+    <h3>فكرة الفصل</h3>
+    <p>أول خطوة نحو الاستقرار المالي هي معرفة:</p>
+    <ul>
+        <li>كم يدخل.</li>
+        <li>كم يخرج.</li>
+        <li>وكم يبقى.</li>
+    </ul>
+</div>
+<div class="page-break"></div>
+
+<!-- Quote page -->
+<div class="quote-page">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">المال لا يحب الفوضى.</div>
+    <div class="quote-line"></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 2 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">02</div>
+    <div class="chapter-label">الفصل الثاني</div>
+    <h2 class="chapter-title">الرصيد الحالي: الحقيقة التي لا تكذب</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <p class="lead">الرصيد الحالي هو مرآة قراراتك.</p>
+    <p>كل عملية صرف تقوم بها تؤثر عليه.</p>
+    <p>إذا كنت لا تعرف رصيدك الحقيقي، فأنت تتخذ قرارات عشوائية.</p>
+
+    <div class="highlight-box">
+        <p>لا تشترِ شيئاً قبل أن تعرف أثره على رصيدك.</p>
+    </div>
+</div>
+<div class="page-break"></div>
+
+<div class="quote-page">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">ما لا تستطيع قياسه، لا تستطيع إدارته.</div>
+    <div class="quote-line"></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 3 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">03</div>
+    <div class="chapter-label">الفصل الثالث</div>
+    <h2 class="chapter-title">تسجيل المصاريف: أين يذهب المال؟</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <p class="lead">معظم الناس يظنون أنهم يعرفون أين يصرفون أموالهم.</p>
+    <p>لكن عند التتبع، يكتشفون العكس.</p>
+
+    <h3>قسّم مصاريفك إلى:</h3>
+    <ul>
+        <li>العائلة.</li>
+        <li>الأكل.</li>
+        <li>النقل.</li>
+        <li>الملابس.</li>
+        <li>الصحة.</li>
+        <li>الترفيه.</li>
+        <li>فئات أخرى.</li>
+    </ul>
+
+    <div class="accent-box">
+        <p>بعد شهر واحد فقط، ستكتشف أموراً لم تكن تراها.</p>
+    </div>
+</div>
+<div class="page-break"></div>
+
+<div class="quote-page">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">المال يهرب من الأشخاص الذين لا يتابعونه.</div>
+    <div class="quote-line"></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 4 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">04</div>
+    <div class="chapter-label">الفصل الرابع</div>
+    <h2 class="chapter-title">المدخرات: أساس الاستقرار المالي</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <p class="lead">المدخرات ليست ما يتبقى من المال.</p>
+    <p class="lead">المدخرات هي أول مبلغ يجب أن يُقتطع من الشهرية.</p>
+
+    <h3>لماذا أخفي مدخراتي؟</h3>
+    <p>لأن المال الذي تراه دائماً يصبح معرضاً للصرف.</p>
+    <p>المال المدخر ليس مالاً جاهزاً للاستهلاك. إنه مال مخصص لمستقبلك.</p>
+
+    <h3>تستعمل المدخرات من أجل:</h3>
+    <ul>
+        <li>الزواج.</li>
+        <li>السكن.</li>
+        <li>السيارة.</li>
+        <li>الاستثمار.</li>
+        <li>الظروف المهمة.</li>
+    </ul>
+</div>
+<div class="page-break"></div>
+
+<div class="quote-page">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">ليس المهم كم تربح، بل كم تحتفظ.</div>
+    <div class="quote-line"></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 5 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">05</div>
+    <div class="chapter-label">الفصل الخامس</div>
+    <h2 class="chapter-title">الأهداف المالية</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <p class="lead">كل ادخار بلا هدف معرّض للاختفاء.</p>
+
+    <h3>حدد هدفاً واضحاً:</h3>
+    <ul>
+        <li>زواج.</li>
+        <li>سيارة.</li>
+        <li>مشروع.</li>
+        <li>سفر.</li>
+        <li>منزل.</li>
+    </ul>
+
+    <h3>ثم حدد:</h3>
+    <ul>
+        <li>المبلغ المطلوب.</li>
+        <li>المدة الزمنية.</li>
+        <li>المبلغ الشهري اللازم.</li>
+    </ul>
+</div>
+<div class="page-break"></div>
+
+<div class="quote-page">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">الهدف يحوّل الادخار من تضحية إلى إنجاز.</div>
+    <div class="quote-line"></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 6 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">06</div>
+    <div class="chapter-label">الفصل السادس</div>
+    <h2 class="chapter-title">الديون: التزام يجب السيطرة عليه</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <p class="lead">الدين ليس مشكلة.</p>
+    <p class="lead">عدم التحكم في الدين هو المشكلة.</p>
+    <p>اكتب كل ديونك. واجهها بالأرقام. لا تترك ديناً مجهولاً.</p>
+
+    <h3>قواعد مهمة</h3>
+    <ul>
+        <li>لا تستدن للاستهلاك.</li>
+        <li>استدن فقط إذا كان العائد أكبر من الدين.</li>
+        <li>سدد الأسرع فالأسرع.</li>
+    </ul>
+</div>
+<div class="page-break"></div>
+
+<div class="quote-page">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">كل دين تستهلك به المستقبل من أجل الحاضر.</div>
+    <div class="quote-line"></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 7 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">07</div>
+    <div class="chapter-label">الفصل السابع</div>
+    <h2 class="chapter-title">السلف: أموالك عند الآخرين</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <p class="lead">كثير من الجزائريين ينسون الأموال التي أقرضوها.</p>
+    <p>فتضيع العلاقات وتضيع الأموال.</p>
+
+    <h3>سجّل:</h3>
+    <ul>
+        <li>لمن أعطيت.</li>
+        <li>كم أعطيت.</li>
+        <li>متى أعطيت.</li>
+    </ul>
+</div>
+<div class="page-break"></div>
+
+<div class="quote-page">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">الذاكرة تنسى، والكتابة لا تنسى.</div>
+    <div class="quote-line"></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 8 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">08</div>
+    <div class="chapter-label">الفصل الثامن</div>
+    <h2 class="chapter-title">مصادر الدخل الإضافية</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <p class="lead">الخطر الأكبر هو الاعتماد على مصدر دخل واحد.</p>
+
+    <h3>أمثلة:</h3>
+    <ul>
+        <li>تجارة صغيرة.</li>
+        <li>عمل حر.</li>
+        <li>تصوير.</li>
+        <li>تصميم.</li>
+        <li>كتابة.</li>
+        <li>تسويق.</li>
+        <li>استثمار مع شريك.</li>
+    </ul>
+
+    <div class="highlight-box">
+        <p>كل مصدر دخل إضافي يزيد من سرعتك نحو أهدافك.</p>
+    </div>
+</div>
+<div class="page-break"></div>
+
+<div class="quote-page">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">إذا توقف مصدر واحد للدخل، يجب ألا تتوقف حياتك.</div>
+    <div class="quote-line"></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 9 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">09</div>
+    <div class="chapter-label">الفصل التاسع</div>
+    <h2 class="chapter-title">الاستثمار الحقيقي للجزائري</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <p class="lead">ليس ضرورياً أن تبدأ بملايين.</p>
+
+    <h3>أولاً: استثمر في المهارات</h3>
+    <ul>
+        <li>التسويق.</li>
+        <li>البيع.</li>
+        <li>الذكاء الاصطناعي.</li>
+        <li>التفاوض.</li>
+    </ul>
+
+    <h3>ثانياً: استثمر في الأفكار</h3>
+    <p>ابحث عن:</p>
+    <ul>
+        <li>شخص جاد.</li>
+        <li>لديه زبائن.</li>
+        <li>بدأ بالفعل.</li>
+        <li>يحتاج دفعة مالية.</li>
+    </ul>
+    <p>ثم ادخل معه كشريك.</p>
+</div>
+<div class="page-break"></div>
+
+<div class="quote-page">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">المهارة تصنع المال أكثر مما يصنع المال المهارة.</div>
+    <div class="quote-line"></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 10 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">10</div>
+    <div class="chapter-label">الفصل العاشر</div>
+    <h2 class="chapter-title">الإحصائيات: مواجهة الحقيقة</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <p class="lead">الأرقام لا تكذب.</p>
+    <p>في نهاية كل شهر، اسأل نفسك:</p>
+    <ul>
+        <li>هل ادخرت أكثر؟</li>
+        <li>هل قللت المصاريف؟</li>
+        <li>هل اقتربت من هدفي؟</li>
+        <li>هل زاد دخلي؟</li>
+    </ul>
+    <p>ثم قارن بين الأشهر.</p>
+</div>
+<div class="page-break"></div>
+
+<div class="quote-page">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">ما يتم قياسه، يتحسّن.</div>
+    <div class="quote-line"></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 11 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">11</div>
+    <div class="chapter-label">الفصل الحادي عشر</div>
+    <h2 class="chapter-title">النظام المالي الشخصي</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <p class="lead">النجاح المالي ليس حدثاً. إنه نظام.</p>
+
+    <h3>كل شهر:</h3>
+    <ol>
+        <li>تدخل الشهرية.</li>
+        <li>تحدد الادخار.</li>
+        <li>تسجل المصاريف.</li>
+        <li>تتابع الرصيد.</li>
+        <li>تراقب الديون.</li>
+        <li>تطور دخلك.</li>
+        <li>تراجع الإحصائيات.</li>
+    </ol>
+    <p>ثم تكرر العملية.</p>
+</div>
+<div class="page-break"></div>
+
+<div class="quote-page">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">الجزائري الناجح مالياً ليس من يكسب أكثر من الجميع، بل من يدير ما يملك أفضل من الجميع.</div>
+    <div class="quote-line"></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ PART 2 DIVIDER ═══════ -->
+<div class="quote-page">
+    <div style="font-size:0.75rem;font-weight:700;color:var(--primary);letter-spacing:2px;margin-bottom:40px">الجزء الثاني</div>
+    <div class="quote-text" style="font-size:1.8rem">العقلية المالية<br>للجزائري الناجح</div>
+    <div class="quote-line"></div>
+    <div class="quote-source">الفكر الذي يبني الثروة الحقيقية</div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 12 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">12</div>
+    <div class="chapter-label">الفصل الثاني عشر</div>
+    <h2 class="chapter-title">العقلية التي تصنع الثروة</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <p class="lead">قبل أن تصبح ثرياً، يجب أن تصبح شخصاً يفكر بطريقة صحيحة.</p>
+    <p>هناك أشخاص يزيد راتبهم كل سنة، لكن مشاكلهم المالية لا تنتهي.</p>
+    <p>وهناك أشخاص برواتب متوسطة بنوا مشاريع وأصولاً.</p>
+
+    <div class="highlight-box">
+        <p>الفرق في طريقة التفكير.</p>
+    </div>
+</div>
+<div class="page-break"></div>
+
+<div class="quote-page">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">الثروة تبدأ من العقل قبل أن تظهر في الحساب البنكي.</div>
+    <div class="quote-line"></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 13 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">13</div>
+    <div class="chapter-label">الفصل الثالث عشر</div>
+    <h2 class="chapter-title">الموظفون الذين غيّروا حياتهم</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <div class="story-card avoid-break">
+        <div class="story-name">جاك ما</div>
+        <p>كان معلماً للغة الإنجليزية. راتبه كان بسيطاً. رفضته عشرات الوظائف. ثم أسس شركة أصبحت من أكبر شركات العالم.</p>
+    </div>
+    <div class="story-card avoid-break">
+        <div class="story-name">ستيف جوبز</div>
+        <p>عمل موظفاً وشريكاً صغيراً قبل بناء أبل.</p>
+    </div>
+    <div class="story-card avoid-break">
+        <div class="story-name">والت ديزني</div>
+        <p>عمل موظفاً في الصحافة. ثم أسس إمبراطورية ديزني.</p>
+    </div>
+    <div class="story-card avoid-break">
+        <div class="story-name">أوبرا وينفري</div>
+        <p>بدأت كموظفة في الإعلام. ثم أصبحت من أشهر سيدات الأعمال.</p>
+    </div>
+
+    <div class="accent-box" style="margin-top:24px">
+        <p>معظم الناجحين لم يبدأوا رجال أعمال. بدأوا موظفين. لكنهم لم يتوقفوا عند الراتب.</p>
+    </div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 14 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">14</div>
+    <div class="chapter-label">الفصل الرابع عشر</div>
+    <h2 class="chapter-title">لماذا يجب أن تبحث عن الفرص يومياً؟</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <p class="lead">الفرصة لا تعلن عن نفسها. يجب أن تتعلم رؤيتها.</p>
+
+    <h3>خصص:</h3>
+    <ul>
+        <li>15 دقيقة يومياً.</li>
+        <li>أو 30 دقيقة أسبوعياً.</li>
+    </ul>
+
+    <h3>للبحث عن:</h3>
+    <ul>
+        <li>مشاريع ناشئة.</li>
+        <li>شركاء جادين.</li>
+        <li>أفكار جديدة.</li>
+        <li>أسواق جديدة.</li>
+    </ul>
+</div>
+<div class="page-break"></div>
+
+<div class="quote-page">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">الفرص لا تزور المنشغلين بالأعذار.</div>
+    <div class="quote-line"></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 15 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">15</div>
+    <div class="chapter-label">الفصل الخامس عشر</div>
+    <h2 class="chapter-title">الاستثمار في المهارات</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <p class="lead">أفضل استثمار لا يمكن أن يُسرق منك.</p>
+
+    <h3>مهارات ننصح بها:</h3>
+    <ul>
+        <li>التسويق الرقمي.</li>
+        <li>صناعة المحتوى.</li>
+        <li>البيع.</li>
+        <li>التفاوض.</li>
+        <li>الذكاء الاصطناعي.</li>
+        <li>إدارة المشاريع.</li>
+        <li>التجارة الإلكترونية.</li>
+    </ul>
+</div>
+<div class="page-break"></div>
+
+<div class="quote-page">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">إذا ضاع مالك تستطيع استرجاعه، أما إذا امتلكت مهارة فستعرف كيف تصنع المال من جديد.</div>
+    <div class="quote-line"></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 16 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">16</div>
+    <div class="chapter-label">الفصل السادس عشر</div>
+    <h2 class="chapter-title">أفضل المصادر العربية للتطور المالي</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <div class="resource-card avoid-break">
+        <div class="resource-icon">د.ك</div>
+        <div class="resource-info">
+            <div class="resource-name">دوباميكافين</div>
+            <div class="resource-desc">فهم المشاريع — العقلية الريادية — التفكير الاستثماري</div>
+        </div>
+    </div>
+    <div class="resource-card avoid-break">
+        <div class="resource-icon">إ.م</div>
+        <div class="resource-info">
+            <div class="resource-name">إيمان ميخائيل</div>
+            <div class="resource-desc">تطوير الذات — الإنتاجية — الانضباط</div>
+        </div>
+    </div>
+    <div class="resource-card avoid-break">
+        <div class="resource-icon">و.ط</div>
+        <div class="resource-info">
+            <div class="resource-name">وليد طه</div>
+            <div class="resource-desc">التسويق — التجارة الإلكترونية — الأعمال</div>
+        </div>
+    </div>
+    <div class="resource-card avoid-break">
+        <div class="resource-icon">أ.ز</div>
+        <div class="resource-info">
+            <div class="resource-name">دروس أونلاين — أحمد أبو زيد</div>
+            <div class="resource-desc">التعلم الذاتي — اكتساب المهارات — العمل عبر الإنترنت</div>
+        </div>
+    </div>
+    <div class="resource-card avoid-break">
+        <div class="resource-icon">ك.إ</div>
+        <div class="resource-info">
+            <div class="resource-name">كريم إسماعيل</div>
+            <div class="resource-desc">التفكير العملي — التطور المهني</div>
+        </div>
+    </div>
+
+    <h3 style="margin-top:30px">اقتراحات إضافية:</h3>
+    <ul>
+        <li>علي وكتاب.</li>
+        <li>ياسر الحزيمي.</li>
+        <li>محمد غنايم.</li>
+    </ul>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 17 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">17</div>
+    <div class="chapter-label">الفصل السابع عشر</div>
+    <h2 class="chapter-title">الأخطاء المالية التي تدمر المستقبل</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <ul class="mistake-list">
+        <li>شراء الكماليات قبل بناء المدخرات.</li>
+        <li>الاستدانة من أجل المظاهر.</li>
+        <li>شراء سيارة أكبر من القدرة المالية.</li>
+        <li>الاعتماد على راتب واحد.</li>
+        <li>عدم تسجيل المصاريف.</li>
+        <li>تأجيل الادخار.</li>
+    </ul>
+</div>
+<div class="page-break"></div>
+
+<div class="quote-page">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">الفقر لا يأتي من قلة المال فقط، بل من كثرة الأخطاء المالية الصغيرة.</div>
+    <div class="quote-line"></div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ CHAPTER 18 ═══════ -->
+<div class="chapter-opening">
+    <div class="chapter-number">18</div>
+    <div class="chapter-label">الفصل الثامن عشر</div>
+    <h2 class="chapter-title">قواعد مالية مختصرة</h2>
+    <div class="chapter-title-line"></div>
+</div>
+<div class="content">
+    <div class="rule-card avoid-break">
+        <div class="rule-number">1</div>
+        <p>ادخر أولاً، ثم اصرف.</p>
+    </div>
+    <div class="rule-card avoid-break">
+        <div class="rule-number">2</div>
+        <p>كل زيادة في الدخل لا تعني زيادة في المصاريف.</p>
+    </div>
+    <div class="rule-card avoid-break">
+        <div class="rule-number">3</div>
+        <p>ابنِ أصلاً قبل أن تشتري كمالية.</p>
+    </div>
+    <div class="rule-card avoid-break">
+        <div class="rule-number">4</div>
+        <p>لا تقارن مستواك المعيشي بالآخرين.</p>
+    </div>
+    <div class="rule-card avoid-break">
+        <div class="rule-number">5</div>
+        <p>تعلم مهارة جديدة كل ستة أشهر.</p>
+    </div>
+    <div class="rule-card avoid-break">
+        <div class="rule-number">6</div>
+        <p>سجّل كل شيء. الذاكرة خوّانة.</p>
+    </div>
+</div>
+<div class="page-break"></div>
+
+<!-- ═══════ BACK COVER ═══════ -->
+<div class="back-cover">
+    <div class="back-cover-logo">شهريتي</div>
+    <p>المال لا يحب الفوضى.</p>
+    <p>وأنت الآن تملك الأدوات لتنظّمه.</p>
+    <div class="back-cover-line"></div>
+    <p style="font-size:0.85rem">هذا الدليل مقدّم مجاناً من تطبيق شهريتي — التطبيق الجزائري الأول لإدارة المال الشخصي.</p>
+    <div class="back-cover-cta">حمّل شهريتي الآن — مجاناً</div>
+</div>
+
+</body>
+</html>

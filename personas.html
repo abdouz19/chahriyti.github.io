@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شهريتي — الشهرية تخلص قبل نص الشهر؟ الحل هنا</title>
+    <meta name="description" content="شهريتي — تطبيق يفهم واقعك. كرا، فواتير، كريدي، ديون... كل شيء يتنظم بضغطة زر.">
+    <meta property="og:title" content="شهريتي — الشهرية تخلص قبل 15؟">
+    <meta property="og:description" content="تطبيق يحسبها في بلاصتك. دخّل شهريتك وهو يفرزلك كلش.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #0D6E6E;
+            --primary-light: #1A9494;
+            --primary-dark: #084E4E;
+            --primary-glow: rgba(13, 110, 110, 0.12);
+            --positive: #22C55E;
+            --negative: #EF4444;
+            --warning: #F59E0B;
+            --surface: #F8F9FA;
+            --card: #FFFFFF;
+            --text: #1A1A2E;
+            --text-sec: #64748B;
+            --border: #E2E8F0;
+        }
+
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--surface);
+            color: var(--text);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 3px; }
+
+        /* ─── Animations ─── */
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+        @keyframes pulse { 0%,100%{opacity:.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.05)} }
+        @keyframes slideUp { from{opacity:0;transform:translateY(50px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+        @keyframes blob { 0%,100%{border-radius:60% 40% 30% 70%/60% 30% 70% 40%} 50%{border-radius:50% 60% 30% 60%/30% 50% 70% 50%} }
+        @keyframes shake { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-3deg)} 75%{transform:rotate(3deg)} }
+        @keyframes countDown { from{width:100%} to{width:0%} }
+
+        .reveal {
+            opacity: 0; transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .stagger-1{transition-delay:.1s} .stagger-2{transition-delay:.2s}
+        .stagger-3{transition-delay:.3s} .stagger-4{transition-delay:.4s}
+
+        /* ─── Nav ─── */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 14px 0; transition: all 0.4s;
+        }
+        .nav.scrolled {
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(20px);
+            box-shadow: 0 1px 30px rgba(0,0,0,0.06); padding: 10px 0;
+        }
+        .nav-inner {
+            max-width: 1100px; margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-logo { font-size: 1.5rem; font-weight: 800; text-decoration: none; }
+        .nav:not(.scrolled) .nav-logo { color: #fff; }
+        .nav.scrolled .nav-logo { color: var(--primary); }
+        .nav-cta {
+            padding: 10px 28px; border-radius: 12px; font-weight: 700;
+            text-decoration: none; font-size: 0.9rem; transition: all 0.3s;
+        }
+        .nav:not(.scrolled) .nav-cta {
+            background: rgba(255,255,255,0.15); color: #fff;
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+        .nav.scrolled .nav-cta {
+            background: var(--primary); color: #fff;
+        }
+
+        /* ─── Hero ─── */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center;
+            background: linear-gradient(160deg, #062E2E 0%, var(--primary-dark) 30%, var(--primary) 70%, var(--primary-light) 100%);
+            position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: -200px; right: -200px;
+            width: 600px; height: 600px; background: rgba(255,255,255,0.03);
+            border-radius: 50%; animation: blob 18s infinite;
+        }
+        .hero::after {
+            content: ''; position: absolute; bottom: -150px; left: -100px;
+            width: 400px; height: 400px; background: rgba(255,255,255,0.02);
+            border-radius: 50%; animation: blob 14s infinite reverse;
+        }
+        .hero-grid {
+            position: absolute; inset: 0;
+            background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 80px 80px;
+        }
+        .hero-inner {
+            max-width: 900px; margin: 0 auto; padding: 140px 24px 100px;
+            text-align: center; position: relative; z-index: 2;
+        }
+        .hero-emoji {
+            font-size: 4rem; margin-bottom: 20px;
+            animation: shake 3s infinite ease-in-out;
+        }
+        .hero-hook {
+            font-size: clamp(1.8rem, 4.5vw, 3.2rem); font-weight: 900;
+            color: #fff; line-height: 1.35; margin-bottom: 24px;
+        }
+        .hero-hook em {
+            font-style: normal; position: relative;
+            background: linear-gradient(120deg, #FF6B6B, #FFE66D);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero-sub {
+            font-size: 1.15rem; color: rgba(255,255,255,0.7);
+            line-height: 1.9; max-width: 650px; margin: 0 auto 40px;
+        }
+        .hero-cta {
+            display: inline-flex; align-items: center; gap: 12px;
+            padding: 18px 48px; border-radius: 16px; font-size: 1.1rem;
+            font-weight: 800; background: #fff; color: var(--primary);
+            text-decoration: none; transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+        }
+        .hero-cta:hover { transform: translateY(-4px); box-shadow: 0 12px 50px rgba(0,0,0,0.2); }
+
+        .hero-trust {
+            display: flex; justify-content: center; gap: 40px; margin-top: 50px;
+            flex-wrap: wrap;
+        }
+        .trust-item { text-align: center; }
+        .trust-num { font-size: 1.6rem; font-weight: 800; color: #fff; }
+        .trust-label { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+        /* ─── Wave ─── */
+        .wave svg { display: block; width: 100%; height: auto; margin-top: -2px; }
+
+        /* ─── Section ─── */
+        .section { padding: 90px 0; }
+        .section-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        /* ─── Persona Selector ─── */
+        .personas-header { text-align: center; margin-bottom: 50px; }
+        .personas-header h2 {
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 900;
+            margin-bottom: 12px;
+        }
+        .personas-header p { font-size: 1.05rem; color: var(--text-sec); max-width: 550px; margin: 0 auto; }
+
+        .persona-tabs {
+            display: flex; justify-content: center; gap: 12px;
+            margin-bottom: 50px; flex-wrap: wrap;
+        }
+        .persona-tab {
+            display: flex; align-items: center; gap: 10px;
+            padding: 14px 28px; border-radius: 16px;
+            background: var(--card); border: 2px solid var(--border);
+            cursor: pointer; transition: all 0.3s; font-family: inherit;
+            font-size: 0.95rem; font-weight: 600; color: var(--text-sec);
+        }
+        .persona-tab:hover { border-color: var(--primary-light); color: var(--primary); }
+        .persona-tab.active {
+            background: var(--primary); color: #fff; border-color: var(--primary);
+            box-shadow: 0 8px 30px var(--primary-glow);
+        }
+        .persona-tab .tab-emoji { font-size: 1.3rem; }
+
+        /* ─── Persona Card ─── */
+        .persona-panel { display: none; }
+        .persona-panel.active { display: block; animation: slideUp 0.6s cubic-bezier(0.16,1,0.3,1); }
+
+        .persona-story {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+            align-items: start; margin-bottom: 60px;
+        }
+
+        .persona-profile {
+            background: var(--card); border-radius: 28px; padding: 40px;
+            border: 1px solid var(--border); position: relative; overflow: hidden;
+        }
+        .persona-profile::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 4px; background: linear-gradient(90deg, var(--primary), var(--primary-light));
+        }
+        .persona-avatar {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: var(--primary-glow); display: flex; align-items: center;
+            justify-content: center; font-size: 2.2rem; margin-bottom: 20px;
+        }
+        .persona-name { font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; }
+        .persona-alias { font-size: 0.9rem; color: var(--primary); font-weight: 600; margin-bottom: 20px; }
+
+        .persona-details {
+            display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px;
+        }
+        .detail-row {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 0.92rem; color: var(--text-sec);
+        }
+        .detail-row svg { flex-shrink: 0; color: var(--primary); }
+        .detail-row strong { color: var(--text); }
+
+        .persona-behavior {
+            background: #F8FAFC; border-radius: 16px; padding: 20px;
+            border: 1px solid var(--border);
+        }
+        .behavior-title {
+            font-size: 0.85rem; font-weight: 700; color: var(--primary);
+            margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+        }
+        .behavior-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+        .behavior-list li {
+            font-size: 0.88rem; color: var(--text-sec); line-height: 1.6;
+            padding-right: 16px; position: relative;
+        }
+        .behavior-list li::before {
+            content: ''; position: absolute; right: 0; top: 8px;
+            width: 6px; height: 6px; border-radius: 50%; background: var(--primary-light);
+        }
+
+        /* ─── Pain Points ─── */
+        .pain-section { display: flex; flex-direction: column; gap: 20px; }
+
+        .pain-card {
+            background: var(--card); border-radius: 20px; padding: 28px 32px;
+            border: 1px solid var(--border); display: flex; gap: 20px;
+            align-items: start; transition: all 0.4s;
+        }
+        .pain-card:hover {
+            transform: translateX(-6px); box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+            border-color: var(--negative);
+        }
+        .pain-icon {
+            width: 50px; height: 50px; border-radius: 14px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+        }
+        .pain-icon.red { background: rgba(239,68,68,0.08); }
+        .pain-icon.amber { background: rgba(245,158,11,0.08); }
+        .pain-icon.purple { background: rgba(139,92,246,0.08); }
+        .pain-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+        .pain-desc { font-size: 0.9rem; color: var(--text-sec); line-height: 1.7; }
+        .pain-quote {
+            font-size: 0.85rem; color: var(--negative); font-weight: 600;
+            margin-top: 8px; font-style: italic;
+        }
+
+        /* ─── Solution ─── */
+        .solution-section {
+            background: linear-gradient(160deg, var(--primary-dark), var(--primary));
+            border-radius: 28px; padding: 50px 44px; margin-top: 10px;
+            position: relative; overflow: hidden;
+        }
+        .solution-section::before {
+            content: ''; position: absolute; top: -80px; left: -80px;
+            width: 300px; height: 300px; background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+        .solution-header {
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 28px;
+        }
+        .solution-header h3 {
+            font-size: 1.4rem; font-weight: 800; color: #fff;
+        }
+        .solution-header span { font-size: 1.6rem; }
+
+        .solution-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+            position: relative; z-index: 2;
+        }
+        .solution-item {
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 22px; transition: all 0.3s;
+        }
+        .solution-item:hover { background: rgba(255,255,255,0.14); transform: translateY(-3px); }
+        .solution-item-icon { font-size: 1.5rem; margin-bottom: 10px; }
+        .solution-item-title { font-weight: 700; color: #fff; font-size: 0.95rem; margin-bottom: 6px; }
+        .solution-item-desc { color: rgba(255,255,255,0.65); font-size: 0.85rem; line-height: 1.6; }
+
+        /* ─── Darja CTA ─── */
+        .darja-cta {
+            background: var(--card); border-radius: 24px; padding: 44px;
+            border: 2px solid var(--primary); text-align: center;
+            margin-top: 60px; position: relative; overflow: hidden;
+        }
+        .darja-cta::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(160deg, var(--primary-glow), transparent);
+        }
+        .darja-text {
+            font-size: 1.15rem; line-height: 2; color: var(--text);
+            max-width: 650px; margin: 0 auto 28px; position: relative;
+            font-weight: 500;
+        }
+        .darja-text strong { color: var(--primary); font-weight: 800; }
+        .darja-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 16px 44px; border-radius: 16px; font-size: 1.05rem;
+            font-weight: 800; background: var(--primary); color: #fff;
+            text-decoration: none; transition: all 0.4s; position: relative;
+            box-shadow: 0 6px 30px var(--primary-glow);
+        }
+        .darja-btn:hover { background: var(--primary-dark); transform: translateY(-3px); }
+
+        /* ─── Sticky Bottom CTA (Mobile) ─── */
+        .sticky-cta {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 900;
+            padding: 12px 20px; background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px); border-top: 1px solid var(--border);
+            display: none; text-align: center;
+            box-shadow: 0 -4px 30px rgba(0,0,0,0.08);
+        }
+        .sticky-cta a {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 14px; border-radius: 14px; background: var(--primary);
+            color: #fff; font-weight: 800; font-size: 1rem; text-decoration: none;
+            width: 100%;
+        }
+
+        /* ─── Footer ─── */
+        .footer {
+            background: var(--text); color: rgba(255,255,255,0.5);
+            padding: 40px 0; text-align: center;
+        }
+        .footer-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        .footer-brand { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
+        .footer-copy { font-size: 0.85rem; }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 860px) {
+            .persona-story { grid-template-columns: 1fr; }
+            .solution-grid { grid-template-columns: 1fr; }
+            .persona-tabs { gap: 8px; }
+            .persona-tab { padding: 10px 18px; font-size: 0.85rem; }
+        }
+
+        @media (max-width: 640px) {
+            .hero-inner { padding: 120px 20px 80px; }
+            .hero-emoji { font-size: 3rem; }
+            .hero-trust { gap: 24px; }
+            .section { padding: 60px 0; }
+            .persona-profile { padding: 28px; }
+            .solution-section { padding: 32px 24px; }
+            .darja-cta { padding: 28px 20px; }
+            .pain-card { flex-direction: column; }
+            .sticky-cta { display: block; }
+            body { padding-bottom: 70px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav" id="mainNav">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">شهريتي</a>
+        <a href="#download" class="nav-cta">حمّل التطبيق</a>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+        <div class="hero-emoji">&#128176;</div>
+        <h1 class="hero-hook">
+            الشهرية تخلص قبل <em>نص الشهر</em>؟<br>
+            ما عاد لازم تبقى هكذا.
+        </h1>
+        <p class="hero-sub">
+            كل واحد عندو ظروفو — كرا، فواتير، كريدي، ديون...
+            <strong>شهريتي</strong> تطبيق يفهم واقعك ويساعدك تتحكم في مصاريفك بلا ما تعقّد راسك.
+        </p>
+        <a href="#personas" class="hero-cta">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+            شوف كيفاش يساعدك
+        </a>
+        <div class="hero-trust">
+            <div class="trust-item">
+                <div class="trust-num">100%</div>
+                <div class="trust-label">مجاني</div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-num">0</div>
+                <div class="trust-label">إعلانات</div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-num">&#128274;</div>
+                <div class="trust-label">بياناتك في جهازك فقط</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Wave -->
+<div class="wave">
+    <svg viewBox="0 0 1440 80" fill="none" preserveAspectRatio="none">
+        <path d="M0 30C360 70 720 80 1080 50C1260 35 1380 20 1440 30V80H0Z" fill="var(--surface)"/>
+    </svg>
+</div>
+
+<!-- Personas -->
+<section class="section" id="personas">
+    <div class="section-inner">
+        <div class="personas-header reveal">
+            <h2>لقيتي روحك في واحد منهم؟</h2>
+            <p>كل واحد عندو قصتو مع المصاريف. شوف وين تلقى روحك.</p>
+        </div>
+
+        <div class="persona-tabs reveal">
+            <button class="persona-tab active" onclick="showPersona('mohamed')">
+                <span class="tab-emoji">&#128104;</span> محمد
+            </button>
+            <button class="persona-tab" onclick="showPersona('amina')">
+                <span class="tab-emoji">&#128105;</span> أمينة
+            </button>
+            <button class="persona-tab" onclick="showPersona('youcef')">
+                <span class="tab-emoji">&#128668;</span> يوسف
+            </button>
+            <button class="persona-tab" onclick="showPersona('karim')">
+                <span class="tab-emoji">&#127891;</span> كريم
+            </button>
+        </div>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!--  PERSONA 1: محمد — الموظف المستقر          -->
+        <!-- ═══════════════════════════════════════════ -->
+        <div class="persona-panel active" id="persona-mohamed">
+            <div class="persona-story">
+                <div class="persona-profile reveal">
+                    <div class="persona-avatar">&#128104;</div>
+                    <div class="persona-name">محمد</div>
+                    <div class="persona-alias">الموظف الحاير</div>
+                    <div class="persona-details">
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                            <span><strong>34 سنة</strong> — متزوج، أب لطفلين</span>
+                        </div>
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+                            <span><strong>كاري</strong> في الجزائر العاصمة</span>
+                        </div>
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                            <span>دخل ثابت: <strong>45,000 — 60,000 دج</strong></span>
+                        </div>
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg>
+                            <span>موظف في <strong>قطاع عمومي</strong></span>
+                        </div>
+                    </div>
+                    <div class="persona-behavior">
+                        <div class="behavior-title">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                            السلوك المالي
+                        </div>
+                        <ul class="behavior-list">
+                            <li>مجرد دخول الراتب، جزء كبير يروح مباشرة: كرا، سونلغاز، ماء، نقل، حفاضات وحليب الأطفال</li>
+                            <li>يعتمد على الكريدي آخر الشهر من حانوت الحومة</li>
+                            <li>يواجه صعوبة في تذكر كل الأقساط والديون عليه</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pain-section">
+                    <div class="pain-card reveal stagger-1">
+                        <div class="pain-icon red">&#128680;</div>
+                        <div>
+                            <div class="pain-title">الشهرية تخلص في 10 أيام</div>
+                            <div class="pain-desc">يلقى روحو بلا سيولة في نص الشهر وما يعرفش وين راحت المصاريف بالضبط.</div>
+                            <div class="pain-quote">"وين راحو الدراهم؟ والله ما فهمت!"</div>
+                        </div>
+                    </div>
+                    <div class="pain-card reveal stagger-2">
+                        <div class="pain-icon amber">&#128203;</div>
+                        <div>
+                            <div class="pain-title">تراكم الديون الصغيرة</div>
+                            <div class="pain-desc">ينسى ديون صغيرة لأصدقائه أو العائلة، ويتحشم كي يذكروه بيها.</div>
+                            <div class="pain-quote">"يا خي نسيت والله... شحال كانت؟"</div>
+                        </div>
+                    </div>
+                    <div class="pain-card reveal stagger-3">
+                        <div class="pain-icon purple">&#128168;</div>
+                        <div>
+                            <div class="pain-title">المصاريف المفاجئة</div>
+                            <div class="pain-desc">يرتعب من المناسبات — دخول مدرسي، عيد، مرض مفاجئ — لأن ميزانيتو ما تتحملش المفاجآت.</div>
+                            <div class="pain-quote">"الدخول المدرسي... ربي يستر"</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solution -->
+            <div class="solution-section reveal">
+                <div class="solution-header">
+                    <span>&#9889;</span>
+                    <h3>كيفاش شهريتي تساعد محمد؟</h3>
+                </div>
+                <div class="solution-grid">
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#128202;</div>
+                        <div class="solution-item-title">لوحة تحكم واضحة</div>
+                        <div class="solution-item-desc">يكتب شهريتو، وينظم الكرا والفواتير كأقساط ثابتة تُقتطع تلقائياً من الميزانية.</div>
+                    </div>
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#128221;</div>
+                        <div class="solution-item-title">تتبع الديون</div>
+                        <div class="solution-item-desc">خانة الديون تذكرو بكلش — شحال عليه وشحال عندو عند الناس. ما ينسى والو.</div>
+                    </div>
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#128176;</div>
+                        <div class="solution-item-title">المبلغ الآمن يومياً</div>
+                        <div class="solution-item-desc">يقولك شحال تقدر تصرف في اليوم بلا ما تفوّت الميزانية — كل يوم واضح.</div>
+                    </div>
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#127919;</div>
+                        <div class="solution-item-title">أهداف الادخار</div>
+                        <div class="solution-item-desc">يحط هدف — مثلاً يشري حاجة للأولاد — ويدخر شوية بشوية حتى يوصل.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Darja CTA -->
+            <div class="darja-cta reveal">
+                <div class="darja-text">
+                    كيفاش توفق بين <strong>الكرا وقضيان الدار</strong> بلا ما تلحق لـ 15 في الشهر وانت داير الكريدي؟
+                    <br>تطبيق شهريتي <strong>يحسبها في بلاصتك</strong>.
+                    <br>غير تدخل الشهرية، حط شحال خلصت وهو يفرزلك الأقساط والمصاريف الثابتة ويقولك <strong>شحال لازم تصرف في اليوم</strong> وشحال بقالك في جيبك.
+                </div>
+                <a href="#download" class="darja-btn">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                    تيليشارجي التطبيق دروك
+                </a>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!--  PERSONA 2: أمينة — المرأة العاملة          -->
+        <!-- ═══════════════════════════════════════════ -->
+        <div class="persona-panel" id="persona-amina">
+            <div class="persona-story">
+                <div class="persona-profile reveal">
+                    <div class="persona-avatar">&#128105;</div>
+                    <div class="persona-name">أمينة</div>
+                    <div class="persona-alias">الأم العاملة المنظمة</div>
+                    <div class="persona-details">
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                            <span><strong>29 سنة</strong> — متزوجة، أم لطفل واحد</span>
+                        </div>
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+                            <span><strong>ساكنة مع العائلة</strong> في وهران</span>
+                        </div>
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                            <span>دخل ثابت: <strong>38,000 — 45,000 دج</strong></span>
+                        </div>
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg>
+                            <span>معلمة في <strong>مدرسة ابتدائية</strong></span>
+                        </div>
+                    </div>
+                    <div class="persona-behavior">
+                        <div class="behavior-title">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                            السلوك المالي
+                        </div>
+                        <ul class="behavior-list">
+                            <li>تساهم في مصاريف الدار مع راجلها — كل واحد عندو حصتو</li>
+                            <li>تحوّس تدخّر باش تحقق حلم خاص بيها (مشروع صغير، عمرة)</li>
+                            <li>تنظم مصاريف ولدها (حليب، طبيب، ملابس) لكن تنساها كل مرة</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pain-section">
+                    <div class="pain-card reveal stagger-1">
+                        <div class="pain-icon red">&#128560;</div>
+                        <div>
+                            <div class="pain-title">ما تعرفش وين يروحو دراهمها</div>
+                            <div class="pain-desc">تصرف مبالغ صغيرة كل يوم — قهوة هنا، حاجة لولدها هناك — وآخر الشهر ما يبقى والو.</div>
+                            <div class="pain-quote">"كي نحسب، والله ما بقى حتى 2000 دج!"</div>
+                        </div>
+                    </div>
+                    <div class="pain-card reveal stagger-2">
+                        <div class="pain-icon amber">&#128173;</div>
+                        <div>
+                            <div class="pain-title">حلم المشروع بعيد</div>
+                            <div class="pain-desc">عندها حلم تفتح مشروع صغير لكن كل مرة تصرف الدراهم اللي دخرتهم على مصروف مفاجئ.</div>
+                            <div class="pain-quote">"ديما نقول الشهر الجاي نبدا ندخّر..."</div>
+                        </div>
+                    </div>
+                    <div class="pain-card reveal stagger-3">
+                        <div class="pain-icon purple">&#129325;</div>
+                        <div>
+                            <div class="pain-title">الحرج من الحساب مع الراجل</div>
+                            <div class="pain-desc">صعيب تشرح وين راحو دراهمها كي يسقسيها. ما عندهاش دليل واضح.</div>
+                            <div class="pain-quote">"ما نقدرش نقولو صرفت 15,000 وما نعرفش على واش"</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="solution-section reveal">
+                <div class="solution-header">
+                    <span>&#9889;</span>
+                    <h3>كيفاش شهريتي تساعد أمينة؟</h3>
+                </div>
+                <div class="solution-grid">
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#128209;</div>
+                        <div class="solution-item-title">تصنيفات ذكية</div>
+                        <div class="solution-item-desc">كل مصروف يتسجل في فئتو — ولدها، الدار، شخصي — وتشوف وين راح كل دينار.</div>
+                    </div>
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#127919;</div>
+                        <div class="solution-item-title">هدف الادخار</div>
+                        <div class="solution-item-desc">تحط هدف المشروع وتدخر شوية بشوية. شريط التقدم يحفزها كل يوم.</div>
+                    </div>
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#128200;</div>
+                        <div class="solution-item-title">إحصائيات واضحة</div>
+                        <div class="solution-item-desc">رسوم بيانية توريها بالضبط وين راحو دراهمها — دليل واضح بلا نقاش.</div>
+                    </div>
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#128181;</div>
+                        <div class="solution-item-title">حساب المدخرات</div>
+                        <div class="solution-item-desc">مدخراتها منفصلة عن المصاريف اليومية. محمية من الصرف العشوائي.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="darja-cta reveal">
+                <div class="darja-text">
+                    <strong>عندك حلم</strong> وتحوسي تدخري عليه، بصح كل مرة المصاريف تاكلك الدراهم؟
+                    <br>شهريتي <strong>تفرزلك كلش</strong> — تعرفي وين يروحو دراهمك، وتدخري بلا ما تحسي.
+                    <br>غير <strong>دخلي شهريتك</strong> وخلّي التطبيق يتكفل بالباقي.
+                </div>
+                <a href="#download" class="darja-btn">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                    تيليشارجي التطبيق دروك
+                </a>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!--  PERSONA 3: يوسف — سائق التاكسي             -->
+        <!-- ═══════════════════════════════════════════ -->
+        <div class="persona-panel" id="persona-youcef">
+            <div class="persona-story">
+                <div class="persona-profile reveal">
+                    <div class="persona-avatar">&#128668;</div>
+                    <div class="persona-name">يوسف</div>
+                    <div class="persona-alias">صاحب الدخل المتغيّر</div>
+                    <div class="persona-details">
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                            <span><strong>41 سنة</strong> — متزوج، أب لثلاثة أطفال</span>
+                        </div>
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+                            <span><strong>دارو ملكو</strong> في سطيف</span>
+                        </div>
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                            <span>دخل متغير: <strong>40,000 — 90,000 دج</strong></span>
+                        </div>
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg>
+                            <span>سائق <strong>تاكسي خاص</strong></span>
+                        </div>
+                    </div>
+                    <div class="persona-behavior">
+                        <div class="behavior-title">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                            السلوك المالي
+                        </div>
+                        <ul class="behavior-list">
+                            <li>دخلو ما هوش ثابت — يوم يجيب مليح ويوم والو</li>
+                            <li>مصاريف الطاكسي (مازوط، تصليحات) ما يحسبهاش من المصاريف الشخصية</li>
+                            <li>يسلّف الناس بزاف وينساهم — يتحشم يطلب دراهمو</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pain-section">
+                    <div class="pain-card reveal stagger-1">
+                        <div class="pain-icon red">&#128184;</div>
+                        <div>
+                            <div class="pain-title">ما يعرفش الشهر الجاي واش يجيب</div>
+                            <div class="pain-desc">دخلو يتبدل من شهر لشهر. صعيب يخطط لحاجة كبيرة كي ما تعرفش شحال تجيب.</div>
+                            <div class="pain-quote">"هاذ الشهر جبت مليح، الشهر اللي فات — كارثة"</div>
+                        </div>
+                    </div>
+                    <div class="pain-card reveal stagger-2">
+                        <div class="pain-icon amber">&#128565;</div>
+                        <div>
+                            <div class="pain-title">السلفات اللي ما ترجعش</div>
+                            <div class="pain-desc">سلّف ناس بزاف ونسى شحال عند كل واحد. دراهم كبيرة ضاعت لأنو ما كتبش.</div>
+                            <div class="pain-quote">"عندي عند فلان... شحال كانت يا ربي؟"</div>
+                        </div>
+                    </div>
+                    <div class="pain-card reveal stagger-3">
+                        <div class="pain-icon purple">&#9981;&#65039;</div>
+                        <div>
+                            <div class="pain-title">المصاريف تتخلط</div>
+                            <div class="pain-desc">مصاريف الطاكسي تتخلط مع مصاريف الدار. ما يعرفش إذا الطاكسي رابح ولا خاسر.</div>
+                            <div class="pain-quote">"المازوط وحدو كلا نصف الدخل"</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="solution-section reveal">
+                <div class="solution-header">
+                    <span>&#9889;</span>
+                    <h3>كيفاش شهريتي تساعد يوسف؟</h3>
+                </div>
+                <div class="solution-grid">
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#128202;</div>
+                        <div class="solution-item-title">تتبع الدخل المتغير</div>
+                        <div class="solution-item-desc">يدخل دخلو كل ما جاءو — التطبيق يحسبلو المعدل ويقولو شحال يقدر يصرف.</div>
+                    </div>
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#128221;</div>
+                        <div class="solution-item-title">سجل الديون الكامل</div>
+                        <div class="solution-item-desc">يكتب كل سلفة — اسم الشخص، المبلغ، التاريخ. ما ينسى حتى دينار.</div>
+                    </div>
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#128209;</div>
+                        <div class="solution-item-title">فصل المصاريف</div>
+                        <div class="solution-item-desc">فئات مخصصة — يفصل مصاريف الطاكسي عن مصاريف الدار. يعرف وين يربح ووين يخسر.</div>
+                    </div>
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#128176;</div>
+                        <div class="solution-item-title">المبلغ الآمن</div>
+                        <div class="solution-item-desc">حتى مع دخل متغير، يقولك شحال تقدر تصرف اليوم بلا ما تأثر على الالتزامات.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="darja-cta reveal">
+                <div class="darja-text">
+                    <strong>دخلك يتبدل</strong> من شهر لشهر، والناس عندهم عندك ونسيتهم؟
+                    <br>شهريتي <strong>تنظملك كلش</strong> — دخل متغير، ديون، مصاريف الخدمة والدار.
+                    <br>غير <strong>سجّل وخلّي التطبيق يحسبها</strong> في بلاصتك.
+                </div>
+                <a href="#download" class="darja-btn">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                    تيليشارجي التطبيق دروك
+                </a>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════ -->
+        <!--  PERSONA 4: كريم — الطالب الجامعي           -->
+        <!-- ═══════════════════════════════════════════ -->
+        <div class="persona-panel" id="persona-karim">
+            <div class="persona-story">
+                <div class="persona-profile reveal">
+                    <div class="persona-avatar">&#127891;</div>
+                    <div class="persona-name">كريم</div>
+                    <div class="persona-alias">الطالب اللي يحوس يدبّر</div>
+                    <div class="persona-details">
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                            <span><strong>22 سنة</strong> — أعزب، طالب جامعي</span>
+                        </div>
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+                            <span><strong>ساكن في الإقامة الجامعية</strong> — قسنطينة</span>
+                        </div>
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                            <span>منحة + مصروف: <strong>8,000 — 15,000 دج</strong></span>
+                        </div>
+                        <div class="detail-row">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg>
+                            <span>طالب <strong>ماستر إعلام آلي</strong></span>
+                        </div>
+                    </div>
+                    <div class="persona-behavior">
+                        <div class="behavior-title">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                            السلوك المالي
+                        </div>
+                        <ul class="behavior-list">
+                            <li>ميزانيتو محدودة جداً — كل دينار محسوب</li>
+                            <li>يصرف على الأكل، المواصلات، والفوتوكوبي بالدرجة الأولى</li>
+                            <li>يسلّف ويتسلّف مع صحابو بزاف — ما حد يتذكر</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pain-section">
+                    <div class="pain-card reveal stagger-1">
+                        <div class="pain-icon red">&#128532;</div>
+                        <div>
+                            <div class="pain-title">المنحة تخلص في أسبوع</div>
+                            <div class="pain-desc">4,000 دج منحة... تروح في أول أسبوع. يبقى شهر كامل يتدبر.</div>
+                            <div class="pain-quote">"راني في 10 الشهر وما عنديش حتى 500 دج"</div>
+                        </div>
+                    </div>
+                    <div class="pain-card reveal stagger-2">
+                        <div class="pain-icon amber">&#129309;</div>
+                        <div>
+                            <div class="pain-title">السلفات مع الصحاب</div>
+                            <div class="pain-desc">يسلّف صاحبو 1000 دج ويتسلّف من واحد آخر 500 دج. بعد أسبوع ما حد يتذكر.</div>
+                            <div class="pain-quote">"واش قلتلي عطيتك 1000 ولا 1500؟"</div>
+                        </div>
+                    </div>
+                    <div class="pain-card reveal stagger-3">
+                        <div class="pain-icon purple">&#128187;</div>
+                        <div>
+                            <div class="pain-title">يحلم يشري حاجة كبيرة</div>
+                            <div class="pain-desc">يحلم بلابتوب جديد أو تليفون، بصح مع ميزانية محدودة، يحس بلي مستحيل يدخّر.</div>
+                            <div class="pain-quote">"لازملي لابتوب للماستر بصح وين الدراهم؟"</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="solution-section reveal">
+                <div class="solution-header">
+                    <span>&#9889;</span>
+                    <h3>كيفاش شهريتي تساعد كريم؟</h3>
+                </div>
+                <div class="solution-grid">
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#128176;</div>
+                        <div class="solution-item-title">حساب يومي دقيق</div>
+                        <div class="solution-item-desc">يدخل المنحة + مصروف الدار. التطبيق يقولو بالضبط شحال يقدر يصرف كل يوم.</div>
+                    </div>
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#129309;</div>
+                        <div class="solution-item-title">ديون الصحاب</div>
+                        <div class="solution-item-desc">يسجل كل سلفة مع صاحبو — الاسم والمبلغ. ما يبقاوش يتناقشو على شحال كانت.</div>
+                    </div>
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#128187;</div>
+                        <div class="solution-item-title">هدف اللابتوب</div>
+                        <div class="solution-item-desc">يحط هدف 80,000 دج مثلاً. كل ما يدخر شوية، يشوف شريط التقدم يتقدم.</div>
+                    </div>
+                    <div class="solution-item">
+                        <div class="solution-item-icon">&#128202;</div>
+                        <div class="solution-item-title">وين راحو الدراهم</div>
+                        <div class="solution-item-desc">إحصائيات تبينلو — أكل؟ مواصلات؟ تسلية؟ يعرف وين يقدر يقلّص.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="darja-cta reveal">
+                <div class="darja-text">
+                    <strong>المنحة صغيرة</strong> والمصاريف كبيرة؟ والسلفات مع الصحاب ولّات مشكل؟
+                    <br>شهريتي <strong>تنظملك كلش</strong> — تعرف وين يروحو دراهمك، تدخر على حلمك، وتسجل السلفات بلا مشاكل.
+                    <br><strong>مجانية، بلا إعلانات، وبياناتك عندك وحدك.</strong>
+                </div>
+                <a href="#download" class="darja-btn">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                    تيليشارجي التطبيق دروك
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ─── Final CTA ─── -->
+<section class="section" id="download" style="background:#fff;">
+    <div class="section-inner" style="text-align:center;">
+        <div class="reveal" style="max-width:700px;margin:0 auto;">
+            <div style="font-size:3.5rem;margin-bottom:16px;">&#128242;</div>
+            <h2 style="font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;margin-bottom:16px;">
+                تيليشارجي شهريتي دروك
+            </h2>
+            <p style="font-size:1.05rem;color:var(--text-sec);line-height:1.8;margin-bottom:36px;">
+                اشترك مرة واحدة وراح يبقى معاك <strong style="color:var(--primary);">مدى الحياة</strong>.
+                بلا إعلانات، بلا اشتراك شهري. بياناتك محمية عندك وحدك.
+            </p>
+            <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
+                <a href="#" style="display:inline-flex;align-items:center;gap:12px;padding:18px 44px;border-radius:16px;font-size:1.05rem;font-weight:800;background:var(--primary);color:#fff;text-decoration:none;box-shadow:0 8px 30px var(--primary-glow);transition:all 0.4s;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 2.237a.4.4 0 00-.7.347l1.2 2.4a10.1 10.1 0 00-12.05 0l1.2-2.4a.4.4 0 00-.7-.347l-1.3 2.6A7.5 7.5 0 002 12v1h20v-1a7.5 7.5 0 00-3.177-6.163zM7 10a1 1 0 110-2 1 1 0 010 2zm10 0a1 1 0 110-2 1 1 0 010 2zM3 14h18v7a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+                    تحميل للأندرويد
+                </a>
+                <a href="#" style="display:inline-flex;align-items:center;gap:12px;padding:18px 44px;border-radius:16px;font-size:1.05rem;font-weight:800;background:var(--surface);color:var(--text);text-decoration:none;border:2px solid var(--border);transition:all 0.4s;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    قريباً على iOS
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-brand">شهريتي</div>
+        <p class="footer-copy">&copy; 2026 شهريتي. جميع الحقوق محفوظة. صُنع بحب في الجزائر &#127465;&#127487;</p>
+    </div>
+</footer>
+
+<!-- Sticky Mobile CTA -->
+<div class="sticky-cta">
+    <a href="#download">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        حمّل شهريتي مجاناً
+    </a>
+</div>
+
+<script>
+// Persona tabs
+function showPersona(id) {
+    document.querySelectorAll('.persona-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.persona-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('persona-' + id).classList.add('active');
+    event.currentTarget.classList.add('active');
+
+    // Re-observe reveals in new panel
+    const panel = document.getElementById('persona-' + id);
+    panel.querySelectorAll('.reveal').forEach(el => {
+        el.classList.remove('visible');
+        observer.observe(el);
+    });
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Nav scroll
+window.addEventListener('scroll', () => {
+    document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+    });
+});
+</script>
+
+</body>
+</html>

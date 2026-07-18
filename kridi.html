@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شهريتي — عندك كريدي؟ سجّلو قبل ما تنساه</title>
+    <meta name="description" content="شهريتي — تطبيق تتبع الديون والكريدي. سجّل كل دين، اعرف شكون عندو عندك، وما تنسى حتى فرنك.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #0D6E6E;
+            --primary-light: #1A9494;
+            --primary-dark: #084E4E;
+            --primary-glow: rgba(13, 110, 110, 0.25);
+            --dark-bg: #0A0A12;
+            --dark-surface: #12121E;
+            --dark-card: rgba(255, 255, 255, 0.04);
+            --dark-card-border: rgba(255, 255, 255, 0.08);
+            --light-bg: #F0F7F7;
+            --light-surface: #FFFFFF;
+            --red-accent: #EF4444;
+            --red-glow: rgba(239, 68, 68, 0.2);
+            --amber-accent: #F59E0B;
+            --green-accent: #22C55E;
+            --text-light: #E8ECF0;
+            --text-muted: #8A94A6;
+            --text-dark: #1A1A2E;
+            --text-dark-secondary: #64748B;
+        }
+
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.7;
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+        /* ─── Utility ─── */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        .section-label {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--primary-light);
+            background: rgba(13, 110, 110, 0.12);
+            padding: 6px 18px;
+            border-radius: 40px;
+            margin-bottom: 18px;
+        }
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 800;
+            line-height: 1.35;
+            margin-bottom: 16px;
+        }
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+
+        /* ─── Reveal animation ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
+        .reveal-delay-6 { transition-delay: 0.6s; }
+
+        /* ─── Glassmorphism base ─── */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+        }
+        .glass-light {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(13, 110, 110, 0.1);
+            border-radius: 20px;
+        }
+
+        /* ========================================
+           1. HERO
+        ======================================== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--dark-bg);
+            overflow: hidden;
+            padding: 80px 24px 120px;
+        }
+
+        /* Receipt/paper scrap background elements */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(239, 68, 68, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(13, 110, 110, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 90%, rgba(245, 158, 11, 0.05) 0%, transparent 40%);
+        }
+
+        .hero-scraps {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .paper-scrap {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.12);
+            padding: 12px 16px;
+            font-family: 'Cairo', monospace;
+            line-height: 1.5;
+            animation: floatScrap 12s ease-in-out infinite;
+        }
+        .paper-scrap::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(239,68,68,0.15) 4px, rgba(239,68,68,0.15) 8px);
+        }
+        .scrap-1 {
+            top: 10%; right: 8%;
+            transform: rotate(-8deg);
+            clip-path: polygon(2% 0%, 98% 3%, 100% 95%, 4% 100%);
+            animation-delay: 0s;
+        }
+        .scrap-2 {
+            top: 55%; left: 5%;
+            transform: rotate(5deg);
+            clip-path: polygon(0% 4%, 96% 0%, 100% 97%, 3% 100%);
+            animation-delay: -3s;
+        }
+        .scrap-3 {
+            bottom: 15%; right: 15%;
+            transform: rotate(-3deg);
+            clip-path: polygon(3% 0%, 100% 2%, 97% 100%, 0% 96%);
+            animation-delay: -6s;
+        }
+        .scrap-4 {
+            top: 25%; left: 18%;
+            transform: rotate(12deg);
+            clip-path: polygon(0% 3%, 97% 0%, 100% 98%, 5% 100%);
+            animation-delay: -9s;
+        }
+        .scrap-5 {
+            bottom: 30%; left: 10%;
+            transform: rotate(-6deg);
+            clip-path: polygon(4% 0%, 100% 5%, 96% 100%, 0% 97%);
+            animation-delay: -4s;
+        }
+
+        @keyframes floatScrap {
+            0%, 100% { transform: translateY(0) rotate(var(--r, -5deg)); }
+            50% { transform: translateY(-15px) rotate(calc(var(--r, -5deg) + 3deg)); }
+        }
+        .scrap-1 { --r: -8deg; }
+        .scrap-2 { --r: 5deg; }
+        .scrap-3 { --r: -3deg; }
+        .scrap-4 { --r: 12deg; }
+        .scrap-5 { --r: -6deg; }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #F87171;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 28px;
+            animation: pulse-badge 3s ease-in-out infinite;
+        }
+        @keyframes pulse-badge {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.15); }
+            50% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5.5vw, 3.4rem);
+            font-weight: 900;
+            line-height: 1.3;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #FFFFFF 0%, #C8D6E5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--text-muted);
+            max-width: 620px;
+            margin: 0 auto 40px;
+            line-height: 2;
+        }
+
+        .hero-stat {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+            padding: 14px 28px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+        }
+        .hero-stat-number {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--amber-accent);
+        }
+        .hero-stat-text {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            text-align: right;
+            line-height: 1.5;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary);
+            color: #fff;
+            padding: 16px 40px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 25px rgba(13, 110, 110, 0.35);
+            font-family: 'Cairo', sans-serif;
+        }
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 35px rgba(13, 110, 110, 0.5);
+            background: var(--primary-light);
+        }
+
+        /* Torn edge between hero and next section */
+        .torn-edge {
+            position: relative;
+            height: 60px;
+            background: var(--dark-bg);
+            overflow: hidden;
+        }
+        .torn-edge::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -5%;
+            width: 110%;
+            height: 60px;
+            background: var(--dark-surface);
+            clip-path: polygon(
+                0% 60%, 3% 40%, 6% 55%, 9% 35%, 12% 50%, 15% 30%, 18% 52%, 21% 38%,
+                24% 55%, 27% 32%, 30% 48%, 33% 28%, 36% 50%, 39% 35%, 42% 58%, 45% 30%,
+                48% 52%, 51% 40%, 54% 55%, 57% 28%, 60% 48%, 63% 38%, 66% 52%, 69% 30%,
+                72% 55%, 75% 35%, 78% 50%, 81% 28%, 84% 52%, 87% 40%, 90% 55%, 93% 32%,
+                96% 48%, 100% 38%, 100% 100%, 0% 100%
+            );
+        }
+
+        /* ========================================
+           2. DEBT WEB
+        ======================================== */
+        .debt-web-section {
+            background: var(--dark-surface);
+            padding: 100px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .debt-web-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            height: 550px;
+            margin: 0 auto;
+        }
+
+        .web-node {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            transform: scale(0.7);
+        }
+        .web-node.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .web-node-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .web-node-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-light);
+            white-space: nowrap;
+        }
+        .web-node-amount {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .node-center .web-node-icon {
+            width: 80px;
+            height: 80px;
+            font-size: 2rem;
+            background: var(--primary);
+            border-color: var(--primary-light);
+            box-shadow: 0 0 40px rgba(13, 110, 110, 0.4);
+        }
+
+        .node-owe .web-node-icon { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.3); }
+        .node-owe .web-node-amount { background: rgba(239, 68, 68, 0.12); color: #F87171; }
+
+        .node-owed .web-node-icon { background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.3); }
+        .node-owed .web-node-amount { background: rgba(34, 197, 94, 0.12); color: #4ADE80; }
+
+        /* SVG lines */
+        .web-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .web-line {
+            stroke-dasharray: 300;
+            stroke-dashoffset: 300;
+            transition: stroke-dashoffset 1s ease;
+        }
+        .web-line.visible {
+            stroke-dashoffset: 0;
+        }
+        .web-line-owe { stroke: rgba(239, 68, 68, 0.35); }
+        .web-line-owed { stroke: rgba(34, 197, 94, 0.35); }
+
+        .web-total {
+            margin-top: 40px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+        .web-total span {
+            color: var(--amber-accent);
+            font-size: 1.8rem;
+        }
+
+        /* Mobile: list fallback */
+        .debt-web-list {
+            display: none;
+        }
+
+        @media (max-width: 680px) {
+            .debt-web-container { display: none; }
+            .debt-web-list {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            .debt-list-item {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                padding: 16px 20px;
+                border-radius: 14px;
+                opacity: 0;
+                transform: translateX(30px);
+                transition: all 0.5s ease;
+            }
+            .debt-list-item.visible {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            .debt-list-item.owe {
+                background: rgba(239, 68, 68, 0.06);
+                border: 1px solid rgba(239, 68, 68, 0.12);
+            }
+            .debt-list-item.owed {
+                background: rgba(34, 197, 94, 0.06);
+                border: 1px solid rgba(34, 197, 94, 0.12);
+            }
+            .debt-list-icon {
+                width: 44px;
+                height: 44px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.2rem;
+                flex-shrink: 0;
+            }
+            .owe .debt-list-icon { background: rgba(239,68,68,0.12); }
+            .owed .debt-list-icon { background: rgba(34,197,94,0.12); }
+            .debt-list-info { flex: 1; text-align: right; }
+            .debt-list-name { font-weight: 700; font-size: 0.95rem; }
+            .debt-list-dir { font-size: 0.75rem; color: var(--text-muted); }
+            .debt-list-amount { font-weight: 800; font-size: 1rem; }
+            .owe .debt-list-amount { color: #F87171; }
+            .owed .debt-list-amount { color: #4ADE80; }
+        }
+
+        /* ========================================
+           3. AWKWARD SITUATIONS
+        ======================================== */
+        .awkward-section {
+            background: var(--dark-bg);
+            padding: 100px 24px;
+            text-align: center;
+            position: relative;
+        }
+        .awkward-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -5%; width: 110%; height: 60px;
+            background: var(--dark-surface);
+            clip-path: polygon(
+                0% 0%, 100% 0%, 100% 40%, 97% 60%, 94% 45%, 91% 65%, 88% 42%,
+                85% 58%, 82% 40%, 79% 62%, 76% 45%, 73% 55%, 70% 38%, 67% 60%,
+                64% 42%, 61% 55%, 58% 38%, 55% 62%, 52% 40%, 49% 58%, 46% 42%,
+                43% 60%, 40% 38%, 37% 55%, 34% 42%, 31% 62%, 28% 40%, 25% 58%,
+                22% 42%, 19% 60%, 16% 38%, 13% 55%, 10% 42%, 7% 62%, 4% 40%,
+                0% 55%
+            );
+        }
+
+        .awkward-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .awkward-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 28px 24px;
+            text-align: right;
+            transition: all 0.4s ease;
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+        .awkward-card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(239,68,68,0.3), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .awkward-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(239, 68, 68, 0.15);
+            transform: translateY(-4px);
+        }
+        .awkward-card:hover::before { opacity: 1; }
+
+        .awkward-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 14px;
+            display: block;
+            text-align: center;
+        }
+        .awkward-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.8;
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+        .awkward-meter {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.12);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--amber-accent);
+            font-weight: 600;
+        }
+        .meter-dots {
+            display: flex;
+            gap: 3px;
+        }
+        .meter-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--amber-accent);
+        }
+        .meter-dot.empty {
+            background: rgba(245, 158, 11, 0.2);
+        }
+
+        /* ========================================
+           4. THE REAL COST
+        ======================================== */
+        .cost-section {
+            background: linear-gradient(180deg, var(--dark-bg) 0%, #0E0A18 100%);
+            padding: 100px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .cost-section .section-title {
+            color: var(--text-light);
+        }
+
+        .cost-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .cost-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            padding: 32px 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+        .cost-card:hover {
+            background: rgba(239, 68, 68, 0.05);
+            border-color: rgba(239, 68, 68, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .cost-icon {
+            font-size: 2.4rem;
+            margin-bottom: 14px;
+            display: block;
+        }
+        .cost-text {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           5. THE SOLUTION
+        ======================================== */
+        .solution-section {
+            background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-dark) 100%);
+            padding: 100px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .solution-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(255,255,255,0.04) 0%, transparent 50%);
+        }
+
+        .solution-section .section-label {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+        .solution-section .section-title {
+            color: #fff;
+        }
+        .solution-section .section-subtitle {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .solution-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+        .solution-card:hover {
+            background: rgba(255, 255, 255, 0.16);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+
+        .solution-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin: 0 auto 16px;
+        }
+        .solution-card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .solution-card-desc {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           6. THE MATH (Calculator)
+        ======================================== */
+        .math-section {
+            background: var(--dark-surface);
+            padding: 100px 24px;
+            text-align: center;
+        }
+
+        .calc-container {
+            max-width: 520px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 36px 28px;
+            text-align: right;
+        }
+
+        .calc-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+            transition: background 0.2s;
+            border-radius: 10px;
+            padding-right: 8px;
+            padding-left: 8px;
+        }
+        .calc-item:hover {
+            background: rgba(255,255,255,0.03);
+        }
+        .calc-item:last-of-type {
+            border-bottom: none;
+        }
+
+        .calc-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            position: relative;
+            background: transparent;
+        }
+        .calc-checkbox:checked {
+            background: var(--primary);
+            border-color: var(--primary-light);
+        }
+        .calc-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .calc-label {
+            flex: 1;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+        .calc-amount {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--amber-accent);
+            white-space: nowrap;
+        }
+
+        .calc-total-bar {
+            margin-top: 24px;
+            padding: 20px 24px;
+            background: rgba(13, 110, 110, 0.1);
+            border: 1px solid rgba(13, 110, 110, 0.2);
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .calc-total-label {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+        .calc-total-value {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--primary-light);
+            transition: all 0.3s ease;
+        }
+
+        .calc-reveal {
+            margin-top: 20px;
+            padding: 18px;
+            background: rgba(239, 68, 68, 0.06);
+            border: 1px solid rgba(239, 68, 68, 0.12);
+            border-radius: 14px;
+            font-size: 0.95rem;
+            color: #F87171;
+            font-weight: 600;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s ease;
+        }
+        .calc-reveal.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========================================
+           7. SOCIAL PROOF
+        ======================================== */
+        .proof-section {
+            background: var(--dark-bg);
+            padding: 100px 24px;
+            text-align: center;
+        }
+
+        .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .proof-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: right;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+        .proof-card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            transform: translateY(-3px);
+        }
+
+        .proof-quote-mark {
+            position: absolute;
+            top: 16px;
+            left: 20px;
+            font-size: 3rem;
+            color: rgba(13, 110, 110, 0.2);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+        .proof-text {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .proof-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .proof-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: #fff;
+            font-weight: 700;
+        }
+        .proof-name {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+        .proof-location {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .proof-highlight {
+            color: var(--green-accent);
+            font-weight: 700;
+        }
+
+        /* ========================================
+           8. CTA SECTION
+        ======================================== */
+        .cta-section {
+            background: linear-gradient(180deg, var(--dark-bg) 0%, var(--primary-dark) 100%);
+            padding: 100px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 50%, rgba(13, 110, 110, 0.15) 0%, transparent 60%);
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .cta-subtitle {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.65);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #fff;
+            color: var(--primary-dark);
+            padding: 18px 48px;
+            border-radius: 16px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            font-family: 'Cairo', sans-serif;
+        }
+        .cta-btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+
+        .cta-free {
+            display: block;
+            margin-top: 16px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* ========================================
+           9. FOOTER
+        ======================================== */
+        .footer {
+            background: var(--primary-dark);
+            padding: 40px 24px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .footer-logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .footer-tagline {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 20px;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .footer-links a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--primary-light); }
+        .footer-copy {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.25);
+        }
+
+        /* ========================================
+           RESPONSIVE
+        ======================================== */
+        @media (max-width: 768px) {
+            .hero { min-height: auto; padding: 100px 20px 80px; }
+            .hero h1 { font-size: 1.8rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .hero-stat { flex-direction: column; padding: 14px 20px; gap: 6px; }
+            .hero-stat-text { text-align: center; }
+            .awkward-grid { grid-template-columns: 1fr; }
+            .cost-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .solution-grid { grid-template-columns: 1fr; }
+            .proof-grid { grid-template-columns: 1fr; }
+            .calc-container { padding: 24px 18px; }
+            .paper-scrap { display: none; }
+            .torn-edge { height: 40px; }
+        }
+
+        @media (max-width: 480px) {
+            .cost-grid { grid-template-columns: 1fr 1fr; }
+            .hero-cta { padding: 14px 32px; font-size: 1rem; }
+            .cta-btn { padding: 16px 36px; font-size: 1.05rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     1. HERO
+═════════════════════════════════════════ -->
+<section class="hero">
+    <div class="hero-scraps">
+        <div class="paper-scrap scrap-1">كريدي الحانوت<br>خبز + حليب + زيت<br>— — — — — —<br>850 دج ✗</div>
+        <div class="paper-scrap scrap-2">سلفت أمين 2000 دج<br>يوم الخميس<br>ما ردّهمش ؟؟</div>
+        <div class="paper-scrap scrap-3">فاتورة الكهرباء<br>عند كريم 1500<br>لازم نردّها...</div>
+        <div class="paper-scrap scrap-4">خضار + لحم<br>هذا الشهر 4200 دج<br>نخلصو بكري</div>
+        <div class="paper-scrap scrap-5">ختي فاطمة سلفتني<br>3500 دج<br>للعيد</div>
+    </div>
+
+    <div class="hero-content">
+        <div class="hero-badge reveal">
+            <span>🔴</span>
+            مشكلة الكريدي في الجزائر
+        </div>
+
+        <h1 class="reveal reveal-delay-1">عندك كريدي عند الحانوت؟<br>سلفت صاحبك ونسيتو؟</h1>
+
+        <p class="hero-subtitle reveal reveal-delay-2">
+            الديون متبعثرة في راسك، في وريقات ضايعة، في رسائل واتساب لي ما عدت تلقاهم...
+            <br>وكل يوم تنسى شوية.
+        </p>
+
+        <div class="hero-stat reveal reveal-delay-3">
+            <span class="hero-stat-number" data-count="5">0</span>
+            <span class="hero-stat-text">ديون غير رسمية<br>عند كل جزائري في المتوسط</span>
+        </div>
+
+        <br>
+
+        <a href="#download" class="hero-cta reveal reveal-delay-4">
+            حمّل شهريتي مجانًا
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </a>
+    </div>
+</section>
+
+<div class="torn-edge"></div>
+
+<!-- ════════════════════════════════════════
+     2. DEBT WEB
+═════════════════════════════════════════ -->
+<section class="debt-web-section" id="debt-web">
+    <div class="container">
+        <span class="section-label reveal">شبكة الديون</span>
+        <h2 class="section-title reveal" style="color: var(--text-light);">شبكة ديونك... أعقد مما تتخيّل</h2>
+        <p class="section-subtitle reveal">كل واحد فينا عندو شبكة ديون مخبّية. شوف كيفاش تبان لمّا ترسمها.</p>
+
+        <!-- Desktop: Visual web -->
+        <div class="debt-web-container reveal">
+            <svg class="web-svg" id="webSvg"></svg>
+
+            <!-- Center: You -->
+            <div class="web-node node-center" style="top:50%;left:50%;transform:translate(-50%,-50%)" data-index="0">
+                <div class="web-node-icon">🧑</div>
+                <div class="web-node-label">أنت</div>
+            </div>
+            <!-- Shop (you owe) -->
+            <div class="web-node node-owe" style="top:8%;left:50%;transform:translateX(-50%)" data-index="1">
+                <div class="web-node-icon">🏪</div>
+                <div class="web-node-label">الحانوت</div>
+                <div class="web-node-amount">← 3,500 دج</div>
+            </div>
+            <!-- Friend Amine (he owes you) -->
+            <div class="web-node node-owed" style="top:22%;right:5%" data-index="2">
+                <div class="web-node-icon">👤</div>
+                <div class="web-node-label">صاحبك أمين</div>
+                <div class="web-node-amount">→ 2,000 دج</div>
+            </div>
+            <!-- Sister Fatima (you owe) -->
+            <div class="web-node node-owe" style="top:22%;left:5%" data-index="3">
+                <div class="web-node-icon">👩</div>
+                <div class="web-node-label">ختك فاطمة</div>
+                <div class="web-node-amount">← 5,000 دج</div>
+            </div>
+            <!-- Neighbor Karim (you owe) -->
+            <div class="web-node node-owe" style="bottom:22%;right:5%" data-index="4">
+                <div class="web-node-icon">🏠</div>
+                <div class="web-node-label">جارك كريم</div>
+                <div class="web-node-amount">← 1,500 دج</div>
+            </div>
+            <!-- Vegetable seller (you owe) -->
+            <div class="web-node node-owe" style="bottom:8%;left:50%;transform:translateX(-50%)" data-index="5">
+                <div class="web-node-icon">🥬</div>
+                <div class="web-node-label">الخضّار</div>
+                <div class="web-node-amount">← 2,500 دج</div>
+            </div>
+            <!-- Work colleague (he owes you) -->
+            <div class="web-node node-owed" style="bottom:22%;left:5%" data-index="6">
+                <div class="web-node-icon">💼</div>
+                <div class="web-node-label">زميلك في الخدمة</div>
+                <div class="web-node-amount">→ 500 دج</div>
+            </div>
+        </div>
+
+        <!-- Mobile: List fallback -->
+        <div class="debt-web-list">
+            <div class="debt-list-item owe">
+                <div class="debt-list-icon">🏪</div>
+                <div class="debt-list-info">
+                    <div class="debt-list-name">الحانوت</div>
+                    <div class="debt-list-dir">أنت عندك عندو ←</div>
+                </div>
+                <div class="debt-list-amount">3,500 دج</div>
+            </div>
+            <div class="debt-list-item owed">
+                <div class="debt-list-icon">👤</div>
+                <div class="debt-list-info">
+                    <div class="debt-list-name">صاحبك أمين</div>
+                    <div class="debt-list-dir">عندو عندك →</div>
+                </div>
+                <div class="debt-list-amount">2,000 دج</div>
+            </div>
+            <div class="debt-list-item owe">
+                <div class="debt-list-icon">👩</div>
+                <div class="debt-list-info">
+                    <div class="debt-list-name">ختك فاطمة</div>
+                    <div class="debt-list-dir">أنت عندك عندها ←</div>
+                </div>
+                <div class="debt-list-amount">5,000 دج</div>
+            </div>
+            <div class="debt-list-item owe">
+                <div class="debt-list-icon">🏠</div>
+                <div class="debt-list-info">
+                    <div class="debt-list-name">جارك كريم</div>
+                    <div class="debt-list-dir">أنت عندك عندو ←</div>
+                </div>
+                <div class="debt-list-amount">1,500 دج</div>
+            </div>
+            <div class="debt-list-item owe">
+                <div class="debt-list-icon">🥬</div>
+                <div class="debt-list-info">
+                    <div class="debt-list-name">الخضّار</div>
+                    <div class="debt-list-dir">أنت عندك عندو ←</div>
+                </div>
+                <div class="debt-list-amount">2,500 دج</div>
+            </div>
+            <div class="debt-list-item owed">
+                <div class="debt-list-icon">💼</div>
+                <div class="debt-list-info">
+                    <div class="debt-list-name">زميلك في الخدمة</div>
+                    <div class="debt-list-dir">عندو عندك →</div>
+                </div>
+                <div class="debt-list-amount">500 دج</div>
+            </div>
+        </div>
+
+        <div class="web-total reveal">
+            المجموع اللي ما تعرفوش بالضبط: <span>???</span>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     3. AWKWARD SITUATIONS
+═════════════════════════════════════════ -->
+<section class="awkward-section">
+    <div class="container">
+        <span class="section-label reveal">المواقف المحرجة</span>
+        <h2 class="section-title reveal" style="color: var(--text-light);">قولي ما عشتهاش... 😅</h2>
+        <p class="section-subtitle reveal">مواقف كلنا نعرفوهم. وكلنا نحشمو منهم.</p>
+
+        <div class="awkward-grid">
+            <div class="awkward-card reveal reveal-delay-1">
+                <span class="awkward-emoji">😳</span>
+                <p class="awkward-text">صاحبك يطلبك فلوسو قدام الناس</p>
+                <div class="awkward-meter">
+                    <span>كلنا عشناها</span>
+                    <div class="meter-dots">
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="awkward-card reveal reveal-delay-2">
+                <span class="awkward-emoji">🏃</span>
+                <p class="awkward-text">تحوّس تفوت على الحانوت باش ما يشوفكش</p>
+                <div class="awkward-meter">
+                    <span>كلنا عشناها</span>
+                    <div class="meter-dots">
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot empty"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="awkward-card reveal reveal-delay-3">
+                <span class="awkward-emoji">🤔</span>
+                <p class="awkward-text">ختك تقولك: واش من الفلوس لي سلفتك؟ وأنت نسيت القيمة</p>
+                <div class="awkward-meter">
+                    <span>كلنا عشناها</span>
+                    <div class="meter-dots">
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="awkward-card reveal reveal-delay-4">
+                <span class="awkward-emoji">🫠</span>
+                <p class="awkward-text">زميلك يقولك سلفني، وهو عندو عندك من قبل</p>
+                <div class="awkward-meter">
+                    <span>كلنا عشناها</span>
+                    <div class="meter-dots">
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot empty"></div>
+                        <div class="meter-dot empty"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="awkward-card reveal reveal-delay-5">
+                <span class="awkward-emoji">🤐</span>
+                <p class="awkward-text">تسلف واحد وتخمم: واش نذكّرو ولا نسكت؟</p>
+                <div class="awkward-meter">
+                    <span>كلنا عشناها</span>
+                    <div class="meter-dots">
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                        <div class="meter-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     4. THE REAL COST
+═════════════════════════════════════════ -->
+<section class="cost-section">
+    <div class="container">
+        <span class="section-label reveal" style="background: rgba(239,68,68,0.1); color: #F87171;">التكلفة الحقيقية</span>
+        <h2 class="section-title reveal">الكريدي ماشي غير فلوس</h2>
+        <p class="section-subtitle reveal">الديون الغير مسجلة تكلّفك أكثر مما تتصوّر.</p>
+
+        <div class="cost-grid">
+            <div class="cost-card reveal reveal-delay-1">
+                <span class="cost-icon">💔</span>
+                <p class="cost-text">العلاقات تتأثر</p>
+            </div>
+            <div class="cost-card reveal reveal-delay-2">
+                <span class="cost-icon">😰</span>
+                <p class="cost-text">القلق الدائم</p>
+            </div>
+            <div class="cost-card reveal reveal-delay-3">
+                <span class="cost-icon">🤯</span>
+                <p class="cost-text">ما تعرفش بالضبط شحال عندك وشحال عليك</p>
+            </div>
+            <div class="cost-card reveal reveal-delay-4">
+                <span class="cost-icon">😶</span>
+                <p class="cost-text">الصمت المحرج</p>
+            </div>
+            <div class="cost-card reveal reveal-delay-5">
+                <span class="cost-icon">📉</span>
+                <p class="cost-text">ثقة الناس فيك تنقص</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     5. THE SOLUTION
+═════════════════════════════════════════ -->
+<section class="solution-section">
+    <div class="container">
+        <span class="section-label reveal">الحل</span>
+        <h2 class="section-title reveal">شهريتي تحفظلك كلش</h2>
+        <p class="section-subtitle reveal">ما عمرك ما تنسى دين. ما عمرك ما تتحشم تذكّر حد. كلش واضح، كلش مسجّل.</p>
+
+        <div class="solution-grid">
+            <div class="solution-card reveal reveal-delay-1">
+                <div class="solution-icon">⚡</div>
+                <h3 class="solution-card-title">سجّل كل دين في ثانية</h3>
+                <p class="solution-card-desc">سلفت حد؟ خذيت كريدي؟ سجّلو في لحظة قبل ما تنساه.</p>
+            </div>
+            <div class="solution-card reveal reveal-delay-2">
+                <div class="solution-icon">🔄</div>
+                <h3 class="solution-card-title">شوف شكون عندو عندك وشكون عندك عندو</h3>
+                <p class="solution-card-desc">صورة واضحة ديال كل ديونك — اللي عليك واللي لك — في مكان واحد.</p>
+            </div>
+            <div class="solution-card reveal reveal-delay-3">
+                <div class="solution-icon">🔔</div>
+                <h3 class="solution-card-title">تذكير تلقائي بلا إحراج</h3>
+                <p class="solution-card-desc">التطبيق يذكّرك ويذكّرهم. ما عدتش أنت اللي تطلب — التطبيق يديرها.</p>
+            </div>
+            <div class="solution-card reveal reveal-delay-4">
+                <div class="solution-icon">📋</div>
+                <h3 class="solution-card-title">تاريخ كامل ديال كل معاملة</h3>
+                <p class="solution-card-desc">متى سلفت، شحال، لمين — كل التفاصيل محفوظة.</p>
+            </div>
+            <div class="solution-card reveal reveal-delay-5">
+                <div class="solution-icon">💰</div>
+                <h3 class="solution-card-title">المجموع ديالك ديما واضح</h3>
+                <p class="solution-card-desc">في أي وقت، تعرف بالضبط وضعيتك المالية مع كل واحد.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     6. THE MATH (Calculator)
+═════════════════════════════════════════ -->
+<section class="math-section">
+    <div class="container">
+        <span class="section-label reveal">حسبها مليح</span>
+        <h2 class="section-title reveal" style="color: var(--text-light);">شحال عندك ديون دروك؟</h2>
+        <p class="section-subtitle reveal">اختار اللي عندك منهم وشوف المجموع.</p>
+
+        <div class="calc-container reveal">
+            <label class="calc-item" data-amount="3000">
+                <input type="checkbox" class="calc-checkbox" value="3000">
+                <span class="calc-label">كريدي الحانوت</span>
+                <span class="calc-amount">3,000 دج</span>
+            </label>
+            <label class="calc-item" data-amount="5000">
+                <input type="checkbox" class="calc-checkbox" value="5000">
+                <span class="calc-label">سلفة من صاحب</span>
+                <span class="calc-amount">5,000 دج</span>
+            </label>
+            <label class="calc-item" data-amount="2500">
+                <input type="checkbox" class="calc-checkbox" value="2500">
+                <span class="calc-label">فاتورة الكهرباء عند الجار</span>
+                <span class="calc-amount">2,500 دج</span>
+            </label>
+            <label class="calc-item" data-amount="4000">
+                <input type="checkbox" class="calc-checkbox" value="4000">
+                <span class="calc-label">ديون الخضار واللحام</span>
+                <span class="calc-amount">4,000 دج</span>
+            </label>
+            <label class="calc-item" data-amount="10000">
+                <input type="checkbox" class="calc-checkbox" value="10000">
+                <span class="calc-label">سلفة العائلة</span>
+                <span class="calc-amount">10,000 دج</span>
+            </label>
+
+            <div class="calc-total-bar">
+                <span class="calc-total-label">المجموع:</span>
+                <span class="calc-total-value" id="calcTotal">0 دج</span>
+            </div>
+
+            <div class="calc-reveal" id="calcReveal">
+                هذا غير اللي تتفكرو... 🤔<br>
+                واللي نسيتو؟ واللي ما حسبتوش؟<br>
+                <strong>سجّل كلش في شهريتي قبل ما يفوت.</strong>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     7. SOCIAL PROOF
+═════════════════════════════════════════ -->
+<section class="proof-section">
+    <div class="container">
+        <span class="section-label reveal">ناس حلّو المشكل</span>
+        <h2 class="section-title reveal" style="color: var(--text-light);">شهادات من ناس كيفك</h2>
+
+        <div class="proof-grid">
+            <div class="proof-card reveal reveal-delay-1">
+                <span class="proof-quote-mark">"</span>
+                <p class="proof-text">
+                    كنت نكتب الكريدي في ورقة ونضيعها. مرات ننسى شحال عندي عند الحانوت. دروك كلش في التطبيق — واضح ومرتّب.
+                </p>
+                <div class="proof-author">
+                    <div class="proof-avatar">ي</div>
+                    <div>
+                        <div class="proof-name">ياسين، 28 سنة</div>
+                        <div class="proof-location">باب الزوار، الجزائر</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="proof-card reveal reveal-delay-2">
+                <span class="proof-quote-mark">"</span>
+                <p class="proof-text">
+                    ولّيت نعرف بالضبط شحال عندي عند الناس. رجعت <span class="proof-highlight">15,000 دج</span> كنت ناسيهم تمامًا. التطبيق خلاّني نتفكّرهم.
+                </p>
+                <div class="proof-author">
+                    <div class="proof-avatar">ن</div>
+                    <div>
+                        <div class="proof-name">نادية، 34 سنة</div>
+                        <div class="proof-location">وهران</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="proof-card reveal reveal-delay-3">
+                <span class="proof-quote-mark">"</span>
+                <p class="proof-text">
+                    ما عدتش نتحشم نذكّر الناس. التطبيق يبعثلهم تذكير. أحسن حاجة صراتلي — علاقاتي مع الناس ولّات أحسن.
+                </p>
+                <div class="proof-author">
+                    <div class="proof-avatar">ك</div>
+                    <div>
+                        <div class="proof-name">كريم، 41 سنة</div>
+                        <div class="proof-location">قسنطينة</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     8. CTA
+═════════════════════════════════════════ -->
+<section class="cta-section" id="download">
+    <div class="cta-content">
+        <h2 class="reveal">كفى ضياع</h2>
+        <p class="cta-subtitle reveal reveal-delay-1">
+            كل يوم بلا تتبع = فلوس ضايعة ومواقف محرجة.
+            <br>ابدأ سجّل ديونك دروك.
+        </p>
+        <a href="#" class="cta-btn reveal reveal-delay-2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            حمّل شهريتي دروك
+        </a>
+        <span class="cta-free reveal reveal-delay-3">مجاني — بلا كارط، بلا تعقيد</span>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     9. FOOTER
+═════════════════════════════════════════ -->
+<footer class="footer">
+    <div class="footer-logo">شهريتي</div>
+    <div class="footer-tagline">أذكى طريقة لإدارة مصاريفك وديونك</div>
+    <div class="footer-links">
+        <a href="#">سياسة الخصوصية</a>
+        <a href="#">شروط الاستخدام</a>
+        <a href="#">تواصل معنا</a>
+    </div>
+    <div class="footer-copy">© 2026 شهريتي — جميع الحقوق محفوظة</div>
+</footer>
+
+<script>
+(function() {
+    'use strict';
+
+    // ─── Scroll Reveal (IntersectionObserver) ───
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ─── Animated Counter ───
+    function animateCounter(el, target, duration) {
+        const start = performance.now();
+        const initial = 0;
+        function update(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            // Ease out cubic
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.round(initial + (target - initial) * eased);
+            if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+    }
+
+    const counterEl = document.querySelector('.hero-stat-number[data-count]');
+    if (counterEl) {
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(counterEl, parseInt(counterEl.dataset.count), 1500);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        counterObserver.observe(counterEl);
+    }
+
+    // ─── Debt Web: Draw SVG lines and animate ───
+    function initDebtWeb() {
+        const container = document.querySelector('.debt-web-container');
+        if (!container || window.innerWidth <= 680) return;
+
+        const svg = document.getElementById('webSvg');
+        const nodes = container.querySelectorAll('.web-node');
+        const center = nodes[0];
+
+        // Get center position
+        function getNodeCenter(node) {
+            const rect = node.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            return {
+                x: rect.left - containerRect.left + rect.width / 2,
+                y: rect.top - containerRect.top + rect.height / 2
+            };
+        }
+
+        function drawLines() {
+            svg.innerHTML = '';
+            const cp = getNodeCenter(center);
+
+            for (let i = 1; i < nodes.length; i++) {
+                const np = getNodeCenter(nodes[i]);
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', cp.x);
+                line.setAttribute('y1', cp.y);
+                line.setAttribute('x2', np.x);
+                line.setAttribute('y2', np.y);
+                line.setAttribute('stroke-width', '2');
+                line.setAttribute('stroke-dasharray', '6 4');
+
+                const isOwed = nodes[i].classList.contains('node-owed');
+                line.classList.add('web-line', isOwed ? 'web-line-owed' : 'web-line-owe');
+                line.dataset.index = i;
+
+                // Calculate length for dash animation
+                const dx = np.x - cp.x;
+                const dy = np.y - cp.y;
+                const length = Math.sqrt(dx * dx + dy * dy);
+                line.style.strokeDasharray = length;
+                line.style.strokeDashoffset = length;
+
+                svg.appendChild(line);
+            }
+        }
+
+        // Animate on scroll
+        const webObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    drawLines();
+
+                    // Animate nodes and lines one by one
+                    nodes.forEach((node, i) => {
+                        setTimeout(() => {
+                            node.classList.add('visible');
+                        }, i * 250);
+                    });
+
+                    // Animate lines after center node appears
+                    const lines = svg.querySelectorAll('.web-line');
+                    lines.forEach((line, i) => {
+                        setTimeout(() => {
+                            line.style.transition = 'stroke-dashoffset 0.8s ease';
+                            line.style.strokeDashoffset = '0';
+                        }, (parseInt(line.dataset.index)) * 250 + 100);
+                    });
+
+                    webObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+        webObserver.observe(container);
+
+        // Redraw on resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                if (window.innerWidth > 680) drawLines();
+            }, 200);
+        });
+    }
+
+    // ─── Mobile debt list animation ───
+    function initMobileDebtList() {
+        const items = document.querySelectorAll('.debt-list-item');
+        if (!items.length) return;
+
+        const listObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const items = document.querySelectorAll('.debt-list-item');
+                    items.forEach((item, i) => {
+                        setTimeout(() => item.classList.add('visible'), i * 150);
+                    });
+                    listObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        listObserver.observe(items[0].parentElement);
+    }
+
+    // ─── Calculator ───
+    function initCalculator() {
+        const checkboxes = document.querySelectorAll('.calc-checkbox');
+        const totalEl = document.getElementById('calcTotal');
+        const revealEl = document.getElementById('calcReveal');
+        let checkedCount = 0;
+
+        function updateTotal() {
+            let total = 0;
+            checkedCount = 0;
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    total += parseInt(cb.value);
+                    checkedCount++;
+                }
+            });
+
+            // Animate total
+            const current = parseInt(totalEl.textContent.replace(/[^\d]/g, '')) || 0;
+            animateValue(totalEl, current, total, 400);
+
+            // Show reveal message after 2+ items checked
+            if (checkedCount >= 2) {
+                revealEl.classList.add('show');
+            } else {
+                revealEl.classList.remove('show');
+            }
+        }
+
+        function animateValue(el, start, end, duration) {
+            const startTime = performance.now();
+            function update(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(start + (end - start) * eased);
+                el.textContent = current.toLocaleString('ar-DZ') + ' دج';
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', updateTotal);
+        });
+    }
+
+    // ─── Init ───
+    document.addEventListener('DOMContentLoaded', () => {
+        // Small delay to ensure layout is settled
+        setTimeout(() => {
+            initDebtWeb();
+            initMobileDebtList();
+            initCalculator();
+        }, 100);
+    });
+
+})();
+</script>
+
+</body>
+</html>

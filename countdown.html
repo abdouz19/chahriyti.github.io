@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شهريتي — باقي كام يوم على الشهرية؟</title>
+    <meta name="description" content="شهريتي — العد التنازلي للشهرية. اعرف كم باقي على الشهرية ونظّم مصاريفك باش توصّل مرتاح.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #0D6E6E;
+            --primary-light: #1A9494;
+            --primary-dark: #084E4E;
+            --primary-glow: rgba(13, 110, 110, 0.3);
+            --danger: #DC2626;
+            --danger-glow: rgba(220, 38, 38, 0.2);
+            --warning: #F59E0B;
+            --success: #22C55E;
+            --gold: #F59E0B;
+            --surface-dark: #0A0A1A;
+            --surface-darker: #050510;
+            --card-dark: rgba(255, 255, 255, 0.05);
+            --card-light: rgba(255, 255, 255, 0.95);
+            --text-light: #F1F5F9;
+            --text-muted: #94A3B8;
+            --text-dark: #1A1A2E;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--surface-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.7;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+        /* ─── Keyframes ─── */
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.15); }
+            50% { box-shadow: 0 0 60px rgba(220, 38, 38, 0.35), 0 0 120px rgba(220, 38, 38, 0.1); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+        }
+
+        @keyframes tick {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeSlideRight {
+            from { opacity: 0; transform: translateX(60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes drainMoney {
+            from { transform: translateY(0) rotate(0deg); opacity: 1; }
+            to { transform: translateY(120px) rotate(15deg); opacity: 0; }
+        }
+
+        @keyframes sunrise {
+            from { background-position: 0% 100%; }
+            to { background-position: 0% 0%; }
+        }
+
+        @keyframes pulseBtn {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(13, 110, 110, 0.5); }
+            50% { box-shadow: 0 0 0 15px rgba(13, 110, 110, 0); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* ─── Scroll reveal ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
+        .reveal-delay-6 { transition-delay: 0.6s; }
+
+        /* ─── Container ─── */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ─── Section base ─── */
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 60px;
+            line-height: 1.4;
+        }
+
+        /* ─── Glass card ─── */
+        .glass {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+
+        .glass-light {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(13, 110, 110, 0.12);
+            border-radius: 20px;
+            color: var(--text-dark);
+        }
+
+
+        /* ════════════════════════════════════════════
+           SECTION 1: HERO — Dark Dramatic Countdown
+        ════════════════════════════════════════════ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at center, #1a0a0a 0%, var(--surface-darker) 70%);
+            position: relative;
+            overflow: hidden;
+            padding: 60px 0;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(220, 38, 38, 0.08) 0%, transparent 60%);
+            animation: pulse-glow 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 50px;
+            background: rgba(220, 38, 38, 0.15);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            color: #FF6B6B;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5.5vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #FF6B6B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        /* Payday input */
+        .payday-input-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .payday-input-wrap label {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .payday-select {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            padding: 14px 28px;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            min-width: 120px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23fff' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 16px center;
+        }
+
+        .payday-select:focus {
+            outline: none;
+            border-color: var(--danger);
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.2);
+        }
+
+        /* Countdown display */
+        .countdown-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-unit {
+            text-align: center;
+            padding: 20px 10px;
+            min-width: 90px;
+        }
+
+        .countdown-number {
+            font-family: 'Cairo', monospace;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            line-height: 1;
+            color: #fff;
+            display: block;
+            text-shadow: 0 0 30px rgba(220, 38, 38, 0.4);
+            transition: transform 0.15s;
+        }
+
+        .countdown-number.tick-anim {
+            animation: tick 0.3s ease;
+        }
+
+        .countdown-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .countdown-separator {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            color: rgba(220, 38, 38, 0.5);
+            align-self: flex-start;
+            padding-top: 18px;
+        }
+
+        .hero-question {
+            font-size: clamp(1rem, 2.2vw, 1.25rem);
+            color: #FF6B6B;
+            font-weight: 700;
+            padding: 20px 30px;
+            border-radius: 16px;
+            background: rgba(220, 38, 38, 0.08);
+            border: 1px solid rgba(220, 38, 38, 0.15);
+            display: inline-block;
+            animation: pulse-red 3s ease-in-out infinite;
+        }
+
+
+        /* ════════════════════════════════════════════
+           SECTION 2: Phases of the Month
+        ════════════════════════════════════════════ */
+        .phases {
+            background: linear-gradient(180deg, var(--surface-darker) 0%, #0f0f20 100%);
+            padding-bottom: 120px;
+        }
+
+        .phases .section-title {
+            color: #fff;
+        }
+
+        .phases-grid {
+            display: grid;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .phase-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 28px 30px;
+            border-radius: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phase-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.06;
+            border-radius: 20px;
+        }
+
+        .phase-card:hover {
+            transform: translateX(-6px);
+        }
+
+        .phase-emoji {
+            font-size: 2.8rem;
+            flex-shrink: 0;
+            width: 60px;
+            text-align: center;
+        }
+
+        .phase-info {
+            flex: 1;
+        }
+
+        .phase-days {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+            opacity: 0.8;
+        }
+
+        .phase-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .phase-desc {
+            font-size: 0.95rem;
+            opacity: 0.75;
+            line-height: 1.6;
+        }
+
+        /* Phase color variants */
+        .phase-1 {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(245, 158, 11, 0.1) 100%);
+            border: 1px solid rgba(34, 197, 94, 0.25);
+        }
+        .phase-1 .phase-days { color: #4ADE80; }
+        .phase-1 .phase-title { color: #4ADE80; }
+
+        .phase-2 {
+            background: linear-gradient(135deg, rgba(13, 110, 110, 0.2) 0%, rgba(26, 148, 148, 0.1) 100%);
+            border: 1px solid rgba(13, 110, 110, 0.3);
+        }
+        .phase-2 .phase-days { color: var(--primary-light); }
+        .phase-2 .phase-title { color: var(--primary-light); }
+
+        .phase-3 {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.05) 100%);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+        }
+        .phase-3 .phase-days { color: #FBBF24; }
+        .phase-3 .phase-title { color: #FBBF24; }
+
+        .phase-4 {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(249, 115, 22, 0.05) 100%);
+            border: 1px solid rgba(249, 115, 22, 0.25);
+        }
+        .phase-4 .phase-days { color: #FB923C; }
+        .phase-4 .phase-title { color: #FB923C; }
+
+        .phase-5 {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.18) 0%, rgba(220, 38, 38, 0.08) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .phase-5 .phase-days { color: #F87171; }
+        .phase-5 .phase-title { color: #F87171; }
+
+        .phase-6 {
+            background: linear-gradient(135deg, rgba(153, 27, 27, 0.25) 0%, rgba(0, 0, 0, 0.3) 100%);
+            border: 1px solid rgba(153, 27, 27, 0.4);
+        }
+        .phase-6 .phase-days { color: #FCA5A5; }
+        .phase-6 .phase-title { color: #FCA5A5; }
+
+
+        /* ════════════════════════════════════════════
+           SECTION 3: Wallet Drain Animation
+        ════════════════════════════════════════════ */
+        .wallet-section {
+            background: linear-gradient(180deg, #0f0f20 0%, #0A0A1A 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 0;
+        }
+
+        .wallet-section .section-title {
+            color: #fff;
+            margin-bottom: 50px;
+        }
+
+        .wallet-stage {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .wallet-icon {
+            font-size: 8rem;
+            display: block;
+            margin-bottom: 30px;
+            transition: filter 0.5s;
+        }
+
+        .wallet-bar-wrap {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            height: 30px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .wallet-bar {
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(90deg, var(--danger) 0%, var(--success) 100%);
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 100%;
+            direction: ltr;
+        }
+
+        .wallet-bar-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            white-space: nowrap;
+        }
+
+        .expense-items {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 30px;
+        }
+
+        .expense-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 22px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .expense-item.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .expense-item .name {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .expense-item .amount {
+            font-weight: 800;
+            color: #F87171;
+            font-size: 0.95rem;
+            direction: ltr;
+        }
+
+        .wallet-empty-msg {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #F87171;
+            padding: 24px;
+            border-radius: 16px;
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            opacity: 0;
+            transition: opacity 0.6s;
+        }
+
+        .wallet-empty-msg.show {
+            opacity: 1;
+        }
+
+
+        /* ════════════════════════════════════════════
+           SECTION 4: Survival Mode
+        ════════════════════════════════════════════ */
+        .survival {
+            background: linear-gradient(180deg, #0A0A1A 0%, #111127 100%);
+        }
+
+        .survival .section-title { color: #fff; }
+
+        .survival-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 18px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .survival-card {
+            padding: 24px 26px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .survival-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .survival-emoji {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .survival-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.7;
+            color: var(--text-light);
+        }
+
+
+        /* ════════════════════════════════════════════
+           SECTION 5: Breaking Point — dark to light
+        ════════════════════════════════════════════ */
+        .breaking {
+            background: linear-gradient(180deg, #111127 0%, #0D6E6E 100%);
+            text-align: center;
+            padding: 120px 0;
+        }
+
+        .breaking-cycle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 40px 0;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-weight: 700;
+        }
+
+        .breaking-cycle span {
+            padding: 10px 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .breaking-arrow {
+            color: var(--text-muted);
+            font-size: 1.4rem;
+        }
+
+        .breaking-hope {
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-weight: 700;
+            margin-top: 50px;
+            padding: 30px 40px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+
+        /* ════════════════════════════════════════════
+           SECTION 6: The Solution
+        ════════════════════════════════════════════ */
+        .solution {
+            background: linear-gradient(180deg, var(--primary) 0%, #0a5a5a 100%);
+        }
+
+        .solution .section-title {
+            color: #fff;
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .solution-card {
+            padding: 32px 28px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-6px);
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .solution-icon {
+            font-size: 2.8rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .solution-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .solution-card p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.6;
+        }
+
+
+        /* ════════════════════════════════════════════
+           SECTION 7: New Month Timeline
+        ════════════════════════════════════════════ */
+        .new-month {
+            background: linear-gradient(180deg, #0a5a5a 0%, #084E4E 100%);
+        }
+
+        .new-month .section-title { color: #fff; }
+
+        .timeline {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            padding-right: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            right: 14px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.1), var(--success), rgba(255,255,255,0.1));
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 24px 30px;
+            margin-bottom: 24px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: transform 0.3s;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(-6px);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            right: -33px;
+            top: 30px;
+            width: 14px;
+            height: 14px;
+            background: var(--success);
+            border-radius: 50%;
+            border: 3px solid #084E4E;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+        }
+
+        .timeline-emoji {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .timeline-day {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--success);
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .timeline-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.7;
+        }
+
+
+        /* ════════════════════════════════════════════
+           SECTION 8: CTA with Countdown
+        ════════════════════════════════════════════ */
+        .cta-section {
+            background: linear-gradient(180deg, #084E4E 0%, var(--surface-darker) 100%);
+            text-align: center;
+            padding: 120px 0;
+        }
+
+        .cta-section .section-title {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .cta-countdown {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .cta-countdown-unit {
+            text-align: center;
+            padding: 16px 12px;
+            min-width: 70px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-countdown-num {
+            font-family: 'Cairo', monospace;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #fff;
+            display: block;
+            line-height: 1;
+        }
+
+        .cta-countdown-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .cta-countdown-sep {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.3);
+            align-self: flex-start;
+            padding-top: 14px;
+        }
+
+        .cta-loss {
+            font-size: 1.15rem;
+            color: #FF6B6B;
+            font-weight: 600;
+            margin: 24px 0 40px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 20px 56px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            border-radius: 60px;
+            border: none;
+            cursor: pointer;
+            animation: pulseBtn 2s ease-in-out infinite;
+            transition: transform 0.3s;
+            box-shadow: 0 8px 30px rgba(13, 110, 110, 0.4);
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .cta-stores {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .store-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background 0.3s;
+        }
+
+        .store-badge:hover {
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .store-badge svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+
+        /* ════════════════════════════════════════════
+           SECTION 9: Footer
+        ════════════════════════════════════════════ */
+        footer {
+            background: var(--surface-darker);
+            padding: 50px 0 30px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary-light);
+            margin-bottom: 10px;
+        }
+
+        .footer-tagline {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+        }
+
+        .footer-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-light);
+        }
+
+        .footer-copy {
+            color: rgba(255, 255, 255, 0.25);
+            font-size: 0.8rem;
+        }
+
+
+        /* ─── Responsive ─── */
+        @media (max-width: 768px) {
+            section { padding: 70px 0; }
+
+            .countdown-unit { min-width: 70px; padding: 14px 6px; }
+            .countdown-number { font-size: clamp(2.5rem, 12vw, 4rem); }
+            .countdown-separator { font-size: 2rem; padding-top: 12px; }
+
+            .phase-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 24px 20px;
+            }
+
+            .survival-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                padding-right: 36px;
+            }
+
+            .breaking-cycle {
+                gap: 8px;
+            }
+
+            .breaking-cycle span {
+                padding: 8px 14px;
+                font-size: 0.9rem;
+            }
+
+            .cta-btn {
+                padding: 16px 40px;
+                font-size: 1.15rem;
+            }
+
+            .payday-input-wrap {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 16px; }
+            .countdown-unit { min-width: 60px; }
+            .hero { padding: 40px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══════ SECTION 1: HERO ═══════ -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">العد التنازلي للشهرية</div>
+            <h1>باقي كام يوم على الشهرية؟</h1>
+            <p class="hero-subtitle">حط يوم الخلاص تاعك وشوف الحقيقة بعينيك</p>
+
+            <div class="payday-input-wrap">
+                <label for="payday">يوم الخلاص:</label>
+                <select class="payday-select" id="payday">
+                    <option value="" disabled selected>اختر اليوم</option>
+                </select>
+            </div>
+
+            <div class="countdown-wrap" id="countdown">
+                <div class="countdown-unit">
+                    <span class="countdown-number" id="cd-days">--</span>
+                    <span class="countdown-label">يوم</span>
+                </div>
+                <span class="countdown-separator">:</span>
+                <div class="countdown-unit">
+                    <span class="countdown-number" id="cd-hours">--</span>
+                    <span class="countdown-label">ساعة</span>
+                </div>
+                <span class="countdown-separator">:</span>
+                <div class="countdown-unit">
+                    <span class="countdown-number" id="cd-minutes">--</span>
+                    <span class="countdown-label">دقيقة</span>
+                </div>
+                <span class="countdown-separator">:</span>
+                <div class="countdown-unit">
+                    <span class="countdown-number" id="cd-seconds">--</span>
+                    <span class="countdown-label">ثانية</span>
+                </div>
+            </div>
+
+            <div class="hero-question">
+                والسؤال الحقيقي: واش باقي عندك فلوس توصّلك؟
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════ SECTION 2: Phases of the Month ═══════ -->
+    <section class="phases">
+        <div class="container">
+            <h2 class="section-title reveal">مراحل الشهر عند الجزائري</h2>
+
+            <div class="phases-grid">
+                <div class="phase-card phase-1 glass reveal reveal-delay-1">
+                    <div class="phase-emoji">🤑</div>
+                    <div class="phase-info">
+                        <div class="phase-days">يوم 1 — 3</div>
+                        <div class="phase-title">السلطان!</div>
+                        <div class="phase-desc">نخلّص الديون، نشري كلش، نعزم الصحاب. الدنيا زينة!</div>
+                    </div>
+                </div>
+
+                <div class="phase-card phase-2 glass reveal reveal-delay-2">
+                    <div class="phase-emoji">😎</div>
+                    <div class="phase-info">
+                        <div class="phase-days">يوم 4 — 10</div>
+                        <div class="phase-title">مازال الخير</div>
+                        <div class="phase-desc">الحياة زينة، مازال عندي فلوس. كل شي تحت السيطرة.</div>
+                    </div>
+                </div>
+
+                <div class="phase-card phase-3 glass reveal reveal-delay-3">
+                    <div class="phase-emoji">😐</div>
+                    <div class="phase-info">
+                        <div class="phase-days">يوم 11 — 17</div>
+                        <div class="phase-title">نبدا نحسب...</div>
+                        <div class="phase-desc">واش يكفي؟ نبدا نعدّ الفلوس ونحسب كل مصروف.</div>
+                    </div>
+                </div>
+
+                <div class="phase-card phase-4 glass reveal reveal-delay-4">
+                    <div class="phase-emoji">😰</div>
+                    <div class="phase-info">
+                        <div class="phase-days">يوم 18 — 24</div>
+                        <div class="phase-title">نقلّص المصاريف</div>
+                        <div class="phase-desc">ما نخرجش، ما نشريش حوايج، نعيش على الضروري برك.</div>
+                    </div>
+                </div>
+
+                <div class="phase-card phase-5 glass reveal reveal-delay-5">
+                    <div class="phase-emoji">😱</div>
+                    <div class="phase-info">
+                        <div class="phase-days">يوم 25 — 28</div>
+                        <div class="phase-title">الفلوس خلاصو!</div>
+                        <div class="phase-desc">وين نلقى؟ نسلف ولا نستنى؟ القلق ما يخلّيني نرقد.</div>
+                    </div>
+                </div>
+
+                <div class="phase-card phase-6 glass reveal reveal-delay-6">
+                    <div class="phase-emoji">💀</div>
+                    <div class="phase-info">
+                        <div class="phase-days">يوم 29 — 30</div>
+                        <div class="phase-title">نستنى الشهرية كي نستنى المطر في الصيف</div>
+                        <div class="phase-desc">نعدّ الساعات. يا ربي بارك وصّلنا.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════ SECTION 3: Wallet Drain ═══════ -->
+    <section class="wallet-section" id="wallet-section">
+        <div class="container">
+            <h2 class="section-title reveal">شوف كيفاش تنقص 💸</h2>
+            <div class="wallet-stage" id="wallet-stage">
+                <div class="wallet-icon" id="wallet-icon">👛</div>
+
+                <div class="wallet-bar-wrap">
+                    <div class="wallet-bar" id="wallet-bar"></div>
+                    <span class="wallet-bar-label" id="wallet-bar-label">100%</span>
+                </div>
+
+                <div class="expense-items" id="expense-items">
+                    <div class="expense-item" data-pct="70">
+                        <span class="name">🏠 كرا الدار</span>
+                        <span class="amount">-30,000 دج</span>
+                    </div>
+                    <div class="expense-item" data-pct="50">
+                        <span class="name">🛒 ماكلة الشهر</span>
+                        <span class="amount">-20,000 دج</span>
+                    </div>
+                    <div class="expense-item" data-pct="38">
+                        <span class="name">📱 فواتير</span>
+                        <span class="amount">-12,000 دج</span>
+                    </div>
+                    <div class="expense-item" data-pct="28">
+                        <span class="name">🚗 ترانسبور</span>
+                        <span class="amount">-10,000 دج</span>
+                    </div>
+                    <div class="expense-item" data-pct="18">
+                        <span class="name">☕ قهوة وسجاير</span>
+                        <span class="amount">-10,000 دج</span>
+                    </div>
+                    <div class="expense-item" data-pct="8">
+                        <span class="name">🤝 كريدي عند الحانوت</span>
+                        <span class="amount">-10,000 دج</span>
+                    </div>
+                    <div class="expense-item" data-pct="0">
+                        <span class="name">🎉 خروجات وحوايج</span>
+                        <span class="amount">-8,000 دج</span>
+                    </div>
+                </div>
+
+                <div class="wallet-empty-msg" id="wallet-empty-msg">
+                    والشهرية باقيلها 10 أيام... 😱
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════ SECTION 4: Survival Mode ═══════ -->
+    <section class="survival">
+        <div class="container">
+            <h2 class="section-title reveal">وضعية النجاة 🆘</h2>
+            <p class="hero-subtitle reveal" style="text-align:center; margin-bottom: 50px; margin-top: -30px;">
+                واش يديرو الجزائريين كي يخلصو الفلوس قبل الشهرية؟
+            </p>
+
+            <div class="survival-grid">
+                <div class="survival-card glass reveal reveal-delay-1">
+                    <div class="survival-emoji">🍞</div>
+                    <div class="survival-text">نعيش على الخبز والزيتون حتى توصل الشهرية</div>
+                </div>
+                <div class="survival-card glass reveal reveal-delay-2">
+                    <div class="survival-emoji">📱</div>
+                    <div class="survival-text">نخبّي الموبايل كي يعيطلي صاحبي يطلب فلوس</div>
+                </div>
+                <div class="survival-card glass reveal reveal-delay-3">
+                    <div class="survival-emoji">🚶</div>
+                    <div class="survival-text">نمشي على رجليا باش نوفر الترانسبور</div>
+                </div>
+                <div class="survival-card glass reveal reveal-delay-4">
+                    <div class="survival-emoji">💳</div>
+                    <div class="survival-text">نزيد الكريدي عند الحانوت — "خلّيها حتى الشهرية"</div>
+                </div>
+                <div class="survival-card glass reveal reveal-delay-5">
+                    <div class="survival-emoji">🏠</div>
+                    <div class="survival-text">ما نخرجش من الدار أصلا — مكانش الميزانية</div>
+                </div>
+                <div class="survival-card glass reveal reveal-delay-6">
+                    <div class="survival-emoji">🤝</div>
+                    <div class="survival-text">نسلف من الوالدين — مكانش حل آخر</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════ SECTION 5: Breaking Point ═══════ -->
+    <section class="breaking">
+        <div class="container">
+            <h2 class="section-title reveal" style="margin-bottom: 30px;">لازم يتبدل الحال</h2>
+            <p class="reveal" style="font-size: 1.3rem; color: rgba(255,255,255,0.7); margin-bottom: 10px;">
+                كل شهر نفس القصة...
+            </p>
+
+            <div class="breaking-cycle reveal">
+                <span>تخلص 💰</span>
+                <span class="breaking-arrow">&larr;</span>
+                <span>تصرف 🛍️</span>
+                <span class="breaking-arrow">&larr;</span>
+                <span>تقلق 😰</span>
+                <span class="breaking-arrow">&larr;</span>
+                <span>تستنى ⏳</span>
+            </div>
+
+            <div class="breaking-hope reveal">
+                وإذا قلنالك إنو تقدر توصل لآخر الشهر <strong style="color:#4ADE80;">مرتاح</strong>؟ 🌅
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════ SECTION 6: The Solution ═══════ -->
+    <section class="solution">
+        <div class="container">
+            <h2 class="section-title reveal">مع شهريتي، الشهرية توصّلك</h2>
+
+            <div class="solution-grid">
+                <div class="solution-card reveal reveal-delay-1">
+                    <span class="solution-icon">📊</span>
+                    <h3>تتبع كل دينار</h3>
+                    <p>اعرف وين راحت كل دينار من أول يوم — بلا ما تنسى حاجة.</p>
+                </div>
+                <div class="solution-card reveal reveal-delay-2">
+                    <span class="solution-icon">🎯</span>
+                    <h3>سقف يومي ذكي</h3>
+                    <p>حدد سقف يومي ما تتعداهش — شهريتي يحسبلك على حسب الأيام الباقية.</p>
+                </div>
+                <div class="solution-card reveal reveal-delay-3">
+                    <span class="solution-icon">⚠️</span>
+                    <h3>تنبيهات ذكية</h3>
+                    <p>تنبيه كي تبدا تقرب من الحدود — قبل ما يفوت الفوت.</p>
+                </div>
+                <div class="solution-card reveal reveal-delay-4">
+                    <span class="solution-icon">📅</span>
+                    <h3>توقع آخر الشهر</h3>
+                    <p>شوف إذا شهريتك غادي توصّلك ولا لا — من اليوم الأول.</p>
+                </div>
+                <div class="solution-card reveal reveal-delay-5">
+                    <span class="solution-icon">💰</span>
+                    <h3>ادخار يومي بسيط</h3>
+                    <p>وفّر شوية كل يوم — حتى 200 دج تفرق في آخر الشهر.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════ SECTION 7: New Month Timeline ═══════ -->
+    <section class="new-month">
+        <div class="container">
+            <h2 class="section-title reveal">الشهر الجديد مع شهريتي ✨</h2>
+
+            <div class="timeline">
+                <div class="timeline-item reveal reveal-delay-1">
+                    <span class="timeline-emoji">📊</span>
+                    <div class="timeline-day">يوم 1</div>
+                    <div class="timeline-text">نحط الميزانية — كل شي واضح من البداية</div>
+                </div>
+
+                <div class="timeline-item reveal reveal-delay-2">
+                    <span class="timeline-emoji">✅</span>
+                    <div class="timeline-day">يوم 10</div>
+                    <div class="timeline-text">ماشي مليح — الميزانية محترمة والمصاريف تحت السيطرة</div>
+                </div>
+
+                <div class="timeline-item reveal reveal-delay-3">
+                    <span class="timeline-emoji">😌</span>
+                    <div class="timeline-day">يوم 20</div>
+                    <div class="timeline-text">مازال عندي فلوس وما قلقتش — حاجة كانت مستحيلة!</div>
+                </div>
+
+                <div class="timeline-item reveal reveal-delay-4">
+                    <span class="timeline-emoji">🎉</span>
+                    <div class="timeline-day">يوم 30</div>
+                    <div class="timeline-text">خلصت الشهر ووفّرت! هذا هو الفرق الحقيقي.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════ SECTION 8: CTA ═══════ -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="section-title reveal">ما تستناش الشهرية — حمّل دروك</h2>
+
+            <div class="cta-countdown reveal" id="cta-countdown">
+                <div class="cta-countdown-unit">
+                    <span class="cta-countdown-num" id="cta-days">--</span>
+                    <span class="cta-countdown-label">يوم</span>
+                </div>
+                <span class="cta-countdown-sep">:</span>
+                <div class="cta-countdown-unit">
+                    <span class="cta-countdown-num" id="cta-hours">--</span>
+                    <span class="cta-countdown-label">ساعة</span>
+                </div>
+                <span class="cta-countdown-sep">:</span>
+                <div class="cta-countdown-unit">
+                    <span class="cta-countdown-num" id="cta-minutes">--</span>
+                    <span class="cta-countdown-label">دقيقة</span>
+                </div>
+                <span class="cta-countdown-sep">:</span>
+                <div class="cta-countdown-unit">
+                    <span class="cta-countdown-num" id="cta-seconds">--</span>
+                    <span class="cta-countdown-label">ثانية</span>
+                </div>
+            </div>
+
+            <p class="cta-loss reveal">كل يوم بلا تنظيم = خسارة 💸</p>
+
+            <div class="reveal">
+                <a href="#" class="cta-btn">حمّل شهريتي مجانا</a>
+            </div>
+
+            <div class="cta-stores reveal" style="margin-top: 24px;">
+                <a href="#" class="store-badge">
+                    <svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+                    App Store
+                </a>
+                <a href="#" class="store-badge">
+                    <svg viewBox="0 0 24 24"><path d="M3.18 23.49c.41.41.98.46 1.48.19l17.03-9.83a.96.96 0 000-1.7L4.66.32C4.16.05 3.59.1 3.18.51L13.09 12 3.18 23.49zM20.21 12l-3.56-2.05-3.56 2.05 3.56 2.05 3.56-2.05z"/></svg>
+                    Google Play
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════ SECTION 9: Footer ═══════ -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">شهريتي</div>
+            <p class="footer-tagline">أذكى طريقة لإدارة مصاريفك الشهرية</p>
+            <div class="footer-links">
+                <a href="#">الرئيسية</a>
+                <a href="#">المميزات</a>
+                <a href="#">سياسة الخصوصية</a>
+                <a href="#">اتصل بنا</a>
+            </div>
+            <p class="footer-copy">&copy; 2026 شهريتي. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        /* ════════════════════════════════════════════
+           Countdown Timer
+        ════════════════════════════════════════════ */
+        (function () {
+            var paydaySelect = document.getElementById('payday');
+            var cdDays = document.getElementById('cd-days');
+            var cdHours = document.getElementById('cd-hours');
+            var cdMinutes = document.getElementById('cd-minutes');
+            var cdSeconds = document.getElementById('cd-seconds');
+            var ctaDays = document.getElementById('cta-days');
+            var ctaHours = document.getElementById('cta-hours');
+            var ctaMinutes = document.getElementById('cta-minutes');
+            var ctaSeconds = document.getElementById('cta-seconds');
+
+            var selectedDay = null;
+            var timerInterval = null;
+
+            // Populate select with days 1-30
+            for (var i = 1; i <= 30; i++) {
+                var opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = i;
+                paydaySelect.appendChild(opt);
+            }
+
+            // Default to day 25 for demo
+            paydaySelect.value = 25;
+            selectedDay = 25;
+            startCountdown();
+
+            paydaySelect.addEventListener('change', function () {
+                selectedDay = parseInt(this.value);
+                startCountdown();
+            });
+
+            function getNextPayday(day) {
+                var now = new Date();
+                var target = new Date(now.getFullYear(), now.getMonth(), day, 0, 0, 0, 0);
+
+                // If the target day already passed this month, go to next month
+                if (target <= now) {
+                    target.setMonth(target.getMonth() + 1);
+                }
+
+                // Handle months that don't have the selected day (e.g., day 30 in Feb)
+                // If setMonth pushed the day into the next month, adjust
+                if (target.getDate() !== day) {
+                    // Go to last day of the intended month
+                    target = new Date(target.getFullYear(), target.getMonth(), 0);
+                }
+
+                return target;
+            }
+
+            function updateDisplay(diff, heroEls, ctaEls) {
+                if (diff <= 0) {
+                    heroEls.days.textContent = '00';
+                    heroEls.hours.textContent = '00';
+                    heroEls.minutes.textContent = '00';
+                    heroEls.seconds.textContent = '00';
+                    ctaEls.days.textContent = '00';
+                    ctaEls.hours.textContent = '00';
+                    ctaEls.minutes.textContent = '00';
+                    ctaEls.seconds.textContent = '00';
+                    return;
+                }
+
+                var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                var dStr = String(days).padStart(2, '0');
+                var hStr = String(hours).padStart(2, '0');
+                var mStr = String(minutes).padStart(2, '0');
+                var sStr = String(seconds).padStart(2, '0');
+
+                // Animate tick on seconds change
+                if (heroEls.seconds.textContent !== sStr) {
+                    heroEls.seconds.classList.remove('tick-anim');
+                    void heroEls.seconds.offsetWidth; // reflow
+                    heroEls.seconds.classList.add('tick-anim');
+                }
+
+                heroEls.days.textContent = dStr;
+                heroEls.hours.textContent = hStr;
+                heroEls.minutes.textContent = mStr;
+                heroEls.seconds.textContent = sStr;
+
+                ctaEls.days.textContent = dStr;
+                ctaEls.hours.textContent = hStr;
+                ctaEls.minutes.textContent = mStr;
+                ctaEls.seconds.textContent = sStr;
+            }
+
+            function startCountdown() {
+                if (timerInterval) clearInterval(timerInterval);
+                if (!selectedDay) return;
+
+                var heroEls = { days: cdDays, hours: cdHours, minutes: cdMinutes, seconds: cdSeconds };
+                var ctaEls = { days: ctaDays, hours: ctaHours, minutes: ctaMinutes, seconds: ctaSeconds };
+                var target = getNextPayday(selectedDay);
+
+                function tick() {
+                    var now = new Date();
+                    var diff = target.getTime() - now.getTime();
+                    if (diff <= 0) {
+                        // Recalculate for next month
+                        target = getNextPayday(selectedDay);
+                        diff = target.getTime() - now.getTime();
+                    }
+                    updateDisplay(diff, heroEls, ctaEls);
+                }
+
+                tick();
+                timerInterval = setInterval(tick, 1000);
+            }
+        })();
+
+
+        /* ════════════════════════════════════════════
+           Scroll Reveal — IntersectionObserver
+        ════════════════════════════════════════════ */
+        (function () {
+            var reveals = document.querySelectorAll('.reveal');
+            if (!('IntersectionObserver' in window)) {
+                reveals.forEach(function (el) { el.classList.add('visible'); });
+                return;
+            }
+
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+            reveals.forEach(function (el) { observer.observe(el); });
+        })();
+
+
+        /* ════════════════════════════════════════════
+           Wallet Drain — Scroll-based animation
+        ════════════════════════════════════════════ */
+        (function () {
+            var section = document.getElementById('wallet-section');
+            var bar = document.getElementById('wallet-bar');
+            var barLabel = document.getElementById('wallet-bar-label');
+            var walletIcon = document.getElementById('wallet-icon');
+            var emptyMsg = document.getElementById('wallet-empty-msg');
+            var items = document.querySelectorAll('.expense-item');
+            var hasAnimated = false;
+
+            if (!section || !('IntersectionObserver' in window)) return;
+
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting && !hasAnimated) {
+                        hasAnimated = true;
+                        animateWalletDrain();
+                        observer.unobserve(section);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            observer.observe(section);
+
+            function animateWalletDrain() {
+                var delay = 0;
+                var currentPct = 100;
+
+                items.forEach(function (item, index) {
+                    var targetPct = parseInt(item.getAttribute('data-pct'));
+                    delay += 600;
+
+                    setTimeout(function () {
+                        item.classList.add('show');
+                        currentPct = targetPct;
+
+                        // Animate bar
+                        bar.style.width = targetPct + '%';
+                        barLabel.textContent = targetPct + '%';
+
+                        // Color shift on bar
+                        if (targetPct <= 20) {
+                            bar.style.background = 'linear-gradient(90deg, #DC2626 0%, #F87171 100%)';
+                        } else if (targetPct <= 40) {
+                            bar.style.background = 'linear-gradient(90deg, #F59E0B 0%, #FB923C 100%)';
+                        } else if (targetPct <= 60) {
+                            bar.style.background = 'linear-gradient(90deg, #F59E0B 0%, #22C55E 100%)';
+                        }
+
+                        // Wallet icon progression
+                        if (targetPct <= 30) {
+                            walletIcon.textContent = '👛';
+                            walletIcon.style.filter = 'grayscale(0.5)';
+                        }
+                        if (targetPct <= 10) {
+                            walletIcon.textContent = '💸';
+                            walletIcon.style.filter = 'grayscale(0.8)';
+                        }
+                        if (targetPct === 0) {
+                            walletIcon.textContent = '🕳️';
+                            walletIcon.style.filter = 'grayscale(1) brightness(0.6)';
+                            bar.style.width = '0%';
+                            barLabel.textContent = '0%';
+                            bar.style.background = '#DC2626';
+                        }
+                    }, delay);
+                });
+
+                // Show empty message at the end
+                setTimeout(function () {
+                    emptyMsg.classList.add('show');
+                }, delay + 800);
+            }
+        })();
+
+
+        /* ════════════════════════════════════════════
+           Animated counter for stats (requestAnimationFrame)
+        ════════════════════════════════════════════ */
+        (function () {
+            function animateValue(el, start, end, duration) {
+                var startTime = null;
+                function step(timestamp) {
+                    if (!startTime) startTime = timestamp;
+                    var progress = Math.min((timestamp - startTime) / duration, 1);
+                    var eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+                    var current = Math.floor(start + (end - start) * eased);
+                    el.textContent = current.toLocaleString('ar-DZ');
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    }
+                }
+                requestAnimationFrame(step);
+            }
+
+            // Expose for potential use
+            window.animateValue = animateValue;
+        })();
+    </script>
+
+</body>
+</html>

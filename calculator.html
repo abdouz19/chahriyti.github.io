@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شهريتي — حاسبة الراتب الشهري</title>
+    <meta name="description" content="دخّل شهريتك ونقولك وين راهي تروح. اكتشف كيفاش تتوزع مصاريفك الشهرية مع شهريتي.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #0D6E6E;
+            --primary-light: #1A9494;
+            --primary-dark: #084E4E;
+            --primary-glow: rgba(13, 110, 110, 0.15);
+            --positive: #22C55E;
+            --negative: #EF4444;
+            --warning: #F59E0B;
+            --surface: #F0F4F4;
+            --card: rgba(255, 255, 255, 0.75);
+            --card-solid: #FFFFFF;
+            --text-primary: #1A1A2E;
+            --text-secondary: #64748B;
+            --border: rgba(13, 110, 110, 0.12);
+            --danger: #DC2626;
+            --danger-light: #FEE2E2;
+            --danger-bg: rgba(220, 38, 38, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--surface);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.7;
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 3px; }
+
+        /* ─── Animations ─── */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes barFill {
+            from { width: 0; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-4px); }
+            40% { transform: translateX(4px); }
+            60% { transform: translateX(-3px); }
+            80% { transform: translateX(3px); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
+
+        /* ─── Layout ─── */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* ─── Glass Card ─── */
+        .glass-card {
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(13, 110, 110, 0.06);
+        }
+
+        /* ─── Hero ─── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(160deg, #0D6E6E 0%, #084E4E 40%, #0A5C5C 70%, #0D6E6E 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 40px 0;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 80vw;
+            height: 80vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -20%;
+            width: 60vw;
+            height: 60vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(26, 148, 148, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: #fff;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 100px;
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 28px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 16px;
+            animation: fadeInUp 0.8s ease 0.15s both;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            opacity: 0.85;
+            font-weight: 400;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .hero-input-wrapper {
+            animation: fadeInUp 0.8s ease 0.45s both;
+        }
+
+        .salary-input-group {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(16px);
+            border: 2px solid rgba(255,255,255,0.25);
+            border-radius: 20px;
+            padding: 24px 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            max-width: 460px;
+            margin: 0 auto;
+        }
+
+        .salary-input-group:focus-within {
+            border-color: rgba(255,255,255,0.5);
+            box-shadow: 0 0 40px rgba(255,255,255,0.1);
+        }
+
+        .salary-input-group .currency {
+            font-size: 18px;
+            font-weight: 700;
+            opacity: 0.7;
+            white-space: nowrap;
+        }
+
+        .salary-input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            font-weight: 700;
+            text-align: center;
+            direction: ltr;
+        }
+
+        .salary-input::placeholder {
+            color: rgba(255,255,255,0.4);
+            font-weight: 400;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        .hero-scroll-hint {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+            animation: float 2.5s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        .hero-scroll-hint span {
+            display: block;
+            margin-top: 6px;
+            font-size: 20px;
+        }
+
+        /* ─── Calculator Section ─── */
+        .calculator-section {
+            background: var(--surface);
+            padding: 80px 0 60px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+
+        .section-header p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Slider */
+        .slider-container {
+            margin-bottom: 40px;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .salary-slider {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to left, var(--primary), var(--primary-light));
+            outline: none;
+            cursor: pointer;
+        }
+
+        .salary-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #fff;
+            border: 3px solid var(--primary);
+            box-shadow: 0 2px 10px rgba(13,110,110,0.3);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .salary-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        .salary-slider::-moz-range-thumb {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #fff;
+            border: 3px solid var(--primary);
+            box-shadow: 0 2px 10px rgba(13,110,110,0.3);
+            cursor: pointer;
+        }
+
+        .current-salary-display {
+            text-align: center;
+            margin-top: 16px;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 800;
+            color: var(--primary);
+            direction: ltr;
+        }
+
+        .current-salary-display .label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            direction: rtl;
+        }
+
+        /* ─── Expense Breakdown ─── */
+        .expense-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 32px;
+        }
+
+        .expense-item {
+            background: var(--card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px 20px;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .expense-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(13,110,110,0.08);
+        }
+
+        .expense-item.remaining {
+            background: var(--danger-bg);
+            border-color: rgba(220, 38, 38, 0.2);
+        }
+
+        .expense-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .expense-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .expense-name .emoji {
+            font-size: 20px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-glow);
+            border-radius: 10px;
+        }
+
+        .expense-item.remaining .expense-name .emoji {
+            background: var(--danger-light);
+        }
+
+        .expense-amount {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--primary);
+            direction: ltr;
+            text-align: left;
+        }
+
+        .expense-item.remaining .expense-amount {
+            color: var(--danger);
+            font-size: 17px;
+        }
+
+        .expense-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: rgba(13, 110, 110, 0.08);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .expense-item.remaining .expense-bar-bg {
+            background: rgba(220, 38, 38, 0.1);
+        }
+
+        .expense-bar {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            width: 0;
+            transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .expense-item.remaining .expense-bar {
+            background: linear-gradient(90deg, var(--danger), #EF4444);
+        }
+
+        .expense-percentage {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .expense-item.remaining .expense-percentage {
+            color: var(--danger);
+        }
+
+        .disclaimer {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 14px 20px;
+            background: rgba(245, 158, 11, 0.08);
+            border-radius: 12px;
+            border: 1px solid rgba(245, 158, 11, 0.15);
+        }
+
+        /* ─── Shock Section ─── */
+        .shock-section {
+            background: linear-gradient(180deg, var(--surface) 0%, #FFF5F5 100%);
+            padding: 80px 0;
+        }
+
+        .shock-section .section-header h2 {
+            color: var(--danger);
+        }
+
+        .scenarios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .scenario-card {
+            background: var(--card-solid);
+            border: 1px solid rgba(220, 38, 38, 0.12);
+            border-radius: 20px;
+            padding: 24px 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .scenario-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(220, 38, 38, 0.1);
+        }
+
+        .scenario-emoji {
+            font-size: 36px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .scenario-name {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .scenario-cost {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--danger);
+            direction: ltr;
+            margin-bottom: 8px;
+        }
+
+        .scenario-impact {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .scenario-impact strong {
+            color: var(--danger);
+        }
+
+        .shock-summary {
+            text-align: center;
+            margin-top: 36px;
+            font-size: 15px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* ─── Solution Section ─── */
+        .solution-section {
+            background: linear-gradient(180deg, #fff 0%, var(--surface) 100%);
+            padding: 80px 0;
+        }
+
+        .solution-section .section-header h2 {
+            color: var(--primary-dark);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 36px;
+        }
+
+        .feature-card {
+            background: var(--card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px 22px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(13, 110, 110, 0.1);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--primary-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin: 0 auto 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--primary-dark);
+        }
+
+        .feature-card p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ─── Savings Section ─── */
+        .savings-section {
+            background: linear-gradient(160deg, var(--primary-dark) 0%, var(--primary) 100%);
+            padding: 80px 0;
+            color: #fff;
+        }
+
+        .savings-section .section-header h2 {
+            color: #fff;
+        }
+
+        .savings-section .section-header p {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .savings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 36px;
+        }
+
+        .savings-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 28px 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .savings-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .savings-card.highlight {
+            background: rgba(255,255,255,0.18);
+            border-color: rgba(255,255,255,0.3);
+            transform: scale(1.04);
+        }
+
+        .savings-card.highlight:hover {
+            transform: scale(1.04) translateY(-4px);
+        }
+
+        .savings-period {
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0.8;
+            margin-bottom: 12px;
+        }
+
+        .savings-amount {
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            font-weight: 800;
+            direction: ltr;
+            color: #fff;
+        }
+
+        .savings-label {
+            font-size: 12px;
+            opacity: 0.6;
+            margin-top: 4px;
+        }
+
+        .savings-note {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 16px;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .savings-note .amount {
+            font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+            font-weight: 800;
+            color: #5EEAD4;
+            display: block;
+            margin-top: 4px;
+            direction: ltr;
+        }
+
+        /* ─── CTA Section ─── */
+        .cta-section {
+            background: var(--surface);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+        }
+
+        .cta-section p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 480px;
+            margin: 0 auto 32px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #fff;
+            padding: 16px 36px;
+            border-radius: 16px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 4px 20px rgba(13, 110, 110, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(13, 110, 110, 0.4);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            color: var(--primary);
+            padding: 16px 36px;
+            border-radius: 16px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+
+        /* ─── Footer ─── */
+        .footer {
+            background: var(--primary-dark);
+            color: rgba(255,255,255,0.7);
+            padding: 32px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .footer .brand {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .footer a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #fff;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 640px) {
+            section {
+                padding: 60px 0;
+            }
+
+            .glass-card {
+                padding: 20px;
+                border-radius: 18px;
+            }
+
+            .salary-input-group {
+                padding: 18px 20px;
+                border-radius: 16px;
+            }
+
+            .savings-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .savings-card.highlight {
+                transform: none;
+            }
+
+            .savings-card.highlight:hover {
+                transform: translateY(-4px);
+            }
+
+            .scenarios-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .expense-item {
+                padding: 14px 16px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                max-width: 320px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .scenarios-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ─── Hidden state for calculator ─── */
+        .calc-results {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.5s ease, max-height 0.6s ease;
+        }
+
+        .calc-results.active {
+            opacity: 1;
+            max-height: 3000px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══════════ HERO ═══════════ -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">💰 شهريتي — حاسبة الراتب</div>
+            <h1>وين راهي تروح شهريتك؟</h1>
+            <p>دخّل المبلغ ونوريك الحقيقة</p>
+            <div class="hero-input-wrapper">
+                <div class="salary-input-group">
+                    <span class="currency">دج</span>
+                    <input
+                        type="text"
+                        class="salary-input"
+                        id="heroSalaryInput"
+                        placeholder="مثلا: 60,000"
+                        inputmode="numeric"
+                        autocomplete="off"
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll-hint">
+            اكتشف التفاصيل
+            <span>↓</span>
+        </div>
+    </section>
+
+    <!-- ═══════════ CALCULATOR ═══════════ -->
+    <section class="calculator-section" id="calculator">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>تفصيلة المصاريف الشهرية</h2>
+                <p>حرّك السلايدر ولا دخّل المبلغ فوق باش تشوف وين تروح فلوسك</p>
+            </div>
+
+            <div class="glass-card reveal">
+                <div class="slider-container">
+                    <div class="slider-labels">
+                        <span>200,000 دج</span>
+                        <span>20,000 دج</span>
+                    </div>
+                    <input
+                        type="range"
+                        class="salary-slider"
+                        id="salarySlider"
+                        min="20000"
+                        max="200000"
+                        step="5000"
+                        value="60000"
+                    >
+                    <div class="current-salary-display">
+                        <span class="label">الراتب الشهري</span>
+                        <span id="salaryDisplay">60,000 دج</span>
+                    </div>
+                </div>
+
+                <div class="calc-results" id="calcResults">
+                    <div class="expense-grid" id="expenseGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div class="disclaimer">
+                        ⚠️ هذا بلا كريدي وبلا مفاجآت — يعني الواقع ممكن يكون أصعب
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ THE SHOCK ═══════════ -->
+    <section class="shock-section" id="shock">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>وإذا جاء مصروف ما حسبتيهش؟</h2>
+                <p>هاذ الباقي اللي عندك — شوف كيفاش يطير في لحظة</p>
+            </div>
+            <div class="scenarios-grid" id="scenariosGrid">
+                <!-- Populated by JS -->
+            </div>
+            <div class="shock-summary reveal" id="shockSummary">
+                مصروف واحد غير متوقع وتولي في الأحمر 🔴
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ THE SOLUTION ═══════════ -->
+    <section class="solution-section" id="solution">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>مع شهريتي، تعرف وين كل دينار راح</h2>
+                <p>التطبيق اللي يخليك تتحكم في مصاريفك قبل ما تتحكم فيك</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card reveal reveal-delay-1">
+                    <div class="feature-icon">📊</div>
+                    <h3>تتبع كل مصروف</h3>
+                    <p>سجّل مصاريفك بضغطة وحدة وشوف وين راحت فلوسك</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-2">
+                    <div class="feature-icon">🎯</div>
+                    <h3>حدود لكل فئة</h3>
+                    <p>حط ليميت للماكلة، المقهى، والترانسبور — ما تفوتهمش</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-3">
+                    <div class="feature-icon">📈</div>
+                    <h3>اكتشف وين تصرف بزاف</h3>
+                    <p>شهريتي يوريك الفئات اللي تاكلك فلوسك بلا ما تحس</p>
+                </div>
+                <div class="feature-card reveal reveal-delay-4">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>وفّر للمفاجآت</h3>
+                    <p>ادخر شوية كل شهر باش ما تنصدمش كي يجي مصروف ما حسبتيهش</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ SAVINGS POTENTIAL ═══════════ -->
+    <section class="savings-section" id="savings">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>لوكان توفر غير 10% كل شهر...</h2>
+                <p>شوف قدّاش تقدر تجمع بلا ما تحس</p>
+            </div>
+            <div class="savings-grid reveal">
+                <div class="savings-card">
+                    <div class="savings-period">3 أشهر</div>
+                    <div class="savings-amount" id="savings3">0 دج</div>
+                    <div class="savings-label">بداية حلوة</div>
+                </div>
+                <div class="savings-card highlight">
+                    <div class="savings-period">6 أشهر</div>
+                    <div class="savings-amount" id="savings6">0 دج</div>
+                    <div class="savings-label">ولات حاجة</div>
+                </div>
+                <div class="savings-card">
+                    <div class="savings-period">12 شهر</div>
+                    <div class="savings-amount" id="savings12">0 دج</div>
+                    <div class="savings-label">تغيّرت اللعبة</div>
+                </div>
+            </div>
+            <div class="savings-note reveal" id="savingsNote">
+                في عام واحد، تقدر توفر
+                <span class="amount" id="savingsYearAmount">0 دج</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ CTA ═══════════ -->
+    <section class="cta-section" id="cta">
+        <div class="container reveal">
+            <h2>ماتخليش شهريتك تضيع</h2>
+            <p>كل يوم بلا تتبع هو يوم فلوسك تروح بلا ما تعرف وين. ابدأ اليوم.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn-primary">
+                    📲 حمّل شهريتي مجانا
+                </a>
+                <a href="#calculator" class="btn-secondary">
+                    🔄 ارجع للحاسبة
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ FOOTER ═══════════ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="brand">شهريتي</div>
+            <div>أذكى طريقة لإدارة مصاريفك الشهرية</div>
+            <div class="footer-links">
+                <a href="#">الرئيسية</a>
+                <a href="#">سياسة الخصوصية</a>
+                <a href="#">تواصل معنا</a>
+            </div>
+            <div style="margin-top: 16px; opacity: 0.5;">© 2026 شهريتي — جميع الحقوق محفوظة</div>
+        </div>
+    </footer>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // ─── Data ───
+        const expenses = [
+            { emoji: '🏠', name: 'الكرا', percent: 35 },
+            { emoji: '🛒', name: 'الماكلة', percent: 25 },
+            { emoji: '⚡', name: 'الفواتير', percent: 10 },
+            { emoji: '🚗', name: 'الترانسبور', percent: 8 },
+            { emoji: '☕', name: 'المقهى والخروجات', percent: 7 },
+            { emoji: '👕', name: 'اللبسة', percent: 5 },
+            { emoji: '📱', name: 'الهاتف', percent: 3 },
+            { emoji: '💊', name: 'الصحة', percent: 2 },
+        ];
+        const remainingPercent = 5;
+
+        const scenarios = [
+            { emoji: '🏥', name: 'زيارة طبيب + دوا', cost: 8000 },
+            { emoji: '🔧', name: 'إصلاح طوموبيل', cost: 15000 },
+            { emoji: '💒', name: 'مساهمة في عرس', cost: 10000 },
+            { emoji: '📚', name: 'دخول مدرسي', cost: 20000 },
+        ];
+
+        // ─── Formatter ───
+        const fmt = new Intl.NumberFormat('ar-DZ', {
+            style: 'decimal',
+            maximumFractionDigits: 0,
+        });
+
+        function formatDZD(n) {
+            return fmt.format(Math.round(n)) + ' دج';
+        }
+
+        // ─── DOM refs ───
+        const heroInput = document.getElementById('heroSalaryInput');
+        const slider = document.getElementById('salarySlider');
+        const salaryDisplay = document.getElementById('salaryDisplay');
+        const calcResults = document.getElementById('calcResults');
+        const expenseGrid = document.getElementById('expenseGrid');
+        const scenariosGrid = document.getElementById('scenariosGrid');
+        const savings3 = document.getElementById('savings3');
+        const savings6 = document.getElementById('savings6');
+        const savings12 = document.getElementById('savings12');
+        const savingsYearAmount = document.getElementById('savingsYearAmount');
+        const savingsNote = document.getElementById('savingsNote');
+
+        let currentSalary = 60000;
+        let animationFrames = {};
+
+        // ─── Build expense grid HTML ───
+        function buildExpenseGrid() {
+            let html = '';
+            expenses.forEach(function(exp, i) {
+                html += '<div class="expense-item reveal reveal-delay-' + Math.min(i % 5 + 1, 5) + '" data-percent="' + exp.percent + '">' +
+                    '<div class="expense-header">' +
+                        '<div class="expense-name"><span class="emoji">' + exp.emoji + '</span>' + exp.name + '</div>' +
+                        '<div style="display:flex;align-items:center;gap:12px;">' +
+                            '<span class="expense-percentage">' + exp.percent + '%</span>' +
+                            '<span class="expense-amount" data-target="0">0 دج</span>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="expense-bar-bg"><div class="expense-bar" style="width:0"></div></div>' +
+                '</div>';
+            });
+            // Remaining
+            html += '<div class="expense-item remaining reveal reveal-delay-5" data-percent="' + remainingPercent + '">' +
+                '<div class="expense-header">' +
+                    '<div class="expense-name"><span class="emoji">💰</span>الباقي???</div>' +
+                    '<div style="display:flex;align-items:center;gap:12px;">' +
+                        '<span class="expense-percentage">' + remainingPercent + '%</span>' +
+                        '<span class="expense-amount remaining-amount" data-target="0">0 دج</span>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="expense-bar-bg"><div class="expense-bar" style="width:0"></div></div>' +
+            '</div>';
+            expenseGrid.innerHTML = html;
+        }
+
+        // ─── Build scenarios HTML ───
+        function buildScenarios() {
+            let html = '';
+            scenarios.forEach(function(sc, i) {
+                html += '<div class="scenario-card reveal reveal-delay-' + (i + 1) + '">' +
+                    '<span class="scenario-emoji">' + sc.emoji + '</span>' +
+                    '<div class="scenario-name">' + sc.name + '</div>' +
+                    '<div class="scenario-cost">' + formatDZD(sc.cost) + '</div>' +
+                    '<div class="scenario-impact" data-cost="' + sc.cost + '">...</div>' +
+                '</div>';
+            });
+            scenariosGrid.innerHTML = html;
+        }
+
+        // ─── Animate number counting ───
+        function animateValue(el, start, end, duration, suffix) {
+            if (animationFrames[el.id || Math.random()]) {
+                cancelAnimationFrame(animationFrames[el.id || Math.random()]);
+            }
+            var startTime = null;
+            var key = el.dataset.animKey || (el.dataset.animKey = String(Math.random()));
+            function step(ts) {
+                if (!startTime) startTime = ts;
+                var progress = Math.min((ts - startTime) / duration, 1);
+                var eased = 1 - Math.pow(1 - progress, 3);
+                var current = Math.round(start + (end - start) * eased);
+                el.textContent = fmt.format(current) + (suffix || '');
+                if (progress < 1) {
+                    animationFrames[key] = requestAnimationFrame(step);
+                }
+            }
+            animationFrames[key] = requestAnimationFrame(step);
+        }
+
+        // ─── Update Calculator ───
+        function updateCalculator(salary) {
+            currentSalary = salary;
+
+            // Update display
+            salaryDisplay.textContent = formatDZD(salary);
+
+            // Show results
+            calcResults.classList.add('active');
+
+            // Update expense bars and amounts
+            var items = expenseGrid.querySelectorAll('.expense-item');
+            items.forEach(function(item) {
+                var pct = parseInt(item.dataset.percent);
+                var amount = salary * pct / 100;
+                var bar = item.querySelector('.expense-bar');
+                var amountEl = item.querySelector('.expense-amount');
+
+                // Animate bar width — scale to max percent (35%)
+                var barWidth = (pct / 35) * 100;
+                setTimeout(function() {
+                    bar.style.width = barWidth + '%';
+                }, 100);
+
+                // Animate amount
+                var prevVal = parseInt(amountEl.dataset.target) || 0;
+                amountEl.dataset.target = amount;
+                animateValue(amountEl, prevVal, amount, 600, ' دج');
+            });
+
+            // Update scenarios
+            var remaining = salary * remainingPercent / 100;
+            var impacts = scenariosGrid.querySelectorAll('.scenario-impact');
+            impacts.forEach(function(imp) {
+                var cost = parseInt(imp.dataset.cost);
+                var deficit = cost - remaining;
+                if (deficit > 0) {
+                    imp.innerHTML = 'الباقي عندك: <strong>' + formatDZD(remaining) + '</strong><br>ينقصك: <strong>' + formatDZD(deficit) + '</strong>';
+                } else {
+                    imp.innerHTML = 'الباقي عندك: <strong>' + formatDZD(remaining) + '</strong><br>يبقالك: <strong>' + formatDZD(-deficit) + '</strong>';
+                }
+            });
+
+            // Update savings
+            var monthlySaving = salary * 0.10;
+            var s3 = monthlySaving * 3;
+            var s6 = monthlySaving * 6;
+            var s12 = monthlySaving * 12;
+
+            var prev3 = parseInt(savings3.dataset.target) || 0;
+            var prev6 = parseInt(savings6.dataset.target) || 0;
+            var prev12 = parseInt(savings12.dataset.target) || 0;
+
+            savings3.dataset.target = s3;
+            savings6.dataset.target = s6;
+            savings12.dataset.target = s12;
+
+            animateValue(savings3, prev3, s3, 800, ' دج');
+            animateValue(savings6, prev6, s6, 800, ' دج');
+            animateValue(savings12, prev12, s12, 800, ' دج');
+            savingsYearAmount.textContent = formatDZD(s12);
+        }
+
+        // ─── Sync input ↔ slider ───
+        function parseSalaryInput(val) {
+            var cleaned = val.replace(/[^\d]/g, '');
+            return parseInt(cleaned) || 0;
+        }
+
+        function formatInputValue(n) {
+            if (n === 0) return '';
+            return fmt.format(n);
+        }
+
+        heroInput.addEventListener('input', function() {
+            var raw = parseSalaryInput(this.value);
+            // Clamp for slider sync
+            var clamped = Math.max(20000, Math.min(200000, raw));
+            if (raw > 0) {
+                // Format the input display
+                var cursorPos = this.selectionStart;
+                var oldLen = this.value.length;
+                this.value = formatInputValue(raw);
+                var newLen = this.value.length;
+                var newCursor = cursorPos + (newLen - oldLen);
+                this.setSelectionRange(newCursor, newCursor);
+
+                slider.value = clamped;
+                updateCalculator(raw > 200000 ? 200000 : (raw < 20000 ? raw : clamped));
+            }
+        });
+
+        heroInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                document.getElementById('calculator').scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        slider.addEventListener('input', function() {
+            var val = parseInt(this.value);
+            heroInput.value = formatInputValue(val);
+            updateCalculator(val);
+        });
+
+        // ─── Intersection Observer for reveals ───
+        function initReveals() {
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            document.querySelectorAll('.reveal').forEach(function(el) {
+                observer.observe(el);
+            });
+        }
+
+        // ─── Init ───
+        buildExpenseGrid();
+        buildScenarios();
+        updateCalculator(60000);
+        heroInput.value = formatInputValue(60000);
+
+        // Wait a tick so DOM is settled, then init reveals
+        requestAnimationFrame(function() {
+            initReveals();
+        });
+
+        // Re-observe dynamically added reveal elements after grid built
+        setTimeout(function() {
+            initReveals();
+        }, 100);
+    })();
+    </script>
+</body>
+</html>

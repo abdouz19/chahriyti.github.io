@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شهريتي — قبل وبعد | حياتك المالية تتبدل</title>
+    <meta name="description" content="شوف الفرق بين حياتك المالية قبل وبعد شهريتي. من الضياع والقلق إلى التنظيم وراحة البال.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --teal: #0D6E6E;
+            --teal-light: #0F8B8B;
+            --teal-glow: rgba(13, 110, 110, 0.3);
+            --before-red: #8B1A1A;
+            --before-dark: #1a1014;
+            --before-card: rgba(139, 26, 26, 0.15);
+            --after-card: rgba(13, 110, 110, 0.12);
+            --danger: #C0392B;
+            --danger-light: #E74C3C;
+            --success: #27AE60;
+            --dark-bg: #0a0a0f;
+            --card-glass: rgba(255, 255, 255, 0.06);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f0f0f0;
+            --text-secondary: rgba(255, 255, 255, 0.65);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        /* ===========================
+           HERO SECTION
+        =========================== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .hero-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+        }
+
+        .hero-before {
+            background: linear-gradient(135deg, #0d0508 0%, #1a0a10 40%, #2a1018 100%);
+        }
+
+        .hero-before::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 30% 40%, rgba(139, 26, 26, 0.2) 0%, transparent 60%),
+                radial-gradient(circle at 70% 70%, rgba(100, 20, 20, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Chaotic floating elements for BEFORE side */
+        .hero-before .chaos-element {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.12;
+            animation: float-chaos 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .hero-before .chaos-element:nth-child(1) { top: 15%; right: 20%; animation-delay: 0s; }
+        .hero-before .chaos-element:nth-child(2) { top: 60%; right: 10%; animation-delay: 1.5s; font-size: 1.2rem; }
+        .hero-before .chaos-element:nth-child(3) { top: 80%; right: 60%; animation-delay: 3s; }
+        .hero-before .chaos-element:nth-child(4) { top: 30%; right: 70%; animation-delay: 4s; font-size: 1rem; }
+
+        @keyframes float-chaos {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-10px, -15px) rotate(-5deg); }
+            50% { transform: translate(8px, -8px) rotate(3deg); }
+            75% { transform: translate(-5px, 10px) rotate(-2deg); }
+        }
+
+        .hero-after {
+            background: linear-gradient(135deg, #04201f 0%, #082e2e 40%, #0a3d3d 100%);
+        }
+
+        .hero-after::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 40% 50%, rgba(13, 110, 110, 0.2) 0%, transparent 60%),
+                radial-gradient(circle at 70% 30%, rgba(15, 139, 139, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Calm particles for AFTER side */
+        .hero-after .calm-element {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(13, 110, 110, 0.3);
+            animation: float-calm 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .hero-after .calm-element:nth-child(1) { top: 20%; left: 30%; animation-delay: 0s; }
+        .hero-after .calm-element:nth-child(2) { top: 50%; left: 60%; animation-delay: 2s; width: 4px; height: 4px; }
+        .hero-after .calm-element:nth-child(3) { top: 70%; left: 20%; animation-delay: 4s; width: 8px; height: 8px; }
+        .hero-after .calm-element:nth-child(4) { top: 35%; left: 80%; animation-delay: 6s; }
+
+        @keyframes float-calm {
+            0%, 100% { transform: translateY(0); opacity: 0.3; }
+            50% { transform: translateY(-20px); opacity: 0.6; }
+        }
+
+        /* Diagonal split line */
+        .hero-split {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            z-index: 10;
+            overflow: visible;
+        }
+
+        .hero-split::before {
+            content: '';
+            position: absolute;
+            top: -5%;
+            left: 50%;
+            transform: translateX(-50%) rotate(3deg);
+            width: 3px;
+            height: 110%;
+            background: linear-gradient(180deg,
+                rgba(139, 26, 26, 0.6) 0%,
+                rgba(255, 255, 255, 0.15) 50%,
+                rgba(13, 110, 110, 0.6) 100%
+            );
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        .hero-split-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(20, 20, 30, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            z-index: 11;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-label {
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .label-before {
+            background: rgba(139, 26, 26, 0.3);
+            border: 1px solid rgba(139, 26, 26, 0.5);
+            color: #e57373;
+        }
+
+        .label-after {
+            background: rgba(13, 110, 110, 0.3);
+            border: 1px solid rgba(13, 110, 110, 0.5);
+            color: #4dd0c0;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 900;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .hero-before .hero-title {
+            color: #e57373;
+            text-shadow: 0 0 40px rgba(229, 115, 115, 0.3);
+        }
+
+        .hero-after .hero-title {
+            color: #4dd0c0;
+            text-shadow: 0 0 40px rgba(77, 208, 192, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            text-align: center;
+            max-width: 380px;
+            line-height: 1.9;
+        }
+
+        .hero-before .hero-subtitle {
+            color: rgba(229, 115, 115, 0.7);
+        }
+
+        .hero-after .hero-subtitle {
+            color: rgba(77, 208, 192, 0.7);
+        }
+
+        /* Hero icon groups */
+        .hero-icon-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 28px;
+            font-size: 2rem;
+        }
+
+        .hero-before .hero-icon-group {
+            filter: grayscale(0.3);
+        }
+
+        /* Hero entrance animations */
+        .hero-before {
+            animation: slideInBefore 1s ease-out;
+        }
+
+        .hero-after {
+            animation: slideInAfter 1s ease-out 0.3s both;
+        }
+
+        @keyframes slideInBefore {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInAfter {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ===========================
+           SECTION STYLES (shared)
+        =========================== */
+        section {
+            padding: 100px 20px;
+            position: relative;
+        }
+
+        .section-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            background: rgba(13, 110, 110, 0.15);
+            border: 1px solid rgba(13, 110, 110, 0.3);
+            color: var(--teal-light);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 900;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, #f0f0f0 0%, rgba(255,255,255,0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ===========================
+           TIMELINE SECTION
+        =========================== */
+        .timeline-section {
+            background: linear-gradient(180deg, var(--dark-bg) 0%, #0c0c14 100%);
+        }
+
+        .timeline {
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg,
+                var(--danger) 0%,
+                rgba(255,255,255,0.1) 50%,
+                var(--teal) 100%
+            );
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: stretch;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .timeline-day {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--dark-bg);
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.7rem;
+            z-index: 3;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .timeline-card {
+            width: calc(50% - 52px);
+            padding: 24px 28px;
+            border-radius: 18px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: relative;
+        }
+
+        .timeline-card-before {
+            margin-left: auto;
+            margin-right: calc(50% + 52px);
+            background: rgba(139, 26, 26, 0.08);
+            border: 1px solid rgba(139, 26, 26, 0.2);
+        }
+
+        .timeline-card-before::after {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid rgba(139, 26, 26, 0.2);
+        }
+
+        .timeline-card-after {
+            margin-right: auto;
+            margin-left: calc(50% + 52px);
+            background: rgba(13, 110, 110, 0.08);
+            border: 1px solid rgba(13, 110, 110, 0.2);
+        }
+
+        .timeline-card-after::after {
+            content: '';
+            position: absolute;
+            right: -28px;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 10px solid rgba(13, 110, 110, 0.2);
+        }
+
+        .timeline-card-icon {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .timeline-card h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .timeline-card-before h4 { color: #e57373; }
+        .timeline-card-after h4 { color: #4dd0c0; }
+
+        .timeline-card p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        /* ===========================
+           STATS COMPARISON SECTION
+        =========================== */
+        .stats-section {
+            background: linear-gradient(180deg, #0c0c14 0%, #0e0e18 50%, var(--dark-bg) 100%);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .stat-card {
+            background: var(--card-glass);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 32px 28px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(13, 110, 110, 0.3);
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+        }
+
+        .stat-comparison {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .stat-before, .stat-after {
+            flex: 1;
+            padding: 16px 12px;
+            border-radius: 14px;
+            text-align: center;
+        }
+
+        .stat-before {
+            background: rgba(139, 26, 26, 0.1);
+            border: 1px solid rgba(139, 26, 26, 0.2);
+        }
+
+        .stat-after {
+            background: rgba(13, 110, 110, 0.1);
+            border: 1px solid rgba(13, 110, 110, 0.2);
+        }
+
+        .stat-before .stat-tag,
+        .stat-after .stat-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .stat-before .stat-tag { color: #e57373; }
+        .stat-after .stat-tag { color: #4dd0c0; }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 900;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .stat-before .stat-value { color: #e57373; }
+        .stat-after .stat-value { color: #4dd0c0; }
+
+        .stat-unit {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .stat-arrow {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+        }
+
+        /* ===========================
+           TESTIMONIALS
+        =========================== */
+        .testimonials-section {
+            background: var(--dark-bg);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 28px;
+        }
+
+        .testimonial-card {
+            background: var(--card-glass);
+            border: 1px solid var(--card-border);
+            border-radius: 22px;
+            padding: 36px 30px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--danger), var(--teal));
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(13, 110, 110, 0.25);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .testimonial-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--teal), var(--teal-light));
+            color: #fff;
+        }
+
+        .testimonial-name {
+            font-weight: 800;
+            font-size: 1.05rem;
+        }
+
+        .testimonial-role {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .testimonial-stars {
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: #f5c518;
+            margin-bottom: 18px;
+        }
+
+        .testimonial-quote {
+            font-size: 1.05rem;
+            line-height: 2;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            position: relative;
+            padding-right: 20px;
+        }
+
+        .testimonial-quote::before {
+            content: '\201D';
+            position: absolute;
+            right: 0;
+            top: -8px;
+            font-size: 2.5rem;
+            color: var(--teal);
+            opacity: 0.3;
+            font-family: serif;
+        }
+
+        .testimonial-mini {
+            display: flex;
+            gap: 12px;
+        }
+
+        .mini-before, .mini-after {
+            flex: 1;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            line-height: 1.7;
+        }
+
+        .mini-before {
+            background: rgba(139, 26, 26, 0.1);
+            border: 1px solid rgba(139, 26, 26, 0.15);
+            color: #e57373;
+        }
+
+        .mini-after {
+            background: rgba(13, 110, 110, 0.1);
+            border: 1px solid rgba(13, 110, 110, 0.15);
+            color: #4dd0c0;
+        }
+
+        .mini-label {
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        /* ===========================
+           BEFORE/AFTER SLIDER
+        =========================== */
+        .slider-section {
+            background: linear-gradient(180deg, var(--dark-bg) 0%, #0c0c14 100%);
+            overflow: hidden;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 24px;
+            overflow: hidden;
+            aspect-ratio: 16 / 10;
+            border: 1px solid var(--card-border);
+            cursor: ew-resize;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .slider-layer {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .slider-before-layer {
+            z-index: 1;
+        }
+
+        .slider-after-layer {
+            z-index: 2;
+            clip-path: inset(0 50% 0 0);
+        }
+
+        .slider-dashboard {
+            position: absolute;
+            inset: 0;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .dashboard-before {
+            background: linear-gradient(135deg, #1a0a10 0%, #2a1018 100%);
+        }
+
+        .dashboard-after {
+            background: linear-gradient(135deg, #04201f 0%, #0a3d3d 100%);
+        }
+
+        /* Before dashboard mock */
+        .db-header-mock {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .db-title-mock {
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .dashboard-before .db-title-mock { color: #e57373; }
+        .dashboard-after .db-title-mock { color: #4dd0c0; }
+
+        .db-balance-mock {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 4px;
+        }
+
+        .dashboard-before .db-balance-mock { color: #C0392B; }
+        .dashboard-after .db-balance-mock { color: #27AE60; }
+
+        .db-row-mock {
+            display: flex;
+            gap: 10px;
+        }
+
+        .db-card-mock {
+            flex: 1;
+            padding: 14px;
+            border-radius: 14px;
+            backdrop-filter: blur(6px);
+        }
+
+        .dashboard-before .db-card-mock {
+            background: rgba(139, 26, 26, 0.15);
+            border: 1px solid rgba(139, 26, 26, 0.2);
+        }
+
+        .dashboard-after .db-card-mock {
+            background: rgba(13, 110, 110, 0.12);
+            border: 1px solid rgba(13, 110, 110, 0.2);
+        }
+
+        .db-card-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .db-card-value {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .dashboard-before .db-card-value { color: #e57373; }
+        .dashboard-after .db-card-value { color: #4dd0c0; }
+
+        /* Progress bars mock */
+        .db-progress-mock {
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .dashboard-before .db-progress-mock {
+            background: rgba(139, 26, 26, 0.2);
+        }
+
+        .dashboard-after .db-progress-mock {
+            background: rgba(13, 110, 110, 0.15);
+        }
+
+        .db-progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.6s ease;
+        }
+
+        .dashboard-before .db-progress-fill {
+            background: var(--danger);
+        }
+
+        .dashboard-after .db-progress-fill {
+            background: var(--teal);
+        }
+
+        /* Category rows mock */
+        .db-category-mock {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+        }
+
+        .db-cat-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .dashboard-before .db-cat-icon {
+            background: rgba(139, 26, 26, 0.2);
+        }
+
+        .dashboard-after .db-cat-icon {
+            background: rgba(13, 110, 110, 0.15);
+        }
+
+        .db-cat-info {
+            flex: 1;
+        }
+
+        .db-cat-name {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .db-cat-amount {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .dashboard-before .db-cat-amount { color: #e57373; }
+        .dashboard-after .db-cat-amount { color: #4dd0c0; }
+
+        /* Overlay labels on slider */
+        .slider-label-overlay {
+            position: absolute;
+            top: 16px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 5;
+            backdrop-filter: blur(8px);
+        }
+
+        .slider-label-before {
+            right: 16px;
+            background: rgba(139, 26, 26, 0.5);
+            border: 1px solid rgba(139, 26, 26, 0.4);
+            color: #e57373;
+        }
+
+        .slider-label-after {
+            left: 16px;
+            background: rgba(13, 110, 110, 0.5);
+            border: 1px solid rgba(13, 110, 110, 0.4);
+            color: #4dd0c0;
+        }
+
+        /* Slider handle */
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.5);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .slider-handle-knob {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+            cursor: ew-resize;
+            font-size: 1.2rem;
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: background 0.2s ease;
+        }
+
+        .slider-handle-knob:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .slider-hint {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* ===========================
+           CTA SECTION
+        =========================== */
+        .cta-section {
+            background: linear-gradient(180deg, #0c0c14 0%, var(--dark-bg) 100%);
+            text-align: center;
+            padding: 120px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(13, 110, 110, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cta-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 900;
+            margin-bottom: 18px;
+            background: linear-gradient(135deg, #e57373 0%, #4dd0c0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            margin-bottom: 44px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 50px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            font-family: 'Cairo', sans-serif;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fff;
+            background: linear-gradient(135deg, var(--danger) 0%, var(--danger-light) 100%);
+            box-shadow: 0 4px 30px rgba(192, 57, 43, 0.3);
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 60px;
+            background: linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .cta-button:hover {
+            box-shadow: 0 4px 40px rgba(13, 110, 110, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .cta-button:hover::before {
+            opacity: 1;
+        }
+
+        .cta-button span {
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-urgency {
+            margin-top: 24px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .cta-urgency strong {
+            color: #e57373;
+        }
+
+        /* ===========================
+           FOOTER
+        =========================== */
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid var(--card-border);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--teal);
+            margin-bottom: 10px;
+        }
+
+        .footer-tagline {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--teal-light);
+        }
+
+        .footer-copy {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===========================
+           RESPONSIVE
+        =========================== */
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+            }
+
+            .hero-side {
+                min-height: 50vh;
+            }
+
+            .hero-split {
+                top: auto;
+                bottom: 50%;
+                left: 0;
+                width: 100%;
+                height: 4px;
+            }
+
+            .hero-split::before {
+                top: 50%;
+                left: -5%;
+                width: 110%;
+                height: 3px;
+                transform: translateY(-50%) rotate(-1deg);
+            }
+
+            .hero-split-icon {
+                display: none;
+            }
+
+            .timeline::before {
+                left: 28px;
+            }
+
+            .timeline-day {
+                left: 28px;
+                width: 46px;
+                height: 46px;
+                font-size: 0.6rem;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+                gap: 14px;
+            }
+
+            .timeline-card {
+                width: calc(100% - 74px);
+                margin-right: 0 !important;
+                margin-left: 74px !important;
+            }
+
+            .timeline-card-before::after,
+            .timeline-card-after::after {
+                display: none;
+            }
+
+            .stat-comparison {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .stat-arrow {
+                transform: rotate(90deg);
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .slider-wrapper {
+                aspect-ratio: 9 / 14;
+            }
+
+            .slider-dashboard {
+                padding: 16px;
+                gap: 8px;
+            }
+
+            .db-balance-mock {
+                font-size: 1.4rem;
+            }
+
+            .db-row-mock {
+                flex-direction: column;
+                gap: 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            section {
+                padding: 70px 16px;
+            }
+
+            .hero-side {
+                padding: 50px 24px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonial-mini {
+                flex-direction: column;
+            }
+
+            .cta-button {
+                padding: 16px 36px;
+                font-size: 1.05rem;
+            }
+        }
+
+        /* ===========================
+           SECTION DIVIDERS
+        =========================== */
+        .section-divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--danger), var(--teal));
+            margin: 0 auto 50px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== HERO ==================== -->
+    <section class="hero">
+        <div class="hero-side hero-before">
+            <span class="chaos-element">💸</span>
+            <span class="chaos-element">😰</span>
+            <span class="chaos-element">📉</span>
+            <span class="chaos-element">❌</span>
+            <span class="hero-label label-before">قبل</span>
+            <h1 class="hero-title">قبل شهريتي</h1>
+            <p class="hero-subtitle">ضياع، قلق، وشهرية تخلص في 10 أيام</p>
+            <div class="hero-icon-group">
+                <span>😰</span>
+                <span>💸</span>
+                <span>📉</span>
+            </div>
+        </div>
+
+        <div class="hero-split">
+            <div class="hero-split-icon">⚡</div>
+        </div>
+
+        <div class="hero-side hero-after">
+            <span class="calm-element"></span>
+            <span class="calm-element"></span>
+            <span class="calm-element"></span>
+            <span class="calm-element"></span>
+            <span class="hero-label label-after">بعد</span>
+            <h1 class="hero-title">بعد شهريتي</h1>
+            <p class="hero-subtitle">تنظيم، راحة بال، وشهرية توصل لآخر الشهر</p>
+            <div class="hero-icon-group">
+                <span>😌</span>
+                <span>💰</span>
+                <span>📊</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TIMELINE ==================== -->
+    <section class="timeline-section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-tag">شهر كامل</span>
+                <h2 class="section-title">يوم بيوم — شوف الفرق</h2>
+                <p class="section-desc">نفس الشهرية، نفس المصاريف... بس الفرق كبير</p>
+            </div>
+            <div class="section-divider reveal"></div>
+
+            <div class="timeline">
+                <!-- Day 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-day">يوم<br>1</div>
+                    <div class="timeline-card timeline-card-before reveal-left" style="transition-delay: 0.1s">
+                        <div class="timeline-card-icon">🛒</div>
+                        <h4>قبل</h4>
+                        <p>نشري كلش بلا حساب</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-day" style="background: var(--teal); border-color: var(--teal);">يوم<br>1</div>
+                    <div class="timeline-card timeline-card-after reveal-right" style="transition-delay: 0.2s">
+                        <div class="timeline-card-icon">📋</div>
+                        <h4>بعد</h4>
+                        <p>نحط الميزانية ونفرز المصاريف</p>
+                    </div>
+                </div>
+
+                <!-- Day 7 -->
+                <div class="timeline-item">
+                    <div class="timeline-day">يوم<br>7</div>
+                    <div class="timeline-card timeline-card-before reveal-left" style="transition-delay: 0.1s">
+                        <div class="timeline-card-icon">😵</div>
+                        <h4>قبل</h4>
+                        <p>نص الشهرية راحت ما نعرفش وين</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-day" style="background: var(--teal); border-color: var(--teal);">يوم<br>7</div>
+                    <div class="timeline-card timeline-card-after reveal-right" style="transition-delay: 0.2s">
+                        <div class="timeline-card-icon">📊</div>
+                        <h4>بعد</h4>
+                        <p>مازال 80% من الميزانية، كل دينار متتبع</p>
+                    </div>
+                </div>
+
+                <!-- Day 15 -->
+                <div class="timeline-item">
+                    <div class="timeline-day">يوم<br>15</div>
+                    <div class="timeline-card timeline-card-before reveal-left" style="transition-delay: 0.1s">
+                        <div class="timeline-card-icon">🤲</div>
+                        <h4>قبل</h4>
+                        <p>بدا القلق، نقترض من صحابي</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-day" style="background: var(--teal); border-color: var(--teal);">يوم<br>15</div>
+                    <div class="timeline-card timeline-card-after reveal-right" style="transition-delay: 0.2s">
+                        <div class="timeline-card-icon">✨</div>
+                        <h4>بعد</h4>
+                        <p>كلش ماشي مليح، حتى وفرت شوية</p>
+                    </div>
+                </div>
+
+                <!-- Day 25 -->
+                <div class="timeline-item">
+                    <div class="timeline-day">يوم<br>25</div>
+                    <div class="timeline-card timeline-card-before reveal-left" style="transition-delay: 0.1s">
+                        <div class="timeline-card-icon">😫</div>
+                        <h4>قبل</h4>
+                        <p>ما بقاش والو، نستنى الشهرية</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-day" style="background: var(--teal); border-color: var(--teal);">يوم<br>25</div>
+                    <div class="timeline-card timeline-card-after reveal-right" style="transition-delay: 0.2s">
+                        <div class="timeline-card-icon">💪</div>
+                        <h4>بعد</h4>
+                        <p>مازال عندي وما نحتاج حتى واحد</p>
+                    </div>
+                </div>
+
+                <!-- Day 30 -->
+                <div class="timeline-item">
+                    <div class="timeline-day">يوم<br>30</div>
+                    <div class="timeline-card timeline-card-before reveal-left" style="transition-delay: 0.1s">
+                        <div class="timeline-card-icon">🔄</div>
+                        <h4>قبل</h4>
+                        <p>ديون، قلق، نفس الدوامة</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-day" style="background: var(--teal); border-color: var(--teal);">يوم<br>30</div>
+                    <div class="timeline-card timeline-card-after reveal-right" style="transition-delay: 0.2s">
+                        <div class="timeline-card-icon">🏆</div>
+                        <h4>بعد</h4>
+                        <p>خلصت الشهر مرتاح وعندي توفير</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== STATS ==================== -->
+    <section class="stats-section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-tag">بالأرقام</span>
+                <h2 class="section-title">الأرقام ما تكذبش</h2>
+                <p class="section-desc">شوف كيفاش تتبدل حياتك المالية بشهريتي</p>
+            </div>
+            <div class="section-divider reveal"></div>
+
+            <div class="stats-grid">
+                <!-- Stat 1 -->
+                <div class="stat-card reveal" style="transition-delay: 0.1s">
+                    <div class="stat-label">أيام بلا فلوس في الشهر</div>
+                    <div class="stat-comparison">
+                        <div class="stat-before">
+                            <div class="stat-tag">قبل</div>
+                            <span class="stat-value" data-target="12" data-suffix="">0</span>
+                            <span class="stat-unit">يوم</span>
+                        </div>
+                        <div class="stat-arrow">&#8592;</div>
+                        <div class="stat-after">
+                            <div class="stat-tag">بعد</div>
+                            <span class="stat-value" data-target="0" data-suffix="">0</span>
+                            <span class="stat-unit">أيام</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stat 2 -->
+                <div class="stat-card reveal" style="transition-delay: 0.2s">
+                    <div class="stat-label">مرات الاقتراض</div>
+                    <div class="stat-comparison">
+                        <div class="stat-before">
+                            <div class="stat-tag">قبل</div>
+                            <span class="stat-value" data-target="4" data-suffix="">0</span>
+                            <span class="stat-unit">مرات</span>
+                        </div>
+                        <div class="stat-arrow">&#8592;</div>
+                        <div class="stat-after">
+                            <div class="stat-tag">بعد</div>
+                            <span class="stat-value" data-target="0" data-suffix="">0</span>
+                            <span class="stat-unit">مرات</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stat 3 -->
+                <div class="stat-card reveal" style="transition-delay: 0.3s">
+                    <div class="stat-label">التوفير الشهري</div>
+                    <div class="stat-comparison">
+                        <div class="stat-before">
+                            <div class="stat-tag">قبل</div>
+                            <span class="stat-value" data-target="0" data-suffix="">0</span>
+                            <span class="stat-unit">دج</span>
+                        </div>
+                        <div class="stat-arrow">&#8592;</div>
+                        <div class="stat-after">
+                            <div class="stat-tag">بعد</div>
+                            <span class="stat-value" data-target="8000" data-suffix="" data-format="comma">0</span>
+                            <span class="stat-unit">دج</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stat 4 -->
+                <div class="stat-card reveal" style="transition-delay: 0.4s">
+                    <div class="stat-label">مستوى القلق</div>
+                    <div class="stat-comparison">
+                        <div class="stat-before">
+                            <div class="stat-tag">قبل</div>
+                            <span class="stat-value" style="font-size: 2.2rem;">😰</span>
+                            <span class="stat-unit">عالي</span>
+                        </div>
+                        <div class="stat-arrow">&#8592;</div>
+                        <div class="stat-after">
+                            <div class="stat-tag">بعد</div>
+                            <span class="stat-value" style="font-size: 2.2rem;">😌</span>
+                            <span class="stat-unit">منعدم</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stat 5 -->
+                <div class="stat-card reveal" style="transition-delay: 0.5s">
+                    <div class="stat-label">معرفة وين راحت الفلوس</div>
+                    <div class="stat-comparison">
+                        <div class="stat-before">
+                            <div class="stat-tag">قبل</div>
+                            <span class="stat-value" style="font-size: 2.2rem;">&#10060;</span>
+                            <span class="stat-unit">ما نعرفش</span>
+                        </div>
+                        <div class="stat-arrow">&#8592;</div>
+                        <div class="stat-after">
+                            <div class="stat-tag">بعد</div>
+                            <span class="stat-value counter-special" data-target="100" data-suffix="%">0</span>
+                            <span class="stat-unit">&#9989; واضح</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TESTIMONIALS ==================== -->
+    <section class="testimonials-section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-tag">قصص حقيقية</span>
+                <h2 class="section-title">ناس بدلوا حياتهم المالية</h2>
+                <p class="section-desc">شوف كيفاش شهريتي بدلت حياة ناس كيفك</p>
+            </div>
+            <div class="section-divider reveal"></div>
+
+            <div class="testimonials-grid">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card reveal" style="transition-delay: 0.1s">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">س</div>
+                        <div>
+                            <div class="testimonial-name">سمير، 32 سنة</div>
+                            <div class="testimonial-role">موظف</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-quote">كنت نخلص الشهرية في أسبوع. دروك ولّيت نوصل لـ 30 ونوفر</p>
+                    <div class="testimonial-mini">
+                        <div class="mini-before">
+                            <span class="mini-label">قبل</span>
+                            الشهرية تخلص في أسبوع
+                        </div>
+                        <div class="mini-after">
+                            <span class="mini-label">بعد</span>
+                            توصل لآخر الشهر + توفير
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card reveal" style="transition-delay: 0.2s">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar" style="background: linear-gradient(135deg, #8B1A6E, #B8247A);">ن</div>
+                        <div>
+                            <div class="testimonial-name">نادية، 28 سنة</div>
+                            <div class="testimonial-role">معلمة</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-quote">كنت ديما نقترض من ختي. من وقتلي بديت نستعمل شهريتي، ما عدت نحتاج حد</p>
+                    <div class="testimonial-mini">
+                        <div class="mini-before">
+                            <span class="mini-label">قبل</span>
+                            تقترض كل شهر
+                        </div>
+                        <div class="mini-after">
+                            <span class="mini-label">بعد</span>
+                            مستقلة ماليا
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card reveal" style="transition-delay: 0.3s">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar" style="background: linear-gradient(135deg, #1A6E8B, #247AB8);">ك</div>
+                        <div>
+                            <div class="testimonial-name">كريم، 45 سنة</div>
+                            <div class="testimonial-role">تاجر</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testimonial-quote">كنت نحسب كلش في راسي. دروك كل دينار مسجل وعارف وين راح</p>
+                    <div class="testimonial-mini">
+                        <div class="mini-before">
+                            <span class="mini-label">قبل</span>
+                            حسابات في الراس فقط
+                        </div>
+                        <div class="mini-after">
+                            <span class="mini-label">بعد</span>
+                            كل دينار مسجل ومتتبع
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== BEFORE/AFTER SLIDER ==================== -->
+    <section class="slider-section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <span class="section-tag">شوف بعينيك</span>
+                <h2 class="section-title">حرّك واكتشف الفرق</h2>
+                <p class="section-desc">سحّب المقبض يمين ويسار وشوف الفرق بين الفوضى والتنظيم</p>
+            </div>
+            <div class="section-divider reveal"></div>
+
+            <div class="slider-wrapper reveal" id="comparisonSlider">
+                <!-- BEFORE Layer (underneath) -->
+                <div class="slider-layer slider-before-layer">
+                    <div class="slider-label-overlay slider-label-before">قبل شهريتي</div>
+                    <div class="slider-dashboard dashboard-before">
+                        <div class="db-header-mock">
+                            <div class="db-title-mock">حسابي ❌</div>
+                            <span style="color: #e57373; font-size: 0.8rem;">فوضى</span>
+                        </div>
+                        <div class="db-balance-mock">- 15,200 دج</div>
+                        <span style="color: var(--text-secondary); font-size: 0.8rem;">باقي: ما نعرفش 🤷</span>
+                        <div class="db-row-mock">
+                            <div class="db-card-mock">
+                                <div class="db-card-label">مصاريف غير معروفة</div>
+                                <div class="db-card-value">??? دج</div>
+                                <div class="db-progress-mock">
+                                    <div class="db-progress-fill" style="width: 95%;"></div>
+                                </div>
+                            </div>
+                            <div class="db-card-mock">
+                                <div class="db-card-label">الديون</div>
+                                <div class="db-card-value">12,000 دج</div>
+                                <div class="db-progress-mock">
+                                    <div class="db-progress-fill" style="width: 80%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="db-category-mock">
+                            <div class="db-cat-icon">🛒</div>
+                            <div class="db-cat-info">
+                                <div class="db-cat-name">مشتريات عشوائية</div>
+                                <div class="db-cat-amount">??? دج</div>
+                            </div>
+                        </div>
+                        <div class="db-category-mock">
+                            <div class="db-cat-icon">🍕</div>
+                            <div class="db-cat-info">
+                                <div class="db-cat-name">أكل برا</div>
+                                <div class="db-cat-amount">كثير بزاف</div>
+                            </div>
+                        </div>
+                        <div class="db-category-mock">
+                            <div class="db-cat-icon">😰</div>
+                            <div class="db-cat-info">
+                                <div class="db-cat-name">قلق مالي</div>
+                                <div class="db-cat-amount" style="color: #C0392B;">مستوى عالي</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AFTER Layer (on top, clipped) -->
+                <div class="slider-layer slider-after-layer" id="afterLayer">
+                    <div class="slider-label-overlay slider-label-after">بعد شهريتي</div>
+                    <div class="slider-dashboard dashboard-after">
+                        <div class="db-header-mock">
+                            <div class="db-title-mock">شهريتي &#9989;</div>
+                            <span style="color: #4dd0c0; font-size: 0.8rem;">منظم</span>
+                        </div>
+                        <div class="db-balance-mock">+ 42,500 دج</div>
+                        <span style="color: var(--text-secondary); font-size: 0.8rem;">باقي: 28,300 دج من 42,500 دج</span>
+                        <div class="db-row-mock">
+                            <div class="db-card-mock">
+                                <div class="db-card-label">أكل وشرب</div>
+                                <div class="db-card-value">8,200 دج</div>
+                                <div class="db-progress-mock">
+                                    <div class="db-progress-fill" style="width: 45%;"></div>
+                                </div>
+                            </div>
+                            <div class="db-card-mock">
+                                <div class="db-card-label">توفير</div>
+                                <div class="db-card-value">8,000 دج</div>
+                                <div class="db-progress-mock">
+                                    <div class="db-progress-fill" style="width: 100%; background: #27AE60;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="db-category-mock">
+                            <div class="db-cat-icon">🏠</div>
+                            <div class="db-cat-info">
+                                <div class="db-cat-name">إيجار وفواتير</div>
+                                <div class="db-cat-amount">15,000 دج</div>
+                            </div>
+                        </div>
+                        <div class="db-category-mock">
+                            <div class="db-cat-icon">🛒</div>
+                            <div class="db-cat-info">
+                                <div class="db-cat-name">مشتريات منظمة</div>
+                                <div class="db-cat-amount">5,200 دج</div>
+                            </div>
+                        </div>
+                        <div class="db-category-mock">
+                            <div class="db-cat-icon">😌</div>
+                            <div class="db-cat-info">
+                                <div class="db-cat-name">راحة البال</div>
+                                <div class="db-cat-amount" style="color: #27AE60;">مضمونة</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Handle -->
+                <div class="slider-handle" id="sliderHandle">
+                    <div class="slider-handle-knob">&#8596;</div>
+                </div>
+            </div>
+            <p class="slider-hint reveal">&#8592; سحّب المقبض &#8594;</p>
+        </div>
+    </section>
+
+    <!-- ==================== CTA ==================== -->
+    <section class="cta-section">
+        <div class="section-container reveal">
+            <h2 class="cta-title">حان وقت التغيير</h2>
+            <p class="cta-subtitle">وقف الدوامة. حياتك المالية تستاهل أحسن من هكا.</p>
+            <a href="#" class="cta-button">
+                <span>حمّل شهريتي دروك</span>
+            </a>
+            <p class="cta-urgency"><strong>كل يوم بلا تنظيم = فلوس ضايعة</strong></p>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <div class="footer-logo">شهريتي</div>
+        <p class="footer-tagline">شهريتك تحت السيطرة</p>
+        <div class="footer-links">
+            <a href="#">سياسة الخصوصية</a>
+            <a href="#">شروط الاستخدام</a>
+            <a href="#">تواصل معنا</a>
+        </div>
+        <p class="footer-copy">&copy; 2024 شهريتي. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        // ===========================
+        // Scroll Reveal with IntersectionObserver
+        // ===========================
+        (function() {
+            const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            revealElements.forEach(function(el) {
+                observer.observe(el);
+            });
+        })();
+
+        // ===========================
+        // Animated Counters
+        // ===========================
+        (function() {
+            const counterElements = document.querySelectorAll('.stat-value[data-target]');
+            let animated = new Set();
+
+            function formatNumber(num, format) {
+                if (format === 'comma') {
+                    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                }
+                return num.toString();
+            }
+
+            function animateCounter(el) {
+                var target = parseInt(el.getAttribute('data-target'));
+                var suffix = el.getAttribute('data-suffix') || '';
+                var format = el.getAttribute('data-format') || '';
+                var duration = 1500;
+                var startTime = null;
+                var startValue = 0;
+
+                function step(timestamp) {
+                    if (!startTime) startTime = timestamp;
+                    var progress = Math.min((timestamp - startTime) / duration, 1);
+                    // Ease out cubic
+                    var eased = 1 - Math.pow(1 - progress, 3);
+                    var current = Math.round(startValue + (target - startValue) * eased);
+                    el.textContent = formatNumber(current, format) + suffix;
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    }
+                }
+
+                requestAnimationFrame(step);
+            }
+
+            var counterObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting && !animated.has(entry.target)) {
+                        animated.add(entry.target);
+                        animateCounter(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.5
+            });
+
+            counterElements.forEach(function(el) {
+                counterObserver.observe(el);
+            });
+        })();
+
+        // ===========================
+        // Before/After Comparison Slider
+        // ===========================
+        (function() {
+            var slider = document.getElementById('comparisonSlider');
+            var afterLayer = document.getElementById('afterLayer');
+            var handle = document.getElementById('sliderHandle');
+            var isDragging = false;
+
+            function getSliderX(e) {
+                var rect = slider.getBoundingClientRect();
+                var clientX;
+                if (e.touches && e.touches.length > 0) {
+                    clientX = e.touches[0].clientX;
+                } else if (e.changedTouches && e.changedTouches.length > 0) {
+                    clientX = e.changedTouches[0].clientX;
+                } else {
+                    clientX = e.clientX;
+                }
+                var x = clientX - rect.left;
+                var percent = Math.max(0, Math.min(100, (x / rect.width) * 100));
+                return percent;
+            }
+
+            function updateSlider(percent) {
+                afterLayer.style.clipPath = 'inset(0 ' + (100 - percent) + '% 0 0)';
+                handle.style.left = percent + '%';
+            }
+
+            function onStart(e) {
+                isDragging = true;
+                e.preventDefault();
+                var percent = getSliderX(e);
+                updateSlider(percent);
+            }
+
+            function onMove(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                var percent = getSliderX(e);
+                updateSlider(percent);
+            }
+
+            function onEnd() {
+                isDragging = false;
+            }
+
+            // Mouse events
+            slider.addEventListener('mousedown', onStart);
+            window.addEventListener('mousemove', onMove);
+            window.addEventListener('mouseup', onEnd);
+
+            // Touch events
+            slider.addEventListener('touchstart', onStart, { passive: false });
+            window.addEventListener('touchmove', onMove, { passive: false });
+            window.addEventListener('touchend', onEnd);
+
+            // Initialize at 50%
+            updateSlider(50);
+        })();
+    </script>
+</body>
+</html>

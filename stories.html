@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شهريتي — قصص نجاح حقيقية</title>
+    <meta name="description" content="ناس حقيقيين، نتائج حقيقية. اكتشف كيف غيّرت شهريتي حياة آلاف العائلات الجزائرية المالية.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #0D6E6E;
+            --primary-light: #1A9494;
+            --primary-dark: #084E4E;
+            --primary-glow: rgba(13, 110, 110, 0.15);
+            --positive: #22C55E;
+            --positive-light: rgba(34, 197, 94, 0.1);
+            --negative: #EF4444;
+            --negative-light: rgba(239, 68, 68, 0.1);
+            --surface: #F8F9FA;
+            --card: #FFFFFF;
+            --text-primary: #1A1A2E;
+            --text-secondary: #64748B;
+            --text-muted: #94A3B8;
+            --border: #E2E8F0;
+            --gold: #F59E0B;
+            --gold-light: #FCD34D;
+            --gold-dark: #D97706;
+        }
+
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--surface);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.7;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 3px; }
+
+        /* ─── Animations ─── */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+        }
+
+        @keyframes floatReverse {
+            0%, 100% { transform: translateY(-10px) rotate(-2deg); }
+            50% { transform: translateY(5px) rotate(2deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes marqueeRight {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes marqueeLeft {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+
+        @keyframes playPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(13, 110, 110, 0.4); }
+            50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 0 20px rgba(13, 110, 110, 0); }
+        }
+
+        @keyframes barFill {
+            from { width: 0; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+        .reveal-delay-5 { transition-delay: 0.5s; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ─── Stars ─── */
+        .stars {
+            display: inline-flex;
+            gap: 2px;
+        }
+
+        .stars .star {
+            color: var(--gold);
+            font-size: 16px;
+        }
+
+        .stars-lg .star { font-size: 20px; }
+
+        /* ═══════════════════════════════════════════
+           HERO SECTION
+        ═══════════════════════════════════════════ */
+        .hero {
+            position: relative;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 40%, var(--primary-light) 100%);
+            padding: 100px 0 80px;
+            overflow: hidden;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255,255,255,0.05) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        /* Floating decorative elements */
+        .hero-float {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.15;
+            color: white;
+            font-size: 40px;
+        }
+
+        .hero-float-1 { top: 12%; right: 8%; animation: float 6s ease-in-out infinite; font-size: 60px; }
+        .hero-float-2 { top: 25%; left: 5%; animation: floatSlow 8s ease-in-out infinite; }
+        .hero-float-3 { bottom: 30%; right: 15%; animation: floatReverse 7s ease-in-out infinite; }
+        .hero-float-4 { top: 50%; left: 12%; animation: float 9s ease-in-out infinite 1s; font-size: 50px; }
+        .hero-float-5 { bottom: 15%; left: 30%; animation: floatSlow 7s ease-in-out infinite 2s; }
+        .hero-float-6 { top: 15%; right: 35%; animation: floatReverse 10s ease-in-out infinite; font-size: 35px; }
+        .hero-float-7 { bottom: 25%; right: 40%; animation: float 8s ease-in-out infinite 3s; }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            padding: 8px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            color: white;
+        }
+
+        .hero-badge .stars .star { color: var(--gold-light); }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            opacity: 0.9;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+            line-height: 1.8;
+        }
+
+        .hero-stat {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .hero-stat-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        /* ═══════════════════════════════════════════
+           STATS BAR
+        ═══════════════════════════════════════════ */
+        .stats-bar {
+            background: white;
+            padding: 0;
+            position: relative;
+            z-index: 10;
+            margin-top: -40px;
+            border-radius: 20px;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08), 0 4px 20px rgba(0,0,0,0.04);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+        }
+
+        .stat-item {
+            padding: 32px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .stat-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background: var(--border);
+        }
+
+        .stat-number {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+            line-height: 1.2;
+        }
+
+        .stat-suffix {
+            font-size: 0.6em;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* ═══════════════════════════════════════════
+           SECTION COMMON
+        ═══════════════════════════════════════════ */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: var(--primary-glow);
+            color: var(--primary);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .section-desc {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ═══════════════════════════════════════════
+           FEATURED STORIES
+        ═══════════════════════════════════════════ */
+        .stories-section {
+            background: var(--surface);
+        }
+
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 28px;
+        }
+
+        .story-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            border: 1px solid var(--border);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .story-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 60px rgba(13, 110, 110, 0.12);
+        }
+
+        .story-card:hover::before {
+            opacity: 1;
+        }
+
+        .story-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .story-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .story-avatar-1 { background: linear-gradient(135deg, #0D6E6E, #1A9494); }
+        .story-avatar-2 { background: linear-gradient(135deg, #7C3AED, #A78BFA); }
+        .story-avatar-3 { background: linear-gradient(135deg, #DC2626, #F87171); }
+        .story-avatar-4 { background: linear-gradient(135deg, #D97706, #FCD34D); }
+        .story-avatar-5 { background: linear-gradient(135deg, #059669, #34D399); }
+        .story-avatar-6 { background: linear-gradient(135deg, #2563EB, #60A5FA); }
+
+        .story-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .story-meta {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .story-stars {
+            margin-right: auto;
+        }
+
+        .story-transformation {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .transform-box {
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        .transform-before {
+            background: var(--negative-light);
+            color: #B91C1C;
+            border: 1px solid rgba(239, 68, 68, 0.15);
+        }
+
+        .transform-before .transform-label {
+            color: var(--negative);
+        }
+
+        .transform-after {
+            background: var(--positive-light);
+            color: #15803D;
+            border: 1px solid rgba(34, 197, 94, 0.15);
+        }
+
+        .transform-after .transform-label {
+            color: var(--positive);
+        }
+
+        .transform-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .story-quote {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.9;
+            margin-bottom: 20px;
+            position: relative;
+            padding-right: 20px;
+        }
+
+        .story-quote::before {
+            content: '\201D';
+            position: absolute;
+            right: 0;
+            top: -8px;
+            font-size: 40px;
+            color: var(--primary);
+            opacity: 0.3;
+            font-family: serif;
+            line-height: 1;
+        }
+
+        .story-metric {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary-glow);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .story-metric-icon {
+            font-size: 18px;
+        }
+
+        /* ═══════════════════════════════════════════
+           BEFORE/AFTER STATS GRID
+        ═══════════════════════════════════════════ */
+        .ba-section {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+        }
+
+        .ba-section .section-tag {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+
+        .ba-section .section-title { color: white; }
+        .ba-section .section-desc { color: rgba(255,255,255,0.75); }
+
+        .ba-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .ba-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 28px;
+            text-align: center;
+        }
+
+        .ba-card-icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+
+        .ba-card-label {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .ba-values {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .ba-val {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .ba-val-before {
+            opacity: 0.5;
+            text-decoration: line-through;
+            text-decoration-color: rgba(239, 68, 68, 0.6);
+        }
+
+        .ba-arrow {
+            font-size: 20px;
+            opacity: 0.6;
+        }
+
+        .ba-val-after {
+            color: var(--gold-light);
+        }
+
+        .ba-bar-track {
+            height: 8px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .ba-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--gold-light), var(--gold));
+            width: 0;
+            transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .ba-bar-fill.animated {
+            /* width set via JS */
+        }
+
+        .ba-suffix {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* ═══════════════════════════════════════════
+           VIDEO TESTIMONIALS
+        ═══════════════════════════════════════════ */
+        .video-section {
+            background: white;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .video-card {
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: scale(1.02);
+        }
+
+        .video-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.3) 100%);
+            z-index: 1;
+        }
+
+        .video-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 64px;
+            height: 64px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            animation: playPulse 2s ease-in-out infinite;
+        }
+
+        .video-play::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 10px 0 10px 18px;
+            border-color: transparent transparent transparent white;
+            margin-right: -4px;
+        }
+
+        .video-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            z-index: 2;
+            color: white;
+        }
+
+        .video-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .video-loc {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        .video-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 2;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 6px 14px;
+            border-radius: 50px;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .video-wave {
+            position: absolute;
+            bottom: 40%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 3px;
+            z-index: 2;
+            opacity: 0.4;
+        }
+
+        .video-wave span {
+            width: 3px;
+            background: white;
+            border-radius: 2px;
+            animation: wave 1.2s ease-in-out infinite;
+        }
+
+        .video-wave span:nth-child(1) { height: 12px; animation-delay: 0s; }
+        .video-wave span:nth-child(2) { height: 20px; animation-delay: 0.1s; }
+        .video-wave span:nth-child(3) { height: 16px; animation-delay: 0.2s; }
+        .video-wave span:nth-child(4) { height: 24px; animation-delay: 0.3s; }
+        .video-wave span:nth-child(5) { height: 14px; animation-delay: 0.4s; }
+
+        @keyframes wave {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.4); }
+        }
+
+        /* ═══════════════════════════════════════════
+           RATING BREAKDOWN
+        ═══════════════════════════════════════════ */
+        .rating-section {
+            background: var(--surface);
+        }
+
+        .rating-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+        }
+
+        .rating-top {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .rating-big {
+            text-align: center;
+        }
+
+        .rating-big-number {
+            font-size: 72px;
+            font-weight: 900;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .rating-big-stars {
+            margin: 8px 0;
+        }
+
+        .rating-big-stars .star { font-size: 24px; }
+
+        .rating-big-count {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .rating-bars {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .rating-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .rating-bar-label {
+            font-size: 14px;
+            font-weight: 700;
+            min-width: 28px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-secondary);
+        }
+
+        .rating-bar-label .star { color: var(--gold); font-size: 12px; }
+
+        .rating-bar-track {
+            flex: 1;
+            height: 10px;
+            background: var(--surface);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .rating-bar-fill {
+            height: 100%;
+            border-radius: 5px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            width: 0;
+            transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .rating-bar-pct {
+            font-size: 13px;
+            color: var(--text-muted);
+            min-width: 36px;
+            text-align: left;
+        }
+
+        /* ═══════════════════════════════════════════
+           QUOTES MARQUEE
+        ═══════════════════════════════════════════ */
+        .marquee-section {
+            padding: 60px 0;
+            overflow: hidden;
+            background: white;
+        }
+
+        .marquee-row {
+            display: flex;
+            width: max-content;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .marquee-row-1 {
+            animation: marqueeRight 40s linear infinite;
+        }
+
+        .marquee-row-2 {
+            animation: marqueeLeft 45s linear infinite;
+        }
+
+        .marquee-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            white-space: nowrap;
+            min-width: max-content;
+        }
+
+        .marquee-quote {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .marquee-stars .star {
+            font-size: 12px;
+            color: var(--gold);
+        }
+
+        /* ═══════════════════════════════════════════
+           CTA SECTION
+        ═══════════════════════════════════════════ */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+            padding: 80px 0;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 30% 50%, rgba(255,255,255,0.06) 0%, transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(255,255,255,0.04) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .cta-counter {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 36px;
+            font-weight: 500;
+        }
+
+        .cta-counter strong {
+            font-size: 24px;
+            color: var(--gold-light);
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            color: var(--primary);
+            padding: 16px 40px;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 800;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+
+        .cta-button-icon {
+            font-size: 24px;
+        }
+
+        .cta-badges {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+
+        .cta-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            opacity: 0.85;
+            font-weight: 500;
+        }
+
+        .cta-badge-icon {
+            font-size: 18px;
+        }
+
+        /* ═══════════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════════ */
+        .footer {
+            background: var(--text-primary);
+            color: rgba(255,255,255,0.6);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .footer-tagline {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-light);
+        }
+
+        .footer-copy {
+            font-size: 13px;
+            opacity: 0.5;
+        }
+
+        /* ═══════════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════════ */
+        @media (max-width: 900px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-item:nth-child(2)::after {
+                display: none;
+            }
+
+            .stat-item:nth-child(3)::after,
+            .stat-item:nth-child(4)::after {
+                display: none;
+            }
+
+            .stat-item:nth-child(1)::after,
+            .stat-item:nth-child(3)::after {
+                display: block;
+            }
+
+            .stories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rating-container {
+                padding: 32px 24px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero {
+                padding: 80px 0 60px;
+                min-height: auto;
+            }
+
+            .stats-bar {
+                margin: -30px 16px 0;
+                border-radius: 16px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-item {
+                padding: 20px 12px;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .story-card {
+                padding: 24px;
+            }
+
+            .story-transformation {
+                grid-template-columns: 1fr;
+            }
+
+            .rating-top {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .cta-badges {
+                gap: 16px;
+            }
+
+            .ba-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-float { display: none; }
+        }
+
+        @media (max-width: 400px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .ba-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section class="hero">
+    <!-- Floating decorative elements -->
+    <div class="hero-float hero-float-1">&#9733;</div>
+    <div class="hero-float hero-float-2">&#10077;</div>
+    <div class="hero-float hero-float-3">&#9733;</div>
+    <div class="hero-float hero-float-4">&#10078;</div>
+    <div class="hero-float hero-float-5">&#9733;</div>
+    <div class="hero-float hero-float-6">&#10077;</div>
+    <div class="hero-float hero-float-7">&#9733;</div>
+
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="stars">
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                    <span class="star">&#9733;</span>
+                </span>
+                <span>4.8 / 5</span>
+            </div>
+
+            <h1>ناس حقيقيين، نتائج حقيقية</h1>
+            <p class="hero-subtitle">
+                كل قصة هنا هي قصة عائلة جزائرية قررت تتحكم في مصاريفها.
+                <br>اكتشف كيفاش شهريتي غيّرت حياتهم المالية.
+            </p>
+
+            <div class="hero-stat">
+                <div class="hero-stat-icon">&#128106;</div>
+                <span>أكثر من <strong>10,000</strong> عائلة جزائرية تستعمل شهريتي</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     STATS BAR
+═══════════════════════════════════════════ -->
+<div class="stats-bar reveal">
+    <div class="stats-grid">
+        <div class="stat-item">
+            <span class="stat-number" data-target="10000" data-suffix="+">0</span>
+            <span class="stat-label">مستخدم نشط</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" data-target="4.8" data-decimal="true">0</span>
+            <span class="stat-label">تقييم التطبيق من 5</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" data-target="2.5" data-decimal="true" data-suffix=" مليار">0</span>
+            <span class="stat-label">سنتيم ادخار جماعي</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" data-target="85" data-suffix="%">0</span>
+            <span class="stat-label">تقليل المصاريف الزايدة</span>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     FEATURED STORIES
+═══════════════════════════════════════════ -->
+<section class="section stories-section">
+    <div class="container">
+        <div class="section-header reveal">
+            <span class="section-tag">&#128214; قصص نجاح</span>
+            <h2 class="section-title">حكايات ناس بدلت حياتها المالية</h2>
+            <p class="section-desc">كل قصة هنا حقيقية، من ناس عاديين قررو يتحكمو في فلوسهم</p>
+        </div>
+
+        <div class="stories-grid">
+
+            <!-- Story 1: محمد -->
+            <div class="story-card reveal reveal-delay-1">
+                <div class="story-header">
+                    <div class="story-avatar story-avatar-1">م</div>
+                    <div class="story-info">
+                        <h3>محمد ب.</h3>
+                        <span class="story-meta">34 سنة &bull; الجزائر العاصمة &bull; موظف حكومي</span>
+                    </div>
+                </div>
+                <div class="stars story-stars">
+                    <span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span>
+                </div>
+                <div class="story-transformation">
+                    <div class="transform-box transform-before">
+                        <span class="transform-label">&#10060; قبل</span>
+                        الصالير يخلص في 10 أيام وبعدها نعود نتسلّف
+                    </div>
+                    <div class="transform-box transform-after">
+                        <span class="transform-label">&#9989; بعد</span>
+                        ندخّر 5,000 دج كل شهر ومبقيتش نتسلّف
+                    </div>
+                </div>
+                <p class="story-quote">
+                    كنت نقول وين راهي تروح الفلوس؟ شهريتي وريتني إني كنت نصرف 8,000 دج غير في القهوة!
+                    دُرك ولّيت نعرف وين كل دينار يروح. حياتي المالية تبدّلت تماماً.
+                </p>
+                <div class="story-metric">
+                    <span class="story-metric-icon">&#128176;</span>
+                    اكتشف 8,000 دج عادة قهوة مخبية
+                </div>
+            </div>
+
+            <!-- Story 2: أمينة -->
+            <div class="story-card reveal reveal-delay-2">
+                <div class="story-header">
+                    <div class="story-avatar story-avatar-2">أ</div>
+                    <div class="story-info">
+                        <h3>أمينة ت.</h3>
+                        <span class="story-meta">29 سنة &bull; وهران &bull; أستاذة</span>
+                    </div>
+                </div>
+                <div class="stars story-stars">
+                    <span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span>
+                </div>
+                <div class="story-transformation">
+                    <div class="transform-box transform-before">
+                        <span class="transform-label">&#10060; قبل</span>
+                        كل شهر نتخاصمو أنا وراجلي على المصاريف
+                    </div>
+                    <div class="transform-box transform-after">
+                        <span class="transform-label">&#9989; بعد</span>
+                        نخططو مع بعض ودخرنا للعمرة في 6 أشهر
+                    </div>
+                </div>
+                <p class="story-quote">
+                    المشاكل ديالنا ماكانتش في قلّة الفلوس، كانت في ماكانش تنظيم.
+                    من يوم لي بدينا نستعملو شهريتي، كل واحد فينا ولّا يعرف المسؤولية ديالو.
+                    ربّي يجازيكم، دخرنا للعمرة ومشينا!
+                </p>
+                <div class="story-metric">
+                    <span class="story-metric-icon">&#128331;</span>
+                    ادخار العمرة في 6 أشهر فقط
+                </div>
+            </div>
+
+            <!-- Story 3: كريم -->
+            <div class="story-card reveal reveal-delay-3">
+                <div class="story-header">
+                    <div class="story-avatar story-avatar-3">ك</div>
+                    <div class="story-info">
+                        <h3>كريم م.</h3>
+                        <span class="story-meta">42 سنة &bull; قسنطينة &bull; تاجر</span>
+                    </div>
+                </div>
+                <div class="stars story-stars">
+                    <span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span>
+                </div>
+                <div class="story-transformation">
+                    <div class="transform-box transform-before">
+                        <span class="transform-label">&#10060; قبل</span>
+                        فلوس الحانوت مخلطين مع فلوس الدار
+                    </div>
+                    <div class="transform-box transform-after">
+                        <span class="transform-label">&#9989; بعد</span>
+                        فصلت بيناتهم ودخرت 180,000 دج في العام
+                    </div>
+                </div>
+                <p class="story-quote">
+                    كنت نحسب روحي رابح مليح في الحانوت، بصّح كنت نصرف من فلوس التجارة على الدار
+                    بلا ما نحس. شهريتي خلاتني نفصل كلش ونشوف الحقيقة.
+                    دُرك ولّيت نعرف الربح الحقيقي ديالي.
+                </p>
+                <div class="story-metric">
+                    <span class="story-metric-icon">&#128200;</span>
+                    180,000 دج ادخار سنوي
+                </div>
+            </div>
+
+            <!-- Story 4: سارة -->
+            <div class="story-card reveal reveal-delay-1">
+                <div class="story-header">
+                    <div class="story-avatar story-avatar-4">س</div>
+                    <div class="story-info">
+                        <h3>سارة ل.</h3>
+                        <span class="story-meta">25 سنة &bull; سطيف &bull; طالبة ماستر</span>
+                    </div>
+                </div>
+                <div class="stars story-stars">
+                    <span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star" style="opacity:0.3">&#9733;</span>
+                </div>
+                <div class="story-transformation">
+                    <div class="transform-box transform-before">
+                        <span class="transform-label">&#10060; قبل</span>
+                        المنحة ديالي 6,000 دج ماكانتش تكفيني أبداً
+                    </div>
+                    <div class="transform-box transform-after">
+                        <span class="transform-label">&#9989; بعد</span>
+                        دخرت 15,000 دج في سيمستر واحد
+                    </div>
+                </div>
+                <p class="story-quote">
+                    صحاباتي كانوا يقولولي كيفاش تدخري من 6,000 دج؟
+                    بصّح شهريتي وريتني وين كنت نضيّع: أكل برّا، حوايج ماني محتاجتهم...
+                    قطعت المصاريف الزايدة ودخرت حاجة ماكنتش نحلم بيها!
+                </p>
+                <div class="story-metric">
+                    <span class="story-metric-icon">&#127891;</span>
+                    15,000 دج ادخار من منحة طالبة
+                </div>
+            </div>
+
+            <!-- Story 5: يوسف -->
+            <div class="story-card reveal reveal-delay-2">
+                <div class="story-header">
+                    <div class="story-avatar story-avatar-5">ي</div>
+                    <div class="story-info">
+                        <h3>يوسف ع.</h3>
+                        <span class="story-meta">38 سنة &bull; عنابة &bull; سائق تاكسي</span>
+                    </div>
+                </div>
+                <div class="stars story-stars">
+                    <span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span>
+                </div>
+                <div class="story-transformation">
+                    <div class="transform-box transform-before">
+                        <span class="transform-label">&#10060; قبل</span>
+                        الدخل متقطع وماعرفتش شحال ندخّل فالشهر
+                    </div>
+                    <div class="transform-box transform-after">
+                        <span class="transform-label">&#9989; بعد</span>
+                        اكتشفت بلّي ندخّل 55,000 مش 40,000 دج
+                    </div>
+                </div>
+                <p class="story-quote">
+                    كي تخدم تاكسي، يوم تربح مليح ويوم لا. كنت نحسب روحي ندخّل 40,000 في الشهر.
+                    كي بديت نسجّل كل يوم في شهريتي، اكتشفت بلّي ندخّل 55,000!
+                    المشكلة ماكانتش في الدخل، كانت في التبذير.
+                </p>
+                <div class="story-metric">
+                    <span class="story-metric-icon">&#128663;</span>
+                    اكتشف 15,000 دج دخل مخفي
+                </div>
+            </div>
+
+            <!-- Story 6: نادية -->
+            <div class="story-card reveal reveal-delay-3">
+                <div class="story-header">
+                    <div class="story-avatar story-avatar-6">ن</div>
+                    <div class="story-info">
+                        <h3>نادية ح.</h3>
+                        <span class="story-meta">31 سنة &bull; تلمسان &bull; ممرضة</span>
+                    </div>
+                </div>
+                <div class="stars story-stars">
+                    <span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span>
+                </div>
+                <div class="story-transformation">
+                    <div class="transform-box transform-before">
+                        <span class="transform-label">&#10060; قبل</span>
+                        6 ديون متفرقين عند ناس ونسيت بعضهم
+                    </div>
+                    <div class="transform-box transform-after">
+                        <span class="transform-label">&#9989; بعد</span>
+                        استرجعت 45,000 دج ديون منسية
+                    </div>
+                </div>
+                <p class="story-quote">
+                    كنت نسلّف الناس ونّسى. وحدة من صحاباتي سلّفتها 12,000 دج ونسيت تماماً!
+                    شهريتي خلاتني نسجّل كل دين ونتابعو.
+                    استرجعت 45,000 دج كنت ناسيتهم تماماً. تطبيق ذهبي والله!
+                </p>
+                <div class="story-metric">
+                    <span class="story-metric-icon">&#128178;</span>
+                    45,000 دج ديون منسية مسترجعة
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     BEFORE/AFTER STATS
+═══════════════════════════════════════════ -->
+<section class="section ba-section">
+    <div class="container">
+        <div class="section-header reveal">
+            <span class="section-tag">&#128202; التحوّل بالأرقام</span>
+            <h2 class="section-title">المعدل العام لمستخدمي شهريتي</h2>
+            <p class="section-desc">أرقام حقيقية من معدل تجربة المستخدمين بعد 3 أشهر</p>
+        </div>
+
+        <div class="ba-grid">
+            <div class="ba-card reveal reveal-delay-1">
+                <div class="ba-card-icon">&#128176;</div>
+                <div class="ba-card-label">الادخار الشهري</div>
+                <div class="ba-values">
+                    <span class="ba-val ba-val-before">0 دج</span>
+                    <span class="ba-arrow">&#8592;</span>
+                    <span class="ba-val ba-val-after">7,500 دج</span>
+                </div>
+                <div class="ba-bar-track">
+                    <div class="ba-bar-fill" data-width="75%"></div>
+                </div>
+                <div class="ba-suffix">متوسط الادخار الشهري</div>
+            </div>
+
+            <div class="ba-card reveal reveal-delay-2">
+                <div class="ba-card-icon">&#128197;</div>
+                <div class="ba-card-label">أيام الإفلاس في الشهر</div>
+                <div class="ba-values">
+                    <span class="ba-val ba-val-before">12 يوم</span>
+                    <span class="ba-arrow">&#8592;</span>
+                    <span class="ba-val ba-val-after">0</span>
+                </div>
+                <div class="ba-bar-track">
+                    <div class="ba-bar-fill" data-width="100%"></div>
+                </div>
+                <div class="ba-suffix">القضاء الكامل على أيام الإفلاس</div>
+            </div>
+
+            <div class="ba-card reveal reveal-delay-3">
+                <div class="ba-card-icon">&#129309;</div>
+                <div class="ba-card-label">التسلّف في الشهر</div>
+                <div class="ba-values">
+                    <span class="ba-val ba-val-before">4 مرات</span>
+                    <span class="ba-arrow">&#8592;</span>
+                    <span class="ba-val ba-val-after">0.5</span>
+                </div>
+                <div class="ba-bar-track">
+                    <div class="ba-bar-fill" data-width="88%"></div>
+                </div>
+                <div class="ba-suffix">انخفاض 87.5% في التسلّف</div>
+            </div>
+
+            <div class="ba-card reveal reveal-delay-4">
+                <div class="ba-card-icon">&#128064;</div>
+                <div class="ba-card-label">الوعي بالمصاريف</div>
+                <div class="ba-values">
+                    <span class="ba-val ba-val-before">20%</span>
+                    <span class="ba-arrow">&#8592;</span>
+                    <span class="ba-val ba-val-after">95%</span>
+                </div>
+                <div class="ba-bar-track">
+                    <div class="ba-bar-fill" data-width="95%"></div>
+                </div>
+                <div class="ba-suffix">وعي شبه كامل بكل مصروف</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     VIDEO TESTIMONIALS
+═══════════════════════════════════════════ -->
+<section class="section video-section">
+    <div class="container">
+        <div class="section-header reveal">
+            <span class="section-tag">&#127909; شهادات حيّة</span>
+            <h2 class="section-title">قريباً — شهادات بالفيديو</h2>
+            <p class="section-desc">مستخدمين حقيقيين يحكولكم تجربتهم مع شهريتي بأصواتهم</p>
+        </div>
+
+        <div class="video-grid">
+            <div class="video-card reveal reveal-delay-1">
+                <div class="video-play"></div>
+                <div class="video-badge">قريباً</div>
+                <div class="video-wave">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <div class="video-info">
+                    <div class="video-name">عائلة بن عمر</div>
+                    <div class="video-loc">&#128205; الجزائر العاصمة &bull; ادخار عائلي</div>
+                </div>
+            </div>
+
+            <div class="video-card reveal reveal-delay-2">
+                <div class="video-play"></div>
+                <div class="video-badge">قريباً</div>
+                <div class="video-wave">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <div class="video-info">
+                    <div class="video-name">سمير، تاجر من باب الواد</div>
+                    <div class="video-loc">&#128205; الجزائر العاصمة &bull; إدارة تجارة</div>
+                </div>
+            </div>
+
+            <div class="video-card reveal reveal-delay-3">
+                <div class="video-play"></div>
+                <div class="video-badge">قريباً</div>
+                <div class="video-wave">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <div class="video-info">
+                    <div class="video-name">فاطمة، أم وموظفة</div>
+                    <div class="video-loc">&#128205; وهران &bull; ميزانية شهرية</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     RATING BREAKDOWN
+═══════════════════════════════════════════ -->
+<section class="section rating-section">
+    <div class="container">
+        <div class="section-header reveal">
+            <span class="section-tag">&#11088; التقييمات</span>
+            <h2 class="section-title">رأي المستخدمين في شهريتي</h2>
+        </div>
+
+        <div class="rating-container reveal">
+            <div class="rating-top">
+                <div class="rating-big">
+                    <div class="rating-big-number">4.8</div>
+                    <div class="stars rating-big-stars">
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                        <span class="star" style="background: linear-gradient(90deg, #F59E0B 80%, #E2E8F0 80%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">&#9733;</span>
+                    </div>
+                    <div class="rating-big-count">بناءً على 2,847 تقييم</div>
+                </div>
+
+                <div class="rating-bars">
+                    <div class="rating-bar-row">
+                        <span class="rating-bar-label">5 <span class="star">&#9733;</span></span>
+                        <div class="rating-bar-track">
+                            <div class="rating-bar-fill" data-width="72%"></div>
+                        </div>
+                        <span class="rating-bar-pct">72%</span>
+                    </div>
+                    <div class="rating-bar-row">
+                        <span class="rating-bar-label">4 <span class="star">&#9733;</span></span>
+                        <div class="rating-bar-track">
+                            <div class="rating-bar-fill" data-width="18%"></div>
+                        </div>
+                        <span class="rating-bar-pct">18%</span>
+                    </div>
+                    <div class="rating-bar-row">
+                        <span class="rating-bar-label">3 <span class="star">&#9733;</span></span>
+                        <div class="rating-bar-track">
+                            <div class="rating-bar-fill" data-width="6%"></div>
+                        </div>
+                        <span class="rating-bar-pct">6%</span>
+                    </div>
+                    <div class="rating-bar-row">
+                        <span class="rating-bar-label">2 <span class="star">&#9733;</span></span>
+                        <div class="rating-bar-track">
+                            <div class="rating-bar-fill" data-width="3%"></div>
+                        </div>
+                        <span class="rating-bar-pct">3%</span>
+                    </div>
+                    <div class="rating-bar-row">
+                        <span class="rating-bar-label">1 <span class="star">&#9733;</span></span>
+                        <div class="rating-bar-track">
+                            <div class="rating-bar-fill" data-width="1%"></div>
+                        </div>
+                        <span class="rating-bar-pct">1%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     QUOTES MARQUEE
+═══════════════════════════════════════════ -->
+<section class="marquee-section">
+    <div class="marquee-row marquee-row-1">
+        <div class="marquee-item"><span class="marquee-quote">تطبيق ذهبي والله!</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">ولّيت نعرف وين كل دينار يروح</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">أحسن قرار خذيتو هاد العام</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">راجلي ولّا يساعدني في الميزانية!</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">مبقيتش نتسلّف الحمد لله</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">دخرت للعيد بلا ما نحس</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">بسيط وسهل حتى لماما فهمتو</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">أول مرة نكمّل الشهر وعندي فلوس</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <!-- Duplicate for seamless loop -->
+        <div class="marquee-item"><span class="marquee-quote">تطبيق ذهبي والله!</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">ولّيت نعرف وين كل دينار يروح</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">أحسن قرار خذيتو هاد العام</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">راجلي ولّا يساعدني في الميزانية!</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">مبقيتش نتسلّف الحمد لله</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">دخرت للعيد بلا ما نحس</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">بسيط وسهل حتى لماما فهمتو</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">أول مرة نكمّل الشهر وعندي فلوس</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+    </div>
+
+    <div class="marquee-row marquee-row-2">
+        <div class="marquee-item"><span class="marquee-quote">حتى الصغار ولاّو يفهمو قيمة الفلوس</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">واش هاد التطبيق، نتمنى لقيتو من بكري</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">فلوسي ولاّت تحت السيطرة</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">نصحت بيه كل العائلة</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">قدرت نشري موبيل جديد من الادخار</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">التطبيق الوحيد لي فهمني بالدارجة</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">من أول شهر بانت النتيجة</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">مبقاش عندي stress آخر الشهر</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <!-- Duplicate for seamless loop -->
+        <div class="marquee-item"><span class="marquee-quote">حتى الصغار ولاّو يفهمو قيمة الفلوس</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">واش هاد التطبيق، نتمنى لقيتو من بكري</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">فلوسي ولاّت تحت السيطرة</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">نصحت بيه كل العائلة</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">قدرت نشري موبيل جديد من الادخار</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">التطبيق الوحيد لي فهمني بالدارجة</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">من أول شهر بانت النتيجة</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+        <div class="marquee-item"><span class="marquee-quote">مبقاش عندي stress آخر الشهر</span><span class="marquee-stars"><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA
+═══════════════════════════════════════════ -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content reveal">
+            <h2 class="cta-title">انضم لعائلة شهريتي</h2>
+            <p class="cta-counter">
+                أكثر من <strong data-target="10000">10,000+</strong> عائلة جزائرية سبقوك
+            </p>
+            <a href="#" class="cta-button">
+                <span class="cta-button-icon">&#128242;</span>
+                حمّل شهريتي مجاناً
+            </a>
+            <div class="cta-badges">
+                <span class="cta-badge">
+                    <span class="cta-badge-icon">&#9989;</span>
+                    مجاني بالكامل
+                </span>
+                <span class="cta-badge">
+                    <span class="cta-badge-icon">&#128274;</span>
+                    بياناتك محمية
+                </span>
+                <span class="cta-badge">
+                    <span class="cta-badge-icon">&#128683;</span>
+                    بلا إعلانات
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-brand">شهريتي</div>
+        <p class="footer-tagline">أذكى طريقة لإدارة مصاريفك الشهرية</p>
+        <div class="footer-links">
+            <a href="index.html">الرئيسية</a>
+            <a href="calculator.html">الحاسبة</a>
+            <a href="savings.html">الادخار</a>
+            <a href="family.html">العائلة</a>
+            <a href="stories.html">قصص النجاح</a>
+        </div>
+        <p class="footer-copy">&copy; 2024 شهريتي. جميع الحقوق محفوظة.</p>
+    </div>
+</footer>
+
+<script>
+(function() {
+    'use strict';
+
+    /* ─── IntersectionObserver for scroll reveals ─── */
+    const revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Trigger bar animations when visible
+                const bars = entry.target.querySelectorAll('[data-width]');
+                bars.forEach(function(bar) {
+                    bar.style.width = bar.dataset.width;
+                });
+                // Trigger counter animations
+                const counters = entry.target.querySelectorAll('[data-target]');
+                counters.forEach(function(counter) {
+                    animateCounter(counter);
+                });
+            }
+        });
+    }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach(function(el) {
+        revealObserver.observe(el);
+    });
+
+    // Also observe the rating container and ba-cards for their bars
+    document.querySelectorAll('.rating-container, .ba-card').forEach(function(el) {
+        revealObserver.observe(el);
+    });
+
+    /* ─── Animated Counters with requestAnimationFrame ─── */
+    var animatedCounters = new Set();
+
+    function animateCounter(el) {
+        if (animatedCounters.has(el)) return;
+        animatedCounters.add(el);
+
+        var target = parseFloat(el.dataset.target);
+        var isDecimal = el.dataset.decimal === 'true';
+        var suffix = el.dataset.suffix || '';
+        var duration = 2000;
+        var start = performance.now();
+
+        function update(now) {
+            var elapsed = now - start;
+            var progress = Math.min(elapsed / duration, 1);
+            // Ease out cubic
+            var eased = 1 - Math.pow(1 - progress, 3);
+            var current = eased * target;
+
+            if (isDecimal) {
+                el.textContent = current.toFixed(1) + suffix;
+            } else {
+                el.textContent = Math.floor(current).toLocaleString('en') + suffix;
+            }
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                if (isDecimal) {
+                    el.textContent = target.toFixed(1) + suffix;
+                } else {
+                    el.textContent = target.toLocaleString('en') + suffix;
+                }
+            }
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    /* ─── Rating bars animation on scroll ─── */
+    var ratingObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                var fills = entry.target.querySelectorAll('.rating-bar-fill');
+                fills.forEach(function(fill, i) {
+                    setTimeout(function() {
+                        fill.style.width = fill.dataset.width;
+                    }, i * 100);
+                });
+                ratingObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    var ratingContainer = document.querySelector('.rating-container');
+    if (ratingContainer) {
+        ratingObserver.observe(ratingContainer);
+    }
+
+    /* ─── BA bars animation on scroll ─── */
+    var baObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                var fill = entry.target.querySelector('.ba-bar-fill');
+                if (fill) {
+                    fill.style.width = fill.dataset.width;
+                }
+                baObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.ba-card').forEach(function(card) {
+        baObserver.observe(card);
+    });
+
+})();
+</script>
+
+</body>
+</html>
