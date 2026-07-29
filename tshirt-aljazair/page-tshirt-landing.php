@@ -27,6 +27,17 @@ if (file_exists($html_file)) {
     // Extract <body> content
     if (preg_match('/<body[^>]*>([\s\S]*)<\/body>/i', $html, $bm)) {
         $body_content = $bm[1];
+
+        // Replace relative image paths with absolute GitHub Pages URLs
+        $cdn = 'https://abdouz19.github.io/chahriyti.github.io/tshirt-aljazair/';
+        $images = ['green.png', 'white.png', 'image.png', 'image copy.png'];
+        foreach ($images as $img) {
+            $body_content = str_replace(
+                '"' . $img . '"',
+                '"' . $cdn . $img . '"',
+                $body_content
+            );
+        }
     }
 }
 ?>
