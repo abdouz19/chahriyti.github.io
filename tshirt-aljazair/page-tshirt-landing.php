@@ -52,9 +52,6 @@ if (file_exists($html_file)) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900;1000&display=swap" rel="stylesheet">
 
-    <!-- Styles extracted from index.html -->
-    <?php echo $inline_styles; ?>
-
     <!-- WooCommerce AJAX config -->
     <script>
         window.tshirt_ajax = {
@@ -64,6 +61,13 @@ if (file_exists($html_file)) {
     </script>
 
     <?php wp_head(); ?>
+
+    <!-- Styles extracted from index.html — loaded AFTER theme CSS to win cascade -->
+    <?php echo $inline_styles; ?>
+    <style>
+        /* Force Cairo over any theme font overrides */
+        html, body, * { font-family: 'Cairo', sans-serif !important; }
+    </style>
 </head>
 <body class="tshirt-landing">
 
