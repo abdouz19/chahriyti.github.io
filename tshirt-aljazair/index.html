@@ -956,10 +956,34 @@
     .star-svg { pointer-events: none; }
 
     /* ─── RESPONSIVE ─── */
+    /* ─── MOBILE BOTTOM CTA ─── */
+    .mobile-cta-bar {
+      display: none;
+    }
     @media (max-width: 900px) {
+      .mobile-cta-bar {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 500;
+        padding: 12px 20px 24px;
+        background: linear-gradient(to top, rgba(10,15,10,0.98) 60%, transparent);
+      }
+      .mobile-cta-bar .btn-primary {
+        width: 100%;
+        text-align: center;
+        font-size: 18px;
+        padding: 17px;
+        border-radius: 16px;
+        animation: glowPulse 3s ease infinite;
+      }
       nav { padding: 16px 24px; }
       nav.scrolled { padding: 12px 24px; }
       .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .lang-toggle { flex-shrink: 0; }
       .hero-container {
         grid-template-columns: 1fr;
         padding: 120px 24px 60px;
@@ -1412,6 +1436,14 @@
       <span class="text-fr">Made with Algerian pride</span>
     </div>
   </footer>
+
+  <!-- ─── MOBILE FIXED BOTTOM CTA ─── -->
+  <div class="mobile-cta-bar">
+    <a href="#cta" class="btn-primary" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'}); return false;">
+      <span class="text-ar">🛒 اطلب دروك — الكمية محدودة 🔥</span>
+      <span class="text-fr">🛒 Commander — Stock limité 🔥</span>
+    </a>
+  </div>
 
   <script>
     // ─── LANG SWITCH ───
