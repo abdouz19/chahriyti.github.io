@@ -5,17 +5,30 @@
  *
  * Canvas-style page — outputs the Tshirt Aljazair landing page
  * without any theme header/footer.
- * Select this template when creating the page in WordPress.
- *
- * ─── SETUP ──────────────────────────────────────────────────────────────────
- * 1. Upload this file + tshirt-orders.php + index.html + images to wp-content/plugins/tshirt-aljazair/
- * 2. Activate the "Tshirt Aljazair Landing Orders" plugin in WP Admin → Plugins
- * 3. Create a new Page in WordPress, set template to "Tshirt Aljazair Landing Page"
- * 4. Visit the page — the landing page will render with live WooCommerce orders
- * ────────────────────────────────────────────────────────────────────────────
  */
 
 defined('ABSPATH') || exit;
+
+// ─── Read index.html and extract parts ───
+$html_file     = plugin_dir_path(__FILE__) . 'index.html';
+$inline_styles = '';
+$body_content  = '';
+
+if (file_exists($html_file)) {
+    $html = file_get_contents($html_file);
+
+    // Extract all <style>...</style> blocks from <head>
+    if (preg_match_all('/<style[^>]*>([\s\S]*?)<\/style>/i', $html, $sm)) {
+        foreach ($sm[0] as $block) {
+            $inline_styles .= $block . "\n";
+        }
+    }
+
+    // Extract <body> content
+    if (preg_match('/<body[^>]*>([\s\S]*)<\/body>/i', $html, $bm)) {
+        $body_content = $bm[1];
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-lang="ar">
@@ -28,7 +41,10 @@ defined('ABSPATH') || exit;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900;1000&display=swap" rel="stylesheet">
 
-    <!-- Inject WooCommerce AJAX config for the order form -->
+    <!-- Styles extracted from index.html -->
+    <?php echo $inline_styles; ?>
+
+    <!-- WooCommerce AJAX config -->
     <script>
         window.tshirt_ajax = {
             url:   '<?php echo esc_url(admin_url('admin-ajax.php')); ?>',
@@ -39,32 +55,17 @@ defined('ABSPATH') || exit;
     <?php wp_head(); ?>
 </head>
 <body class="tshirt-landing">
+
 <?php
-/**
- * Read and output the landing page body content from index.html.
- * index.html lives in the same directory as this template.
- *
- * We extract only the content between <body> and </body> so we
- * don't duplicate the <html>/<head> structure.
- */
-$html_file = plugin_dir_path(__FILE__) . 'index.html';
-
-if (file_exists($html_file)) {
-    $html = file_get_contents($html_file);
-
-    // Extract content between <body ...> and </body>
-    if (preg_match('/<body[^>]*>([\s\S]*)<\/body>/i', $html, $matches)) {
-        echo $matches[1];
-    } else {
-        // Fallback: output the full file (won't break, just outputs dupe tags)
-        echo $html;
-    }
+if (!empty($body_content)) {
+    echo $body_content;
 } else {
     echo '<p style="text-align:center;padding:60px;font-family:Cairo,sans-serif;font-size:18px;color:white;background:#0A0F0A;">
-        ملف المحتوى غير موجود — ارفع <code>index.html</code> في نفس مجلد البلاقن
+        ملف المحتوى غير موجود — تأكد أن <code>index.html</code> موجود في مجلد البلاقن
     </p>';
 }
 ?>
+
 <?php wp_footer(); ?>
 </body>
 </html>
