@@ -107,10 +107,6 @@
 
     /* ─── LANG TOGGLE ─── */
     .lang-toggle {
-      position: fixed;
-      top: 24px;
-      left: 24px;
-      z-index: 999;
       display: flex;
       gap: 4px;
       background: rgba(0,0,0,0.4);
@@ -980,18 +976,12 @@
       .story-grid { grid-template-columns: 1fr; gap: 48px; }
       .values-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 16px; text-align: center; }
-      .lang-toggle { top: 16px; left: 16px; }
+      .lang-toggle { flex-shrink: 0; }
     }
   </style>
 </head>
 
 <body>
-  <!-- ─── LANG TOGGLE ─── -->
-  <div class="lang-toggle">
-    <button class="lang-btn active" onclick="setLang('ar')">عربي</button>
-    <button class="lang-btn" onclick="setLang('fr')">FR</button>
-  </div>
-
   <!-- ─── NAV ─── -->
   <nav id="nav">
     <a href="#" class="nav-logo">
@@ -1004,10 +994,16 @@
       <li><a href="#story" class="text-ar">قصتنا</a><a href="#story" class="text-fr">Notre histoire</a></li>
       <li><a href="#values" class="text-ar">قيمنا</a><a href="#values" class="text-fr">Nos valeurs</a></li>
     </ul>
-    <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
-      <span class="text-ar">اطلب دروك</span>
-      <span class="text-fr">Commander</span>
-    </button>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('ar')">عربي</button>
+        <button class="lang-btn" onclick="setLang('fr')">FR</button>
+      </div>
+      <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">
+        <span class="text-ar">اطلب دروك</span>
+        <span class="text-fr">Commander</span>
+      </button>
+    </div>
   </nav>
 
   <!-- ─── HERO ─── -->
