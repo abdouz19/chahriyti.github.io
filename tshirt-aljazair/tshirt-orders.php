@@ -48,6 +48,7 @@ function tshirt_create_order() {
     $phone   = sanitize_text_field($_POST['phone']    ?? '');
     $wilaya  = sanitize_text_field($_POST['wilaya']   ?? '');
     $commune = sanitize_text_field($_POST['commune']  ?? '');
+    $note    = sanitize_textarea_field($_POST['note'] ?? '');
 
     // Validate required
     if (empty($color) || empty($size) || empty($name) || empty($phone) || empty($wilaya) || empty($commune)) {
@@ -118,14 +119,18 @@ function tshirt_create_order() {
     $order->set_payment_method_title('الدفع عند الاستلام');
 
     // Order note
-    $order->add_order_note(sprintf(
+    $note_text = sprintf(
         "🇩🇿 طلب من صفحة Tshirt Aljazair Landing Page\n" .
         "اللون: %s\n" .
         "المقاس: %s\n" .
         "الهاتف: %s\n" .
         "العنوان: %s — %s",
         $color, $size, $phone, $commune, $wilaya
-    ));
+    );
+    if (!empty($note)) {
+        $note_text .= "\nملاحظة العميل: " . $note;
+    }
+    $order->add_order_note($note_text);
 
     $order->set_status('processing');
     $order->calculate_totals();
