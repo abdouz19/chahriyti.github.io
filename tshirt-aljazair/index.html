@@ -952,6 +952,179 @@
     [data-lang="ar"] .hero-title-fr { display: none; }
     [data-lang="ar"] .hero-title-ar { display: block; }
 
+    /* ─── ORDER SECTION ─── */
+    .order-section {
+      padding: 120px 0;
+      background: var(--dark);
+    }
+    .order-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .order-card {
+      max-width: 720px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 28px;
+      padding: 48px;
+    }
+    /* ─ Color ─ */
+    .order-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .required { color: var(--red); }
+    .color-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .color-card {
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: rgba(255,255,255,0.02);
+    }
+    .color-card:hover { border-color: rgba(0,98,51,0.4); background: rgba(0,98,51,0.05); }
+    .color-card.selected { border-color: var(--green); background: rgba(0,98,51,0.1); box-shadow: 0 0 20px rgba(0,98,51,0.2); }
+    .color-card input[type="radio"] { display: none; }
+    .color-card-img { width: 120px; height: 120px; object-fit: contain; margin: 0 auto 10px; display: block; filter: drop-shadow(0 10px 24px rgba(0,0,0,0.5)); transition: transform 0.3s ease; }
+    .color-card:hover .color-card-img, .color-card.selected .color-card-img { transform: translateY(-6px) scale(1.04); }
+    .color-card-name { font-size: 15px; font-weight: 800; margin-bottom: 2px; }
+    .color-card-sub { font-size: 12px; color: var(--text-muted); }
+    .color-card-check { position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; border-radius: 50%; background: var(--green); display: none; align-items: center; justify-content: center; font-size: 12px; }
+    [dir="ltr"] .color-card-check { right: auto; left: 12px; }
+    .color-card.selected .color-card-check { display: flex; }
+
+    /* ─ Size ─ */
+    .size-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .size-card {
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 16px 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      background: rgba(255,255,255,0.02);
+    }
+    .size-card:hover { border-color: rgba(0,98,51,0.4); }
+    .size-card.selected { border-color: var(--green); background: rgba(0,98,51,0.1); }
+    .size-card input[type="radio"] { display: none; }
+    .size-card-num { font-size: 22px; font-weight: 900; color: var(--green); margin-bottom: 4px; }
+    .size-card-range { font-size: 11px; color: var(--text-muted); line-height: 1.6; }
+    .size-card-label { font-size: 13px; font-weight: 700; margin-top: 4px; }
+
+    /* ─ Divider ─ */
+    .form-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.07);
+      margin: 28px 0;
+    }
+
+    /* ─ Inputs ─ */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group input,
+    .form-group select {
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 15px;
+      color: white;
+      outline: none;
+      transition: border-color 0.3s;
+      width: 100%;
+    }
+    .form-group input::placeholder { color: var(--text-muted); }
+    .form-group input:focus,
+    .form-group select:focus { border-color: var(--green); }
+    .form-group select option { background: #111; color: white; }
+    .form-group select:disabled { opacity: 0.4; cursor: not-allowed; }
+    [dir="ltr"] .form-group input[name="phone"] { direction: ltr; }
+
+    /* ─ Submit ─ */
+    .btn-submit {
+      width: 100%;
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 18px;
+      border-radius: 16px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 24px;
+      animation: glowPulse 3s ease infinite;
+    }
+    .btn-submit:hover { background: var(--green-light); transform: translateY(-2px); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .form-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ─ Success ─ */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 48px 24px;
+    }
+    .form-success.show { display: block; }
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(0,98,51,0.2);
+      border: 2px solid var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin: 0 auto 20px;
+      color: var(--green);
+    }
+    .form-success h3 { font-size: 24px; font-weight: 900; margin-bottom: 12px; }
+    .form-success p { color: var(--text-muted); line-height: 1.8; }
+
+    /* ─ Order mobile ─ */
+    @media (max-width: 900px) {
+      .order-card { padding: 28px 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      .size-grid { grid-template-columns: repeat(3,1fr); gap: 8px; }
+      .color-card-img { width: 80px; height: 80px; }
+    }
+
     /* ─── STAR SVG ─── */
     .star-svg { pointer-events: none; }
 
@@ -1392,6 +1565,211 @@
     </div>
   </section>
 
+  <!-- ─── ORDER ─── -->
+  <section class="order-section" id="order">
+    <div class="container">
+      <div class="order-header">
+        <div class="section-label">
+          <span class="text-ar">اطلب ضرك</span>
+          <span class="text-fr">Commander maintenant</span>
+        </div>
+        <h2 class="section-title">
+          <span class="text-ar">عمّر الفورم واطلب تاعك</span>
+          <span class="text-fr">Remplissez le formulaire et commandez</span>
+        </h2>
+        <p class="section-sub" style="margin:0 auto; text-align:center;">
+          <span class="text-ar">توصيل لكل الجزائر — الدفع عند الاستلام 🚚</span>
+          <span class="text-fr">Livraison partout en Algérie — Paiement à la livraison 🚚</span>
+        </p>
+      </div>
+
+      <div class="order-card">
+        <form id="orderForm" onsubmit="return handleTshirtOrder(event)">
+
+          <!-- ── Color ── -->
+          <label class="order-label">
+            <span class="text-ar">اختر اللون <span class="required">*</span></span>
+            <span class="text-fr">Choisissez la couleur <span class="required">*</span></span>
+          </label>
+          <div class="color-grid">
+            <div class="color-card" onclick="selectColor(this,'أخضر')">
+              <input type="radio" name="color" value="أخضر">
+              <div class="color-card-check">✓</div>
+              <img src="green.png" alt="أخضر" class="color-card-img">
+              <div class="color-card-name text-ar">الأخضر</div>
+              <div class="color-card-name text-fr">Vert</div>
+              <div class="color-card-sub text-ar">نجمة على الكم</div>
+              <div class="color-card-sub text-fr">Étoile sur la manche</div>
+            </div>
+            <div class="color-card" onclick="selectColor(this,'أبيض')">
+              <input type="radio" name="color" value="أبيض">
+              <div class="color-card-check">✓</div>
+              <img src="white.png" alt="أبيض" class="color-card-img">
+              <div class="color-card-name text-ar">الأبيض</div>
+              <div class="color-card-name text-fr">Blanc</div>
+              <div class="color-card-sub text-ar">نجمة كبيرة في الوسط</div>
+              <div class="color-card-sub text-fr">Grande étoile centrale</div>
+            </div>
+          </div>
+
+          <!-- ── Size ── -->
+          <label class="order-label">
+            <span class="text-ar">اختر المقاس <span class="required">*</span></span>
+            <span class="text-fr">Choisissez la taille <span class="required">*</span></span>
+          </label>
+          <div class="size-grid">
+            <div class="size-card" onclick="selectSize(this,'Taille 1 l 55KG-80KG l S-L')">
+              <input type="radio" name="size" value="Taille 1 l 55KG-80KG l S-L">
+              <div class="size-card-num">1</div>
+              <div class="size-card-range">55 — 80 كغ</div>
+              <div class="size-card-label">S → L</div>
+            </div>
+            <div class="size-card" onclick="selectSize(this,'Taille 2 l 75KG-100KG l L-XL')">
+              <input type="radio" name="size" value="Taille 2 l 75KG-100KG l L-XL">
+              <div class="size-card-num">2</div>
+              <div class="size-card-range">75 — 100 كغ</div>
+              <div class="size-card-label">L → XL</div>
+            </div>
+            <div class="size-card" onclick="selectSize(this,'Taille 3 l 95KG-120KG l XL-XXL')">
+              <input type="radio" name="size" value="Taille 3 l 95KG-120KG l XL-XXL">
+              <div class="size-card-num">3</div>
+              <div class="size-card-range">95 — 120 كغ</div>
+              <div class="size-card-label">XL → XXL</div>
+            </div>
+          </div>
+
+          <div class="form-divider"></div>
+
+          <!-- ── Personal Info ── -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="order-label" style="margin-bottom:0">
+                <span class="text-ar">الاسم الكامل <span class="required">*</span></span>
+                <span class="text-fr">Nom complet <span class="required">*</span></span>
+              </label>
+              <input type="text" name="fullName" placeholder="محمد بن علي" required>
+            </div>
+            <div class="form-group">
+              <label class="order-label" style="margin-bottom:0">
+                <span class="text-ar">رقم الهاتف <span class="required">*</span></span>
+                <span class="text-fr">Numéro de téléphone <span class="required">*</span></span>
+              </label>
+              <input type="tel" name="phone" placeholder="07XXXXXXXX" required pattern="0[5-7][0-9]{8}" dir="ltr" style="text-align:right">
+            </div>
+          </div>
+
+          <!-- ── Location ── -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="order-label" style="margin-bottom:0">
+                <span class="text-ar">الولاية <span class="required">*</span></span>
+                <span class="text-fr">Wilaya <span class="required">*</span></span>
+              </label>
+              <select id="tshirtWilaya" name="wilaya" required>
+                <option value="" disabled selected>
+                  <span class="text-ar">اختر الولاية</span>
+                </option>
+                <option value="01 - أدرار">01 - أدرار</option>
+                <option value="02 - الشلف">02 - الشلف</option>
+                <option value="03 - الأغواط">03 - الأغواط</option>
+                <option value="04 - أم البواقي">04 - أم البواقي</option>
+                <option value="05 - باتنة">05 - باتنة</option>
+                <option value="06 - بجاية">06 - بجاية</option>
+                <option value="07 - بسكرة">07 - بسكرة</option>
+                <option value="08 - بشار">08 - بشار</option>
+                <option value="09 - البليدة">09 - البليدة</option>
+                <option value="10 - البويرة">10 - البويرة</option>
+                <option value="11 - تمنراست">11 - تمنراست</option>
+                <option value="12 - تبسة">12 - تبسة</option>
+                <option value="13 - تلمسان">13 - تلمسان</option>
+                <option value="14 - تيارت">14 - تيارت</option>
+                <option value="15 - تيزي وزو">15 - تيزي وزو</option>
+                <option value="16 - الجزائر">16 - الجزائر</option>
+                <option value="17 - الجلفة">17 - الجلفة</option>
+                <option value="18 - جيجل">18 - جيجل</option>
+                <option value="19 - سطيف">19 - سطيف</option>
+                <option value="20 - سعيدة">20 - سعيدة</option>
+                <option value="21 - سكيكدة">21 - سكيكدة</option>
+                <option value="22 - سيدي بلعباس">22 - سيدي بلعباس</option>
+                <option value="23 - عنابة">23 - عنابة</option>
+                <option value="24 - قالمة">24 - قالمة</option>
+                <option value="25 - قسنطينة">25 - قسنطينة</option>
+                <option value="26 - المدية">26 - المدية</option>
+                <option value="27 - مستغانم">27 - مستغانم</option>
+                <option value="28 - المسيلة">28 - المسيلة</option>
+                <option value="29 - معسكر">29 - معسكر</option>
+                <option value="30 - ورقلة">30 - ورقلة</option>
+                <option value="31 - وهران">31 - وهران</option>
+                <option value="32 - البيض">32 - البيض</option>
+                <option value="33 - إليزي">33 - إليزي</option>
+                <option value="34 - برج بوعريريج">34 - برج بوعريريج</option>
+                <option value="35 - بومرداس">35 - بومرداس</option>
+                <option value="36 - الطارف">36 - الطارف</option>
+                <option value="37 - تندوف">37 - تندوف</option>
+                <option value="38 - تيسمسيلت">38 - تيسمسيلت</option>
+                <option value="39 - الوادي">39 - الوادي</option>
+                <option value="40 - خنشلة">40 - خنشلة</option>
+                <option value="41 - سوق أهراس">41 - سوق أهراس</option>
+                <option value="42 - تيبازة">42 - تيبازة</option>
+                <option value="43 - ميلة">43 - ميلة</option>
+                <option value="44 - عين الدفلى">44 - عين الدفلى</option>
+                <option value="45 - النعامة">45 - النعامة</option>
+                <option value="46 - عين تموشنت">46 - عين تموشنت</option>
+                <option value="47 - غرداية">47 - غرداية</option>
+                <option value="48 - غليزان">48 - غليزان</option>
+                <option value="49 - تيميمون">49 - تيميمون</option>
+                <option value="50 - برج باجي مختار">50 - برج باجي مختار</option>
+                <option value="51 - أولاد جلال">51 - أولاد جلال</option>
+                <option value="52 - بني عباس">52 - بني عباس</option>
+                <option value="53 - عين صالح">53 - عين صالح</option>
+                <option value="54 - عين قزام">54 - عين قزام</option>
+                <option value="55 - تقرت">55 - تقرت</option>
+                <option value="56 - جانت">56 - جانت</option>
+                <option value="57 - المغير">57 - المغير</option>
+                <option value="58 - المنيعة">58 - المنيعة</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="order-label" style="margin-bottom:0">
+                <span class="text-ar">البلدية <span class="required">*</span></span>
+                <span class="text-fr">Commune <span class="required">*</span></span>
+              </label>
+              <select id="tshirtCommune" name="commune" required disabled>
+                <option value="" disabled selected>
+                  <span class="text-ar">اختر الولاية أولاً</span>
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-divider"></div>
+
+          <button type="submit" class="btn-submit" id="tshirtSubmitBtn">
+            <span class="text-ar">🛒 تأكيد الطلب — الدفع عند الاستلام</span>
+            <span class="text-fr">🛒 Confirmer — Paiement à la livraison</span>
+          </button>
+          <div class="form-note">
+            🔒
+            <span class="text-ar">معلوماتك آمنة — الدفع فقط عند الاستلام</span>
+            <span class="text-fr">Vos données sont sécurisées — Paiement uniquement à la livraison</span>
+          </div>
+        </form>
+
+        <div class="form-success" id="tshirtFormSuccess">
+          <div class="success-icon">✓</div>
+          <h3>
+            <span class="text-ar">تم تسجيل طلبك بنجاح! 🎉</span>
+            <span class="text-fr">Commande enregistrée avec succès ! 🎉</span>
+          </h3>
+          <p id="tshirtSuccessMsg">
+            <span class="text-ar">راح نتواصلو معاك قريب باش نأكدو الطلب تاعك.<br>شكراً أنك اخترت تيشرت الجزائر 🇩🇿</span>
+            <span class="text-fr">Nous vous contacterons bientôt pour confirmer votre commande.<br>Merci d'avoir choisi Tshirt Aljazair 🇩🇿</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ─── CTA ─── -->
   <section class="cta-section" id="cta">
     <div class="cta-bg"></div>
@@ -1499,6 +1877,159 @@
 
     document.querySelectorAll('.product-card, .story-visual, .story-content, .value-card').forEach(el => {
       observer.observe(el);
+    });
+
+    // ─── ORDER FORM ───
+    function selectColor(card, value) {
+      document.querySelectorAll('.color-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      card.querySelector('input[type="radio"]').checked = true;
+    }
+    function selectSize(card, value) {
+      document.querySelectorAll('.size-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      card.querySelector('input[type="radio"]').checked = true;
+    }
+
+    function handleTshirtOrder(e) {
+      e.preventDefault();
+      const form = document.getElementById('orderForm');
+      const btn = document.getElementById('tshirtSubmitBtn');
+      const formData = new FormData(form);
+
+      // Validate color + size (radio buttons)
+      if (!formData.get('color')) {
+        alert(document.documentElement.getAttribute('data-lang') === 'fr' ? 'Choisissez une couleur' : 'اختر اللون');
+        return false;
+      }
+      if (!formData.get('size')) {
+        alert(document.documentElement.getAttribute('data-lang') === 'fr' ? 'Choisissez une taille' : 'اختر المقاس');
+        return false;
+      }
+
+      btn.disabled = true;
+      btn.textContent = document.documentElement.getAttribute('data-lang') === 'fr' ? 'Envoi en cours...' : 'جاري التسجيل...';
+
+      if (window.tshirt_ajax) {
+        formData.append('action', 'tshirt_create_order');
+        formData.append('nonce', window.tshirt_ajax.nonce);
+
+        fetch(window.tshirt_ajax.url, { method: 'POST', body: formData })
+          .then(r => r.json())
+          .then(data => {
+            if (data.success) {
+              form.style.display = 'none';
+              const msg = document.getElementById('tshirtSuccessMsg');
+              const isAr = document.documentElement.getAttribute('data-lang') !== 'fr';
+              msg.innerHTML = isAr
+                ? 'رقم الطلب: <strong>#' + data.data.order_number + '</strong><br>راح نتواصلو معاك قريب 🇩🇿'
+                : 'N° commande: <strong>#' + data.data.order_number + '</strong><br>Nous vous contacterons bientôt 🇩🇿';
+              document.getElementById('tshirtFormSuccess').classList.add('show');
+            } else {
+              alert(data.data.message || 'حدث خطأ، حاول مرة أخرى');
+              btn.disabled = false;
+              btn.textContent = '🛒 تأكيد الطلب';
+            }
+          })
+          .catch(() => {
+            alert('خطأ في الاتصال، حاول مرة أخرى');
+            btn.disabled = false;
+            btn.textContent = '🛒 تأكيد الطلب';
+          });
+      } else {
+        // Static mode — no WP
+        form.style.display = 'none';
+        document.getElementById('tshirtFormSuccess').classList.add('show');
+      }
+      return false;
+    }
+
+    // ─── Wilaya → Communes ───
+    const tshirtCommunes = {
+      "01 - أدرار": ["أدرار","تيميمون","رقان","أولف","زاوية كنتة","تسابيت","شروين","فنوغيل","تيت","بودة","أقبلي","تامنطيط","تمي","سبع","تينركوك","طيط","أنزجمير","دلداول","ساحلي","تالمين","البرانيس"],
+      "02 - الشلف": ["الشلف","تنس","بوقادير","الأبيض مجاجر","أولاد فارس","الكريمية","المرسى","صنجاس","شطية","بني حواء","حرشون","عين مران","واد فضة","الظهرة","بوزغاية","تاجنة","بني بوعتاب","بني راشد","مصدق","هرنفة","واد سلي","عمرة","زبوجة","حمادية","ابو الحسن","بريرة"],
+      "03 - الأغواط": ["الأغواط","أفلو","حاسي الرمل","عين ماضي","قصر الحيران","بريدة","الحويطة","حاسي الدلاعة","الغيشة","سيدي بوزيد","تاجرونة","الحاج المشري","سبقاق","بن ناصر بن شهرة","تاجموت","الأصنام","واد مرة","قلتة سيدي سعد","عين سيدي علي","تاويالة","الحوضين"],
+      "04 - أم البواقي": ["أم البواقي","عين البيضاء","عين مليلة","عين فكرون","مسكيانة","سيقوس","عين الزيتون","بريش","فكيرينة","الحرملية","قصر صبيحي","الضلعة","الزرق","أولاد حملة","بهير الشرقي","الفجوج","سوق نعمان","عين الدّيس","كشيدة","عين كرشة","الجازية","راحية"],
+      "05 - باتنة": ["باتنة","بريكة","عين التوتة","أريس","نقاوس","مروانة","تازولت","سريانة","منعة","الجزار","رأس العيون","القنطرة","تكوت","تيمقاد","عين جاسر","الشمرة","بوزينة","ثنية العابد","إشمول","وادي الشعبة","غسيرة","لارباع","فسديس","المعذر","جرمة","بيطام","وادي الماء","لمسان","وادي الطاقة","تالخمت"],
+      "06 - بجاية": ["بجاية","أقبو","سيدي عيش","خراطة","تيشي","أميزور","صدوق","الكسّور","أكفادو","برباشة","سوق الإثنين","أوقاس","تيمزريت","أدكار","شميني","طاسكريوت","تازمالت","إفري أوزلاقن","فناية","تيفرا","بوحمزة","بني جليل","بني معوش","أوريلال","تمقرة","إغرام","مسيسنة","فرعون","شلاطة","تامريجت","سيدي عياد","تيبان","بني كسيلة","درقينة"],
+      "07 - بسكرة": ["بسكرة","طولقة","أولاد جلال","سيدي عقبة","زريبة الوادي","الفيض","جمورة","أورلال","بوشقرون","المزيرعة","القنطرة","حاسي خليفة","ليشانة","الحاجب","خنقة سيدي ناجي","مشونش","البسباس","فوغالة","جلال","أوماش","برج بن عزوز","الغروس","لوطاية","ليوة","سيدي خالد","رأس الميعاد"],
+      "08 - بشار": ["بشار","بني ونيف","كرزاز","عبادلة","تاغيت","بني عباس","القنادسة","لحمر","مشرية","إقلي","تبلبالة","لودياني"],
+      "09 - البليدة": ["البليدة","بوفاريك","بوعينان","أولاد يعيش","الأربعاء","بوقرة","الشفة","موزاية","الشريعة","وادي العلايق","الأخضرية","بني مراد","عين الرمانة","صوماعة","حمام ملوان","جبابرة","أولاد سلامة","مفتاح","الشبلي","قرواو","غبالو","بوعرفة","واد جر","بني طامو"],
+      "10 - البويرة": ["البويرة","لقدية","عين بسام","سور الغزلان","أهل القصر","الأسنام","بئر غبالو","مشدالة","الأخضرية","برج أوخريص","ديرة","بودربالة","شرفة","آيت لعزيز","معالة","سوق الخميس","ريدان","تقديرت","واد البردي","الحشيمية","خبوزية","المقراني","حيزر","أولاد راشد","قادرية","تاغزوت","بكيرة"],
+      "11 - تمنراست": ["تمنراست","عين قزام","إن أمقل","تين زواتين","عين صالح","إداليس","تاظروك","أبالسة","إن غار","فقارة الزوى"],
+      "12 - تبسة": ["تبسة","بئر العاتر","الشريعة","العوينات","الماء الأبيض","مرسط","ونزة","بكارية","الحمامات","نقرين","الكويف","ثليجان","بولحاف الدير","صفصاف الوسرة","بئر مقدم","أم علي","قمودة","فركان","ستيل","بوخضرة"],
+      "13 - تلمسان": ["تلمسان","مغنية","الغزوات","الرمشي","ندرومة","سبدو","هنين","بني سنوس","صبرة","منصورة","شتوان","عين فزة","أولاد ميمون","بني بوسعيد","مسيردة الفواقة","عين يوسف","سيدي الجيلالي","بوحلو","جبالة","عين الغراب","سوق التلاتة","الأحمر","سيدي مجاهد","العريشة","فلاوسن","الزناتة","أولاد رياح","باب العسة","دار يغمراسن","سوان","حنايا","بني صاف","أزايل"],
+      "14 - تيارت": ["تيارت","عين الذهب","فرندة","قصر الشلالة","مهدية","سوقر","مشرع الصفا","جيلالي بن عمار","دحموني","واد ليلي","رحوية","عين كرمس","الحمادية","سبعين","نادورة","عين بوشقيف","تاقدمت","عين الحديد","مدريسة","تيدة","مغيلة","جبيلات الرصفاء","فايجة","زمالة","آيت الراشد","سبت","مسد","تقصرين"],
+      "15 - تيزي وزو": ["تيزي وزو","عزازقة","ذراع الميزان","عين الحمام","الأربعاء ناث إيراثن","واقنون","بوغني","إفرحونن","واضية","ماكودة","بوزقن","تيقزيرت","تيزي راشد","ذراع بن خدة","إفليسن","مشتراس","بني يني","بني دوالة","عين الزاوية","تادمايت","إيغيل علي","فريحة","أيت محمود","الأخضرية","سوق الثلاثاء","بني عيسي","أزفون","تيزي نثلاثة","ياطافن","بوجيمة","إيللتن"],
+      "16 - الجزائر": ["الجزائر الوسطى","سيدي أمحمد","الأبيار","بولوغين","باب الوادي","القصبة","الحراش","بئر مراد رايس","بوزريعة","بئر خادم","المدنية","حيدرة","المحمدية","الدار البيضاء","باب الزوار","بن عكنون","دالي إبراهيم","السحاولة","الحمامات","رايس حميدو","الرغاية","أولاد شبل","أولاد فايت","براقي","برج البحري","بئر توتة","تسالة المرجة","جسر قسنطينة","الأخضرية","سطاوالي","زرالدة","المعالمة","باينام","القبة","الخرايسية","سيدي موسى","عين بنيان","حسين داي","الكاليتوس","عين طاية","المرسى","الدويرة","بابا حسن","الشراقة","دويدة"],
+      "17 - الجلفة": ["الجلفة","مسعد","عين وسارة","حاسي بحبح","الإدريسية","بيرين","شرف","دار الشيوخ","حد الصحاري","مليليحة","عين الإبل","الشارف","القديد","سد الرحال","فيض البطمة","بن يعقوب","زكار","حاسي فدول","الخميس","واد ملح","قتارة","مجبارة","تعضميت","عين معبد","عمورة","دلدول","بيضة","القرنيني","سلمانة"],
+      "18 - جيجل": ["جيجل","الميلية","الطاهير","تاكسنة","شكفة","سيدي معروف","الأمير عبد القادر","الشحنة","سطارة","برج الطهر","سيدي عبد العزيز","جيملة","وجانة","زيامة منصورية","غبالة","قاوس","بويشعون","بوعرعر"],
+      "19 - سطيف": ["سطيف","العلمة","عين ولمان","عين أزال","بوعنداس","عين أرنات","قجال","حمام السخنة","حمام القرقور","عين الكبيرة","بيضاء برج","عموشة","جميلة","سرج الغول","بابور","الأورسية","معاوية","بوطالب","صالح باي","ريمشي","أولاد صابر","بللاعة","أولاد تبان","بازر الصخرة","غلاسة"],
+      "20 - سعيدة": ["سعيدة","عين الحجر","الحساسنة","يوب","أولاد خالد","مولاي العربي","دوى ثابت","سيدي بوبكر","عين السخونة","أولاد ابراهيم","المعمورة","تيرسين","هونت","سيدي أحمد","حسيان","سيدي عمر"],
+      "21 - سكيكدة": ["سكيكدة","القل","عزابة","تامالوس","الحروش","ولد عطية","الزيتونة","بني زيد","أولاد حبابة","سيدي مزغيش","بكوش لخضر","بن عزوز مكي","رمضان جمال","بئر أحمد شريف","حمادي كرومة","أم الطوب","عين زويت","الغدير","جندل","وادي الزهور","بني والبان","خناق مايو","فلفلة","القنار","بوشتاتة"],
+      "22 - سيدي بلعباس": ["سيدي بلعباس","بن بادبيس","تلاغ","عين البرد","سيدي لحسن","رأس الماء","تسالة","مرين","مصطفى بن إبراهيم","سيدي بوزيد","سيدي ابراهيم","تنيرة","بوخنفيس","سفيزف","عين التريد","سيدي خالد","سيدي داهو","مكدرة","تغاليمت","سيدي حمادوش","أولاد ابراهيم","بن عشيبة","حاسي زهانة","مرحوم"],
+      "23 - عنابة": ["عنابة","الحجار","البوني","سيدي عمار","عين الباردة","الشرفة","وادي العنب","برحال","سرايدي","التريعات","شتايبي","عين بربار"],
+      "24 - قالمة": ["قالمة","بوشقوف","واد الزناتي","عين مخلوف","هيليوبوليس","حمام دباغ","قلعة بوصبع","بن جراح","عين صندل","رشمايا","بلخير","هوارة","حمام النبائل","بومهرة أحمد","عين حساينية","نشماية","بوحمدان","خزارة","دجال","بوعاتي محمود","مجاز عمار","عين العربي","تاملوكة","الفجوج","واد فراغة","جبالة خميسي","برج صباط","بني مزلين","المزرعة"],
+      "25 - قسنطينة": ["قسنطينة","الخروب","عين أعبيد","حامة بوزيان","زيغود يوسف","ديديوش مراد","عين سمارة","بني حميدان","أولاد رحمون","ابن زياد","مسعود بوجريو","ابن باديس"],
+      "26 - المدية": ["المدية","البرواقية","قصر البخاري","تابلاط","شلالة العذاورة","عين بوسيف","خميس ميليانة","العمارية","بني سليمان","ثنية الحد","سي المحجوب","الحمدانية","أولاد أنهار","الكاف الأخضر","بوعيشون","وزرة","جواب","سغوان","عين القصير","عزيز","شنيقل","أولاد بوعشرة","بوغزول","مفتاح","تمسقيدة","بوسكن","ميهوب","درقانة"],
+      "27 - مستغانم": ["مستغانم","عين تادلس","سيدي علي","حاسي ماماش","عشعاشة","سيدي لخضر","بوقيرات","المنصورة","خير الدين","صيادة","ماسرى","ستيدية","عين النويصي","الحسيان","سور","ولايسيا","القراصة","فرناكة","بلاهول","تازقايت","نكمارية"],
+      "28 - المسيلة": ["المسيلة","بوسعادة","عين الملح","سيدي عيسى","حمام الضلعة","أولاد دراج","مقرة","الشهبونية","جبل مساعد","برهوم","عين الحجل","المعاضيد","خبانة","ونوغة","أولاد عدي","كف لخضر","المطارفة","الدهاهنة","تارمونت","بن سرور","الحوامد","سيدي هجرس","بلعايبة","بوطي السايح","ولتام","سليم"],
+      "29 - معسكر": ["معسكر","سيق","تيغنيف","الحشم","بوحنيفية","وادي الأبطال","غريس","عين فارس","عين فكان","المحمدية","تيزي","ماوسة","فروحة","مقطع الدوز","عوف","سيدي قادة","أولاد سليمان","الغمري","بوهني","خلوية","حسين"],
+      "30 - ورقلة": ["ورقلة","حاسي مسعود","تقرت","تماسين","الرويسات","عين البيضاء","سيدي خويلد","حاسي بن عبد الله","النزلة","المقارين","بلدة عمر","الحجيرة","الطيبات","نقوسة","الزاوية العابدية"],
+      "31 - وهران": ["وهران","بئر الجير","السانية","وادي تليلات","عين الترك","أرزيو","المحقن","بوتليليس","حاسي مفسوخ","سيدي الشحمي","مسرغين","عين البية","بوسفر","حاسي بن عقبة","قديل","سيدي بن يبقى","العنصر","مرسى الكبير","حاسي بونيف","الكرمة","بطيوة","الأنصر","الماءنيل"],
+      "32 - البيض": ["البيض","بوعلام","العبيلة","الأبيض سيدي الشيخ","بريزينة","أربوات","الشقة","بوقطب","ستيتن","ككدة","الغاسول","الكراكدة","الرقاصة","شلالة","سيدي طيفور","بوسمغون","بريدة الجمعة"],
+      "33 - إليزي": ["إليزي","جانت","برج عمر إدريس","برج الحواس","دبداب","عين أميناس"],
+      "34 - برج بوعريريج": ["برج بوعريريج","رأس الوادي","الأخضرية","المنصورة","عين تاغروت","برج الغدير","حسناوة","بئر قاصد علي","تقلعيت","جعافرة","الحمادية","حرازة","المهير","عين تسرة","خليل","بن داود","القلة","الرابطة","المزدور","غيلاسة","سيدي إمبارك","القصور","تكستار"],
+      "35 - بومرداس": ["بومرداس","بودواو","الثنية","برج منايل","خميس الخشنة","دلس","الأربعاء","القورصو","الناصرية","بغلية","تيجلابين","عمال","سي مصطفى","إسر","أولاد موسى","بن شود","لقاطة","أولاد عيسى","أولاد هداج","حمادي","زمّوري","شعبة العامر","صوامع","تاوريقة","جينات","بوزقزة قدارة","أفير","خراسية"],
+      "36 - الطارف": ["الطارف","القالة","بوحجار","بن مهيدي","بوثلجة","عين العسل","الذرعان","الشافية","البسباس","بحيرة الطيور","زريزر","بوقوس","السوارخ","أصفور","الشط","عين الكرمة","رمل السوق","حمام بني صالح","وادي الزيتون","عيون العصافير"],
+      "37 - تندوف": ["تندوف","أم العسل"],
+      "38 - تيسمسيلت": ["تيسمسيلت","ثنية الحد","برج بونعامة","تازمالت","خميستي","لرجام","الأربعاء","بوقائد","لعيايدة","عمّاري","سيدي عابد","سيدي بوتوشنت","المعاصم","سيدي الحسني","يوسفية","الأزهرية","أولاد بسّام","بني شعيب","برج الأمير عبد القادر","لاحد","مناصرة"],
+      "39 - الوادي": ["الوادي","قمار","الدبيلة","حاسي خليفة","الرباح","الطالب العربي","بياضة","الرقيبة","ورماس","النخلة","المغير","سيدي خليل","تندلة","كوينين","حمراية","طريفاوي","سيدي عون","أولاد جلال","أم الطيور","بن قشة","الحجيرة","تغزوت","البياضة","حساني عبد الكريم"],
+      "40 - خنشلة": ["خنشلة","قايس","بابار","شلية","عين الطويلة","طامزة","أولاد رشاش","المحمل","مصارة","متوسة","يابوس","ششار","الرميلة","خيران","جلال","بغاي","ألمعذر","أنسيغة","القهمول"],
+      "41 - سوق أهراس": ["سوق أهراس","سدراتة","مداوروش","تاورة","الحدادة","عين الزانة","أم العظائم","المشروحة","حنانشة","ولاد دريس","الخضارة","الرقوبة","الزاوية","بئر بوحوش","المراهنة","تيفاش","أولاد مومن","الطرف","الحراكتة","عين سلطان","قيقبة","أويلدجة"],
+      "42 - تيبازة": ["تيبازة","شرشال","القليعة","حجوط","الكولية","فوكة","شنوة","سيدي عمر","سيدي راشد","دوبس","حمر العين","أحمر العين","مناصر","بورقيقة","ناصرية","سيدي غيلاس","أعطاف","بواسماعيل","قوراية","دلس","مسلمون","سيدي سميان","حطاطبة","مراد"],
+      "43 - ميلة": ["ميلة","فرجيوة","شلغوم العيد","تاجنانت","عين البيضاء أحريش","وادي النجاء","الشيقارة","التلاغمة","أولاد عسكر","عميرة أراس","بوحاتم","أحمد راشدي","الروشاد","زغاية","وادي سيقان","تيبرقنت","سيدي خليفة","الطهير","تسالة لمطاعي","بني قشة","حمالة","سيدي مروان","جمال"],
+      "44 - عين الدفلى": ["عين الدفلى","خميس مليانة","مليانة","عريب","الأخضرية","حمام ريغة","المدينة","العطاف","بئر ولد خليفة","عين البنيان","بئر أولاد خليفة","جندل","العبادية","بوراشد","حسينية","الروينة","تاشتة","عين الاشياخ","الحسانية","الأمير عبد القادر","بطحية","سيدي لخضر","بلعاص","عين سلطان","عين بويحي","جليدة"],
+      "45 - النعامة": ["النعامة","عين الصفراء","المشرية","تيوت","مقرار","صفيصيفة","جنين بورزق","البيوض","عسلة","مغرار","القصدير","سفيسيفة"],
+      "46 - عين تموشنت": ["عين تموشنت","الملاح","عين الأربعاء","حمام بوحجر","بني صاف","أولاد بوجمعة","شنتوف","عقب الليل","عين الطلبة","سيدي بن عدة","عين كيحل","حاسي الغلة","أغلال","أولهاصة","العامرية","الحسيان","تامزوقة","سيدي بومدين","شعبة اللحم"],
+      "47 - غرداية": ["غرداية","المنيعة","متليلي","بريان","القرارة","ضاية بن ضحوة","بونورة","الغرارة","حاسي الفحل","زلفانة","سبسب","حاسي القارة"],
+      "48 - غليزان": ["غليزان","مازونة","واد رهيو","الرمكة","عين طارق","عمي موسى","المطمور","واريسنيس","مديونة","وادي الجمعة","الحناشر","بلعسل بوزقزة","المنصورية","القلعة","وادي السلام","سيدي خطاب","بن عشيبة شيلية","حد الشكالة","سيدي لعزيز","جديوية","يلل"],
+      "49 - تيميمون": ["تيميمون","أوقروت","طالمين","الميزب","شروين","دلداول","متيلي","تسابيت","تاوريرت"],
+      "50 - برج باجي مختار": ["برج باجي مختار","تيماسنين","عين برج"],
+      "51 - أولاد جلال": ["أولاد جلال","سيدي خالد","الدوسن","الشعيبة","البسباس","أولاد رحمة","مشتوي","رأس الميعاد","سيدي عمران","ليشانة"],
+      "52 - بني عباس": ["بني عباس","الواتة","بني يخلف","تامتارت","إقلي","أولف","تيط","كرزاز"],
+      "53 - عين صالح": ["عين صالح","إن غار","فقارة الزوى","حاسي لقحل"],
+      "54 - عين قزام": ["عين قزام","تين زواتين","إن أمقل"],
+      "55 - تقرت": ["تقرت","تماسين","بلدة حمراء","النزلة","المقارين","الزاوية العابدية","سيدي سليمان","الطيبات","بن ناصر"],
+      "56 - جانت": ["جانت","برج الحواس","عين تالهة"],
+      "57 - المغير": ["المغير","جامعة","تندلة","أم الطيور","سيدي خليل","مرارة","حساني عبد الكريم","المزيرعة"],
+      "58 - المنيعة": ["المنيعة","حاسي الفحل","حاسي القارة","مسعود بوعناني"]
+    };
+
+    const tshirtWilayaEl = document.getElementById('tshirtWilaya');
+    const tshirtCommuneEl = document.getElementById('tshirtCommune');
+
+    tshirtWilayaEl.addEventListener('change', function() {
+      const communes = tshirtCommunes[this.value] || [];
+      tshirtCommuneEl.innerHTML = '<option value="" disabled selected>اختر البلدية</option>';
+      communes.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.textContent = c;
+        tshirtCommuneEl.appendChild(opt);
+      });
+      tshirtCommuneEl.disabled = false;
+    });
+
+    // Scroll "اطلب ضرك" buttons to order form
+    document.querySelectorAll('.nav-cta, .mobile-cta-bar a').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const orderSection = document.getElementById('order');
+        if (orderSection) {
+          e.preventDefault();
+          orderSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
     });
   </script>
 </body>
