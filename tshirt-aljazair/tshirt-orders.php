@@ -42,16 +42,18 @@ function tshirt_create_order() {
     }
 
     // Sanitize inputs
-    $color   = sanitize_text_field($_POST['color']    ?? '');
-    $size    = sanitize_text_field($_POST['size']     ?? '');
-    $name    = sanitize_text_field($_POST['fullName'] ?? '');
-    $phone   = sanitize_text_field($_POST['phone']    ?? '');
-    $wilaya  = sanitize_text_field($_POST['wilaya']   ?? '');
-    $commune = sanitize_text_field($_POST['commune']  ?? '');
-    $note    = sanitize_textarea_field($_POST['note'] ?? '');
+    $color         = sanitize_text_field($_POST['color']         ?? '');
+    $size          = sanitize_text_field($_POST['size']          ?? '');
+    $name          = sanitize_text_field($_POST['fullName']      ?? '');
+    $phone         = sanitize_text_field($_POST['phone']         ?? '');
+    $wilaya        = sanitize_text_field($_POST['wilaya']        ?? '');
+    $commune       = sanitize_text_field($_POST['commune']       ?? '');
+    $note          = sanitize_textarea_field($_POST['note']      ?? '');
+    $delivery_type = sanitize_text_field($_POST['delivery_type'] ?? '');
+    $delivery_fee  = absint($_POST['delivery_fee'] ?? 0);
 
     // Validate required
-    if (empty($color) || empty($size) || empty($name) || empty($phone) || empty($wilaya) || empty($commune)) {
+    if (empty($color) || empty($size) || empty($name) || empty($phone) || empty($wilaya) || empty($commune) || empty($delivery_type)) {
         wp_send_json_error(['message' => 'عمّر كل الخانات المطلوبة']);
         return;
     }
@@ -119,13 +121,19 @@ function tshirt_create_order() {
     $order->set_payment_method_title('الدفع عند الاستلام');
 
     // Order note
+    $delivery_label = ($delivery_type === 'bureau') ? 'للمكتب (Bureau)' : 'للبيت (Domicile)';
+    $total_price    = 3900 + $delivery_fee;
+
     $note_text = sprintf(
         "🇩🇿 طلب من صفحة Tshirt Aljazair Landing Page\n" .
         "اللون: %s\n" .
         "المقاس: %s\n" .
         "الهاتف: %s\n" .
-        "العنوان: %s — %s",
-        $color, $size, $phone, $commune, $wilaya
+        "العنوان: %s — %s\n" .
+        "التوصيل: %s — %d ج.د\n" .
+        "الإجمالي: %d ج.د",
+        $color, $size, $phone, $commune, $wilaya,
+        $delivery_label, $delivery_fee, $total_price
     );
     if (!empty($note)) {
         $note_text .= "\nملاحظة العميل: " . $note;

@@ -1125,6 +1125,56 @@
       .color-card-img { width: 80px; height: 80px; }
     }
 
+    /* ─ Delivery ─ */
+    .delivery-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 24px;
+      margin-top: 4px;
+    }
+    .delivery-card {
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 18px 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      background: rgba(255,255,255,0.02);
+      position: relative;
+    }
+    .delivery-card:hover { border-color: rgba(0,98,51,0.4); background: rgba(0,98,51,0.05); }
+    .delivery-card.selected { border-color: var(--green); background: rgba(0,98,51,0.1); box-shadow: 0 0 20px rgba(0,98,51,0.2); }
+    .delivery-card.unavailable { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+    .delivery-card input[type="radio"] { display: none; }
+    .delivery-card-check { position: absolute; top: 10px; right: 10px; width: 20px; height: 20px; border-radius: 50%; background: var(--green); display: none; align-items: center; justify-content: center; font-size: 11px; }
+    [dir="ltr"] .delivery-card-check { right: auto; left: 10px; }
+    .delivery-card.selected .delivery-card-check { display: flex; }
+    .delivery-card-icon { font-size: 26px; margin-bottom: 6px; }
+    .delivery-card-name { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+    .delivery-card-price { font-size: 14px; font-weight: 700; color: #4ddb8a; direction: ltr; unicode-bidi: bidi-override; min-height: 20px; }
+    .delivery-card-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ─ Price Breakdown ─ */
+    .price-breakdown {
+      background: rgba(0,98,51,0.06);
+      border: 1px solid rgba(0,98,51,0.2);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+    }
+    .breakdown-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 0;
+    }
+    .breakdown-label { font-size: 13px; color: var(--text-muted); }
+    .breakdown-value { direction: ltr; unicode-bidi: bidi-override; font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.85); white-space: nowrap; }
+    .breakdown-sep { height: 1px; background: rgba(255,255,255,0.08); margin: 8px 0; }
+    .breakdown-total .breakdown-label { color: white; font-weight: 800; font-size: 14px; }
+    .breakdown-total .breakdown-value { color: #4ddb8a; font-size: 19px; font-weight: 900; }
+
     /* ─── STAR SVG ─── */
     .star-svg { pointer-events: none; }
 
@@ -1638,13 +1688,31 @@
             </div>
           </div>
 
-          <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(0,98,51,0.08);border:1px solid rgba(0,98,51,0.25);border-radius:14px;padding:14px 20px;margin-bottom:28px;">
-            <div style="font-size:13px;color:var(--text-muted);">
-              <span class="text-ar">💳 الدفع عند الاستلام — بدون دفع مسبق</span>
-              <span class="text-fr">💳 Paiement à la livraison — sans prépaiement</span>
+          <div class="price-breakdown" id="priceBreakdown">
+            <div class="breakdown-row">
+              <span class="breakdown-label">
+                <span class="text-ar">👕 تيشرت الجزائر</span>
+                <span class="text-fr">👕 T-shirt Algérie</span>
+              </span>
+              <span class="breakdown-value">ج.د 3 900</span>
             </div>
-            <div style="font-size:22px;font-weight:900;color:#4ddb8a;white-space:nowrap;padding-left:16px;direction:ltr;unicode-bidi:bidi-override;">
-              <span style="font-size:14px;font-weight:600;color:var(--text-muted);">ج.د</span> 3 900
+            <div class="breakdown-row">
+              <span class="breakdown-label">
+                <span class="text-ar">🚚 التوصيل</span>
+                <span class="text-fr">🚚 Livraison</span>
+              </span>
+              <span class="breakdown-value" id="deliveryFeeDisplay" style="font-size:12px;color:var(--text-muted);font-weight:400;">
+                <span class="text-ar">اختر الولاية وطريقة التوصيل</span>
+                <span class="text-fr">Choisissez la wilaya et le mode</span>
+              </span>
+            </div>
+            <div class="breakdown-sep"></div>
+            <div class="breakdown-row breakdown-total">
+              <span class="breakdown-label">
+                <span class="text-ar">💳 الإجمالي — الدفع عند الاستلام</span>
+                <span class="text-fr">💳 Total — Paiement à la livraison</span>
+              </span>
+              <span class="breakdown-value" id="totalDisplay">ج.د 3 900</span>
             </div>
           </div>
 
@@ -1749,6 +1817,34 @@
                   <span class="text-ar">اختر الولاية أولاً</span>
                 </option>
               </select>
+            </div>
+          </div>
+
+          <!-- ── Delivery Type ── -->
+          <label class="order-label" style="margin-top:14px;margin-bottom:12px;">
+            <span class="text-ar">طريقة التوصيل <span class="required">*</span></span>
+            <span class="text-fr">Mode de livraison <span class="required">*</span></span>
+          </label>
+          <div class="delivery-grid">
+            <div class="delivery-card" id="bureauCard" onclick="selectDelivery(this,'bureau')">
+              <input type="radio" name="delivery_type" value="bureau">
+              <div class="delivery-card-check">✓</div>
+              <div class="delivery-card-icon">🏢</div>
+              <div class="delivery-card-name text-ar">للمكتب</div>
+              <div class="delivery-card-name text-fr">Bureau</div>
+              <div class="delivery-card-price" id="bureauPrice">—</div>
+              <div class="delivery-card-sub text-ar">أسرع وأرخص</div>
+              <div class="delivery-card-sub text-fr">Plus rapide</div>
+            </div>
+            <div class="delivery-card" id="domicileCard" onclick="selectDelivery(this,'domicile')">
+              <input type="radio" name="delivery_type" value="domicile">
+              <div class="delivery-card-check">✓</div>
+              <div class="delivery-card-icon">🏠</div>
+              <div class="delivery-card-name text-ar">للبيت</div>
+              <div class="delivery-card-name text-fr">Domicile</div>
+              <div class="delivery-card-price" id="domicilePrice">—</div>
+              <div class="delivery-card-sub text-ar">توصيل لعندك</div>
+              <div class="delivery-card-sub text-fr">À votre porte</div>
             </div>
           </div>
 
@@ -1910,6 +2006,134 @@
       card.querySelector('input[type="radio"]').checked = true;
     }
 
+    function selectDelivery(card, type) {
+      if (card.classList.contains('unavailable')) return;
+      document.querySelectorAll('.delivery-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      card.querySelector('input[type="radio"]').checked = true;
+      updateTotal();
+    }
+
+    // ─── Delivery rates per wilaya (bureau / domicile in DZD) ───
+    const deliveryRates = {
+      "01 - أدرار":          {bureau: 600,  domicile: 1100},
+      "02 - الشلف":          {bureau: 400,  domicile: 700},
+      "03 - الأغواط":        {bureau: 500,  domicile: 900},
+      "04 - أم البواقي":     {bureau: 400,  domicile: 800},
+      "05 - باتنة":          {bureau: 400,  domicile: 800},
+      "06 - بجاية":          {bureau: 400,  domicile: 600},
+      "07 - بسكرة":          {bureau: 500,  domicile: 900},
+      "08 - بشار":           {bureau: 600,  domicile: 1100},
+      "09 - البليدة":        {bureau: 350,  domicile: 500},
+      "10 - البويرة":        {bureau: 350,  domicile: 450},
+      "11 - تمنراست":        {bureau: 800,  domicile: 1300},
+      "12 - تبسة":           {bureau: 400,  domicile: 800},
+      "13 - تلمسان":         {bureau: 400,  domicile: 800},
+      "14 - تيارت":          {bureau: 400,  domicile: 700},
+      "15 - تيزي وزو":       {bureau: 400,  domicile: 600},
+      "16 - الجزائر":        {bureau: 350,  domicile: 500},
+      "17 - الجلفة":         {bureau: 500,  domicile: 800},
+      "18 - جيجل":           {bureau: 400,  domicile: 700},
+      "19 - سطيف":           {bureau: 400,  domicile: 600},
+      "20 - سعيدة":          {bureau: 400,  domicile: 800},
+      "21 - سكيكدة":         {bureau: 400,  domicile: 700},
+      "22 - سيدي بلعباس":    {bureau: 400,  domicile: 800},
+      "23 - عنابة":          {bureau: 400,  domicile: 700},
+      "24 - قالمة":          {bureau: 400,  domicile: 800},
+      "25 - قسنطينة":        {bureau: 400,  domicile: 700},
+      "26 - المدية":         {bureau: 400,  domicile: 650},
+      "27 - مستغانم":        {bureau: 400,  domicile: 700},
+      "28 - المسيلة":        {bureau: 500,  domicile: 650},
+      "29 - معسكر":          {bureau: 400,  domicile: 700},
+      "30 - ورقلة":          {bureau: 500,  domicile: 1000},
+      "31 - وهران":          {bureau: 350,  domicile: 500},
+      "32 - البيض":          {bureau: 500,  domicile: 1000},
+      "33 - إليزي":          {bureau: 600,  domicile: 1300},
+      "34 - برج بوعريريج":   {bureau: 400,  domicile: 600},
+      "35 - بومرداس":        {bureau: 400,  domicile: 600},
+      "36 - الطارف":         {bureau: 400,  domicile: 800},
+      "37 - تندوف":          {bureau: 600,  domicile: 1300},
+      "38 - تيسمسيلت":       {bureau: 400,  domicile: 700},
+      "39 - الوادي":         {bureau: 500,  domicile: 900},
+      "40 - خنشلة":          {bureau: 500,  domicile: 800},
+      "41 - سوق أهراس":      {bureau: 500,  domicile: 800},
+      "42 - تيبازة":         {bureau: 400,  domicile: 700},
+      "43 - ميلة":           {bureau: 400,  domicile: 700},
+      "44 - عين الدفلى":     {bureau: 400,  domicile: 700},
+      "45 - النعامة":        {bureau: 500,  domicile: 1000},
+      "46 - عين تموشنت":     {bureau: 400,  domicile: 800},
+      "47 - غرداية":         {bureau: 500,  domicile: 900},
+      "48 - غليزان":         {bureau: 400,  domicile: 800},
+      "49 - تيميمون":        {bureau: 600,  domicile: 1300},
+      "50 - برج باجي مختار": {bureau: 600,  domicile: 1300},
+      "51 - أولاد جلال":     {bureau: 500,  domicile: 900},
+      "52 - بني عباس":       {bureau: 0,    domicile: 1300},
+      "53 - عين صالح":       {bureau: 600,  domicile: 1300},
+      "54 - عين قزام":       {bureau: 600,  domicile: 1300},
+      "55 - تقرت":           {bureau: 500,  domicile: 900},
+      "56 - جانت":           {bureau: 600,  domicile: 1300},
+      "57 - المغير":         {bureau: 0,    domicile: 900},
+      "58 - المنيعة":        {bureau: 500,  domicile: 1000}
+    };
+
+    function fmtDZD(n) {
+      return 'ج.د ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    }
+
+    function updateTotal() {
+      const wilaya = document.getElementById('tshirtWilaya').value;
+      const rates = deliveryRates[wilaya];
+      const bureauCard = document.getElementById('bureauCard');
+      const domicileCard = document.getElementById('domicileCard');
+      const bureauPriceEl = document.getElementById('bureauPrice');
+      const domicilePriceEl = document.getElementById('domicilePrice');
+      const feeEl = document.getElementById('deliveryFeeDisplay');
+      const totalEl = document.getElementById('totalDisplay');
+      const PRODUCT = 3900;
+
+      if (rates) {
+        // Update card prices
+        bureauPriceEl.textContent = rates.bureau > 0 ? fmtDZD(rates.bureau) : '—';
+        domicilePriceEl.textContent = fmtDZD(rates.domicile);
+
+        // Bureau unavailable if rate is 0
+        if (rates.bureau === 0) {
+          bureauCard.classList.add('unavailable');
+          if (bureauCard.classList.contains('selected')) {
+            bureauCard.classList.remove('selected');
+            bureauCard.querySelector('input').checked = false;
+          }
+        } else {
+          bureauCard.classList.remove('unavailable');
+        }
+
+        // If delivery type already selected, update breakdown
+        const checked = document.querySelector('input[name="delivery_type"]:checked');
+        if (checked) {
+          const fee = rates[checked.value];
+          feeEl.style.fontSize = '14px';
+          feeEl.style.fontWeight = '700';
+          feeEl.style.color = 'rgba(255,255,255,0.85)';
+          feeEl.textContent = fmtDZD(fee);
+          totalEl.textContent = fmtDZD(PRODUCT + fee);
+        } else {
+          feeEl.style.fontSize = '12px';
+          feeEl.style.fontWeight = '400';
+          feeEl.style.color = 'var(--text-muted)';
+          feeEl.innerHTML = '<span class="text-ar">اختر طريقة التوصيل</span><span class="text-fr">Choisissez le mode</span>';
+          totalEl.textContent = fmtDZD(PRODUCT);
+        }
+      } else {
+        bureauPriceEl.textContent = '—';
+        domicilePriceEl.textContent = '—';
+        feeEl.style.fontSize = '12px';
+        feeEl.style.fontWeight = '400';
+        feeEl.style.color = 'var(--text-muted)';
+        feeEl.innerHTML = '<span class="text-ar">اختر الولاية أولاً</span><span class="text-fr">Choisissez la wilaya d\'abord</span>';
+        totalEl.textContent = fmtDZD(PRODUCT);
+      }
+    }
+
     function handleTshirtOrder(e) {
       e.preventDefault();
       const form = document.getElementById('orderForm');
@@ -1925,6 +2149,16 @@
         alert(document.documentElement.getAttribute('data-lang') === 'fr' ? 'Choisissez une taille' : 'اختر المقاس');
         return false;
       }
+      if (!formData.get('delivery_type')) {
+        alert(document.documentElement.getAttribute('data-lang') === 'fr' ? 'Choisissez un mode de livraison' : 'اختر طريقة التوصيل');
+        return false;
+      }
+
+      // Compute and append delivery fee
+      const wilayaVal = formData.get('wilaya');
+      const deliveryType = formData.get('delivery_type');
+      const deliveryFee = (wilayaVal && deliveryRates[wilayaVal]) ? deliveryRates[wilayaVal][deliveryType] : 0;
+      formData.append('delivery_fee', deliveryFee);
 
       btn.disabled = true;
       btn.textContent = document.documentElement.getAttribute('data-lang') === 'fr' ? 'Envoi en cours...' : 'جاري التسجيل...';
@@ -2038,6 +2272,7 @@
         tshirtCommuneEl.appendChild(opt);
       });
       tshirtCommuneEl.disabled = false;
+      updateTotal();
     });
 
     // Scroll "اطلب ضرك" buttons to order form
