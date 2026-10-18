@@ -1,0 +1,3339 @@
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --sand: #E8DCC8;
+            --sand-light: #F5F0E6;
+            --sand-dark: #C4B59A;
+            --terracotta: #C45A3C;
+            --terracotta-light: #E07A5F;
+            --olive: #5C6B4F;
+            --olive-dark: #3A4534;
+            --charcoal: #1C1C1C;
+            --cream: #FAF7F2;
+            --gold: #D4A853;
+            --gold-light: #E8C97A;
+            --white: #FFFFFF;
+            --text-dark: #1A1A1A;
+            --text-muted: #6B6B6B;
+            --text-light: #999999;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Cairo', 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--sand-dark); border-radius: 2px; }
+
+        /* ─── ANIMATIONS ─── */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(80px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        @keyframes floatReverse {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(-1deg); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes patternSlide {
+            0% { background-position: 0 0; }
+            100% { background-position: 60px 60px; }
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { border-color: var(--gold); box-shadow: 0 0 20px rgba(212,168,83,0.15); }
+            50% { border-color: var(--terracotta); box-shadow: 0 0 30px rgba(196,90,60,0.2); }
+        }
+
+        @keyframes rotateIn {
+            from { opacity: 0; transform: rotate(-10deg) scale(0.8); }
+            to { opacity: 1; transform: rotate(0deg) scale(1); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(212,168,83,0.4); }
+            50% { box-shadow: 0 0 0 20px rgba(212,168,83,0); }
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes drawLine {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes revealText {
+            from { clip-path: inset(0 100% 0 0); }
+            to { clip-path: inset(0 0% 0 0); }
+        }
+
+        @keyframes staggerFade {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-on-scroll.visible.delay-1 { transition-delay: 0.1s; }
+        .animate-on-scroll.visible.delay-2 { transition-delay: 0.2s; }
+        .animate-on-scroll.visible.delay-3 { transition-delay: 0.3s; }
+        .animate-on-scroll.visible.delay-4 { transition-delay: 0.4s; }
+        .animate-on-scroll.visible.delay-5 { transition-delay: 0.5s; }
+        .animate-on-scroll.visible.delay-6 { transition-delay: 0.6s; }
+
+        /* ─── AMAZIGH PATTERN SVG (decorative) ─── */
+        .amazigh-diamond {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: var(--terracotta);
+            transform: rotate(45deg);
+            position: relative;
+        }
+        .amazigh-diamond::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            background: var(--gold);
+            transform: rotate(0deg);
+        }
+
+        /* ─── NAVBAR ─── */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0 40px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(250,247,242,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+            transition: all 0.4s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(250,247,242,0.95);
+            box-shadow: 0 1px 30px rgba(0,0,0,0.06);
+            height: 64px;
+        }
+
+        .nav-logo {
+            font-family: 'Amiri', 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            text-decoration: none;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .nav-logo span {
+            color: var(--terracotta);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 36px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            right: 0;
+            width: 0;
+            height: 1.5px;
+            background: var(--terracotta);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--charcoal); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-cta {
+            background: var(--charcoal) !important;
+            color: var(--cream) !important;
+            padding: 10px 28px !important;
+            border-radius: 100px !important;
+            font-size: 0.8rem !important;
+            letter-spacing: 2px !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--terracotta) !important;
+            transform: translateY(-2px);
+        }
+
+        .nav-cta::after { display: none !important; }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 32px;
+            height: 24px;
+            position: relative;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--charcoal);
+            position: absolute;
+            left: 0;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn span:nth-child(1) { top: 0; }
+        .mobile-menu-btn span:nth-child(2) { top: 11px; }
+        .mobile-menu-btn span:nth-child(3) { top: 22px; }
+
+        .mobile-menu-btn.active span:nth-child(1) { top: 11px; transform: rotate(45deg); }
+        .mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
+        .mobile-menu-btn.active span:nth-child(3) { top: 11px; transform: rotate(-45deg); }
+
+        /* ─── HERO SECTION ─── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(160deg, var(--cream) 0%, var(--sand-light) 50%, var(--cream) 100%);
+        }
+
+        .hero-bg-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.03;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 59px, var(--charcoal) 59px, var(--charcoal) 60px),
+                repeating-linear-gradient(90deg, transparent, transparent 59px, var(--charcoal) 59px, var(--charcoal) 60px);
+            animation: patternSlide 20s linear infinite;
+        }
+
+        .hero-geometric {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border: 1px solid rgba(212,168,83,0.15);
+            border-radius: 50%;
+            top: -100px;
+            left: -100px;
+            animation: spinSlow 60s linear infinite;
+        }
+
+        .hero-geometric::before {
+            content: '';
+            position: absolute;
+            inset: 40px;
+            border: 1px solid rgba(196,90,60,0.1);
+            border-radius: 50%;
+        }
+
+        .hero-geometric-2 {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 1px solid rgba(212,168,83,0.1);
+            border-radius: 50%;
+            bottom: -50px;
+            right: -50px;
+            animation: spinSlow 45s linear infinite reverse;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 120px 60px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text {
+            animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(196,90,60,0.08);
+            border: 1px solid rgba(196,90,60,0.15);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--terracotta);
+            margin-bottom: 32px;
+            animation: fadeIn 1s ease 0.3s both;
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--terracotta);
+            border-radius: 50%;
+            animation: pulseGlow 2s ease infinite;
+        }
+
+        .hero-title {
+            font-family: 'Amiri', 'Playfair Display', serif;
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--charcoal);
+            margin-bottom: 28px;
+            letter-spacing: 0;
+        }
+
+        .hero-title .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .hero-title .line span {
+            display: inline-block;
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .hero-title .line:nth-child(2) span { animation-delay: 0.15s; }
+        .hero-title .line:nth-child(3) span { animation-delay: 0.3s; }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--terracotta);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-width: 480px;
+            margin-bottom: 40px;
+            font-weight: 400;
+            animation: fadeIn 1s ease 0.6s both;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 40px;
+            background: var(--charcoal);
+            color: var(--cream);
+            border: none;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--terracotta);
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-primary:hover::before { transform: translateX(0); }
+        .btn-primary span, .btn-primary svg { position: relative; z-index: 1; }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(28,28,28,0.2);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            background: transparent;
+            color: var(--charcoal);
+            border: 1.5px solid var(--charcoal);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--charcoal);
+            color: var(--cream);
+            transform: translateY(-3px);
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: scaleIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+        }
+
+        .hero-image-wrapper {
+            position: relative;
+            width: 480px;
+            height: 560px;
+        }
+
+        .hero-image-main {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: relative;
+            z-index: 2;
+            animation: float 6s ease-in-out infinite;
+            filter: drop-shadow(0 30px 60px rgba(0,0,0,0.15));
+        }
+
+        .hero-image-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 420px;
+            height: 420px;
+            background: linear-gradient(135deg, var(--sand) 0%, var(--sand-light) 100%);
+            border-radius: 50%;
+            z-index: 1;
+            animation: breathe 4s ease-in-out infinite;
+        }
+
+        .hero-image-bg::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border: 1px dashed var(--gold);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: spinSlow 30s linear infinite;
+        }
+
+        .hero-float-tag {
+            position: absolute;
+            z-index: 3;
+            background: var(--white);
+            padding: 12px 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .hero-float-tag.tag-1 {
+            top: 60px;
+            left: -20px;
+            animation-delay: 0.5s;
+        }
+
+        .hero-float-tag.tag-2 {
+            bottom: 80px;
+            right: -20px;
+            animation-delay: 1.5s;
+        }
+
+        .hero-float-tag.tag-3 {
+            top: 200px;
+            right: -40px;
+            animation-delay: 2.5s;
+        }
+
+        .tag-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .tag-icon.sand { background: rgba(232,220,200,0.5); }
+        .tag-icon.terracotta { background: rgba(196,90,60,0.1); }
+        .tag-icon.olive { background: rgba(92,107,79,0.1); }
+
+        /* ─── MARQUEE STRIP ─── */
+        .marquee-strip {
+            background: var(--charcoal);
+            padding: 16px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .marquee-track {
+            display: flex;
+            animation: marquee 25s linear infinite;
+            width: max-content;
+        }
+
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 0 24px;
+            white-space: nowrap;
+            color: var(--sand);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .marquee-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--terracotta);
+            transform: rotate(45deg);
+            flex-shrink: 0;
+        }
+
+        /* ─── SECTION COMMON ─── */
+        .section {
+            padding: 120px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--terracotta);
+            margin-bottom: 20px;
+        }
+
+        .section-label .line {
+            width: 40px;
+            height: 1px;
+            background: var(--terracotta);
+        }
+
+        .section-title {
+            font-family: 'Amiri', 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            color: var(--charcoal);
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            max-width: 560px;
+        }
+
+        /* ─── HERITAGE SECTION ─── */
+        .heritage {
+            background: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .heritage::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--sand-dark), transparent);
+        }
+
+        .heritage-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
+        }
+
+        .heritage-visual {
+            position: relative;
+        }
+
+        .heritage-pattern-frame {
+            width: 100%;
+            aspect-ratio: 4/5;
+            background: linear-gradient(145deg, var(--sand-light) 0%, var(--cream) 100%);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .heritage-pattern-frame::before {
+            content: '';
+            position: absolute;
+            inset: 12px;
+            border: 1px solid var(--gold);
+            border-radius: 16px;
+            opacity: 0.4;
+        }
+
+        .pattern-showcase {
+            width: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            position: absolute;
+            left: 50%;
+            top: 10%;
+            bottom: 10%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .pattern-diamond {
+            width: 14px;
+            height: 14px;
+            transform: rotate(45deg);
+            flex-shrink: 0;
+        }
+
+        .pattern-diamond.color-1 { background: var(--terracotta); }
+        .pattern-diamond.color-2 { background: var(--gold); }
+        .pattern-diamond.color-3 { background: var(--olive); }
+        .pattern-diamond.color-4 { background: #D45B3E; }
+
+        .heritage-text h3 {
+            font-family: 'Amiri', 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--charcoal);
+        }
+
+        .heritage-text p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 28px;
+        }
+
+        .heritage-features {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .heritage-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .heritage-feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: var(--sand-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .heritage-feature:hover .heritage-feature-icon {
+            background: var(--terracotta);
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .heritage-feature:hover .heritage-feature-icon svg {
+            stroke: var(--white);
+        }
+
+        .heritage-feature h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--charcoal);
+        }
+
+        .heritage-feature p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        /* ─── COLLECTION SECTION ─── */
+        .collection {
+            background: var(--cream);
+        }
+
+        .collection-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .collection-header .section-subtitle {
+            margin: 0 auto;
+        }
+
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+
+        .collection-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            group: true;
+        }
+
+        .collection-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.1);
+        }
+
+        .card-image {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: var(--sand-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .card-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 60%, rgba(28,28,28,0.05) 100%);
+            z-index: 1;
+        }
+
+        .card-color-indicator {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--white);
+            z-index: 2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--terracotta);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        .card-tshirt-visual {
+            width: 75%;
+            height: 75%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .collection-card:hover .card-tshirt-visual {
+            transform: scale(1.08);
+        }
+
+        /* T-shirt SVG representation */
+        .tshirt-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .card-info {
+            padding: 24px;
+        }
+
+        .card-name {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--charcoal);
+        }
+
+        .card-desc {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+
+        .card-price-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-price {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--charcoal);
+        }
+
+        .card-price .currency {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-right: 2px;
+        }
+
+        .card-cart-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--charcoal);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .card-cart-btn:hover {
+            background: var(--terracotta);
+            transform: scale(1.1);
+        }
+
+        .card-cart-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--white);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* ─── CRAFTSMANSHIP / DETAILS ─── */
+        .details {
+            background: var(--charcoal);
+            color: var(--sand);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .details::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.03;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 79px, var(--sand) 79px, var(--sand) 80px),
+                repeating-linear-gradient(90deg, transparent, transparent 79px, var(--sand) 79px, var(--sand) 80px);
+        }
+
+        .details-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 60px;
+        }
+
+        .detail-card {
+            text-align: center;
+            padding: 48px 32px;
+            border-radius: 24px;
+            border: 1px solid rgba(232,220,200,0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .detail-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--terracotta), var(--gold));
+            border-radius: 0 0 4px 4px;
+            transition: width 0.4s ease;
+        }
+
+        .detail-card:hover::before { width: 100%; }
+
+        .detail-card:hover {
+            border-color: rgba(232,220,200,0.2);
+            background: rgba(232,220,200,0.04);
+            transform: translateY(-8px);
+        }
+
+        .detail-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            background: rgba(232,220,200,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 1.6rem;
+            transition: all 0.4s ease;
+        }
+
+        .detail-card:hover .detail-icon {
+            background: var(--terracotta);
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .detail-card h3 {
+            font-family: 'Amiri', 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--sand);
+        }
+
+        .detail-card p {
+            font-size: 0.9rem;
+            color: rgba(232,220,200,0.6);
+            line-height: 1.7;
+        }
+
+        /* ─── STORY/BRAND SECTION ─── */
+        .brand-story {
+            background: var(--white);
+            position: relative;
+        }
+
+        .brand-story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
+        }
+
+        .brand-story-visual {
+            position: relative;
+        }
+
+        .brand-image-stack {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+        }
+
+        .brand-img {
+            position: absolute;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .brand-img:hover {
+            transform: translate(-5px, -10px) rotate(0deg) !important;
+            z-index: 10;
+        }
+
+        .brand-img-1 {
+            width: 65%;
+            top: 0;
+            right: 0;
+            background: var(--sand-light);
+            aspect-ratio: 3/4;
+            transform: rotate(3deg);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-img-2 {
+            width: 55%;
+            bottom: 0;
+            left: 0;
+            background: var(--charcoal);
+            aspect-ratio: 3/4;
+            transform: rotate(-3deg);
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-img-placeholder {
+            font-size: 4rem;
+            opacity: 0.3;
+        }
+
+        .brand-story-text .stat-row {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Amiri', 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .stat-number span {
+            color: var(--terracotta);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 500;
+        }
+
+        /* ─── SIZE GUIDE ─── */
+        .size-guide {
+            background: var(--sand-light);
+        }
+
+        .size-guide-content {
+            text-align: center;
+        }
+
+        .size-table-wrapper {
+            max-width: 800px;
+            margin: 60px auto 0;
+            background: var(--white);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+        }
+
+        .size-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .size-table thead {
+            background: var(--charcoal);
+        }
+
+        .size-table th {
+            padding: 18px 24px;
+            color: var(--sand);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .size-table td {
+            padding: 16px 24px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+            transition: all 0.3s ease;
+        }
+
+        .size-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .size-table tbody tr:hover {
+            background: var(--sand-light);
+        }
+
+        .size-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .size-table td:first-child {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--charcoal);
+        }
+
+        /* ─── TESTIMONIALS ─── */
+        .testimonials {
+            background: var(--cream);
+        }
+
+        .testimonials-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .testimonials-header .section-subtitle {
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            padding: 40px 32px;
+            border-radius: 24px;
+            position: relative;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.06);
+        }
+
+        .testimonial-quote {
+            font-family: 'Amiri', 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--terracotta);
+            line-height: 1;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .testimonial-text {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--sand-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--terracotta);
+        }
+
+        .testimonial-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--charcoal);
+        }
+
+        .testimonial-location {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .testimonial-stars {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 16px;
+        }
+
+        .star {
+            color: var(--gold);
+            font-size: 0.9rem;
+        }
+
+        /* ─── CTA SECTION ─── */
+        .cta-section {
+            background: linear-gradient(145deg, var(--charcoal) 0%, #2a2a2a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(196,90,60,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(212,168,83,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cta-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-content .section-title {
+            color: var(--sand);
+            margin-bottom: 16px;
+        }
+
+        .cta-content .section-subtitle {
+            color: rgba(232,220,200,0.6);
+            margin: 0 auto 40px;
+        }
+
+        .cta-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 48px;
+            background: var(--terracotta);
+            color: var(--white);
+            border: none;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, var(--terracotta), var(--gold), var(--terracotta));
+            background-size: 200% 100%;
+            animation: shimmer 3s ease infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-cta:hover::before { opacity: 1; }
+        .btn-cta span { position: relative; z-index: 1; }
+
+        .btn-cta:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(196,90,60,0.4);
+        }
+
+        .btn-outline-light {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 18px 40px;
+            background: transparent;
+            color: var(--sand);
+            border: 1.5px solid rgba(232,220,200,0.3);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-light:hover {
+            background: rgba(232,220,200,0.1);
+            border-color: var(--sand);
+            transform: translateY(-3px);
+        }
+
+        /* ─── ORDER FORM ─── */
+        .order-form-wrapper {
+            max-width: 680px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .order-form {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(232,220,200,0.1);
+            border-radius: 28px;
+            padding: 48px 40px;
+            margin-top: 48px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-row.single {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--sand);
+            letter-spacing: 0.5px;
+        }
+
+        .form-group label .required {
+            color: var(--terracotta-light);
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 14px 18px;
+            background: rgba(232,220,200,0.06);
+            border: 1.5px solid rgba(232,220,200,0.12);
+            border-radius: 14px;
+            color: var(--sand);
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.3s ease;
+            direction: rtl;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(232,220,200,0.3);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--terracotta);
+            background: rgba(232,220,200,0.1);
+            box-shadow: 0 0 0 3px rgba(196,90,60,0.15);
+        }
+
+        .form-group select {
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23C4B59A' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 16px center;
+            padding-left: 36px;
+        }
+
+        .form-group select option {
+            background: var(--charcoal);
+            color: var(--sand);
+        }
+
+        .color-selector {
+            display: flex;
+            gap: 12px;
+            padding: 10px 0;
+        }
+
+        .color-option {
+            position: relative;
+        }
+
+        .color-option input[type="radio"] {
+            display: none;
+        }
+
+        .color-option label {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2.5px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .color-option label::after {
+            content: '';
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: block;
+        }
+
+        .color-option input[type="radio"]:checked + label {
+            border-color: var(--terracotta);
+            transform: scale(1.1);
+            box-shadow: 0 0 0 3px rgba(196,90,60,0.2);
+        }
+
+        .color-option label .color-name {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.6rem;
+            color: rgba(232,220,200,0.5);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .color-option:hover label .color-name,
+        .color-option input[type="radio"]:checked + label .color-name {
+            opacity: 1;
+        }
+
+        .color-sand label::after { background: #E8DCC8; }
+        .color-black label::after { background: #222; }
+        .color-white label::after { background: #FAFAFA; border: 1px solid rgba(232,220,200,0.3); }
+        .color-olive label::after { background: #5C6B4F; }
+
+        .size-selector {
+            display: flex;
+            gap: 10px;
+            padding: 10px 0;
+        }
+
+        .size-option {
+            position: relative;
+        }
+
+        .size-option input[type="radio"] {
+            display: none;
+        }
+
+        .size-option label {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1.5px solid rgba(232,220,200,0.15);
+            background: rgba(232,220,200,0.04);
+            color: var(--sand);
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .size-option input[type="radio"]:checked + label {
+            border-color: var(--terracotta);
+            background: var(--terracotta);
+            color: var(--white);
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(196,90,60,0.3);
+        }
+
+        .size-option label:hover {
+            border-color: rgba(232,220,200,0.3);
+            background: rgba(232,220,200,0.08);
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            background: rgba(232,220,200,0.06);
+            border: 1.5px solid rgba(232,220,200,0.12);
+            border-radius: 14px;
+            overflow: hidden;
+            width: fit-content;
+        }
+
+        .qty-btn {
+            width: 48px;
+            height: 48px;
+            background: transparent;
+            border: none;
+            color: var(--sand);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .qty-btn:hover {
+            background: rgba(232,220,200,0.1);
+        }
+
+        .qty-value {
+            width: 48px;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--sand);
+            border: none;
+            background: none;
+            font-family: 'Cairo', sans-serif;
+            outline: none;
+        }
+
+        .form-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(232,220,200,0.15), transparent);
+            margin: 24px 0;
+        }
+
+        .order-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0 24px;
+        }
+
+        .order-total-label {
+            font-size: 0.85rem;
+            color: rgba(232,220,200,0.6);
+        }
+
+        .order-total-price {
+            font-family: 'Amiri', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .order-total-price .currency {
+            font-size: 1rem;
+            font-weight: 500;
+            color: rgba(232,220,200,0.5);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 18px;
+            background: var(--terracotta);
+            color: var(--white);
+            border: none;
+            border-radius: 16px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, var(--terracotta), var(--gold), var(--terracotta));
+            background-size: 200% 100%;
+            animation: shimmer 3s ease infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-submit:hover::before { opacity: 1; }
+        .btn-submit span { position: relative; z-index: 1; }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(196,90,60,0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(-1px);
+        }
+
+        .form-note {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 0.75rem;
+            color: rgba(232,220,200,0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 60px 40px;
+        }
+
+        .form-success.show {
+            display: block;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(34,197,94,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 2rem;
+        }
+
+        .form-success h3 {
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            color: var(--sand);
+            margin-bottom: 12px;
+        }
+
+        .form-success p {
+            color: rgba(232,220,200,0.5);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 768px) {
+            .order-form {
+                padding: 32px 24px;
+                border-radius: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .color-selector {
+                flex-wrap: wrap;
+            }
+
+            .size-selector {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            background: #111;
+            padding: 80px 60px 40px;
+            color: rgba(232,220,200,0.5);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand .nav-logo {
+            color: var(--sand);
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .footer-brand p {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            max-width: 300px;
+            margin-bottom: 24px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(232,220,200,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--sand);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--terracotta);
+            border-color: var(--terracotta);
+            transform: translateY(-3px);
+        }
+
+        .footer-col h4 {
+            color: var(--sand);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .footer-col a {
+            display: block;
+            color: rgba(232,220,200,0.5);
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .footer-col a:hover {
+            color: var(--sand);
+            transform: translateX(-4px);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(232,220,200,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.75rem;
+        }
+
+        .footer-bottom a {
+            color: rgba(232,220,200,0.5);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-bottom a:hover { color: var(--sand); }
+
+        .payment-methods {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .payment-icon {
+            padding: 6px 14px;
+            border-radius: 6px;
+            background: rgba(232,220,200,0.06);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: rgba(232,220,200,0.4);
+            letter-spacing: 1px;
+        }
+
+        /* ─── CURSOR FOLLOWER ─── */
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--terracotta);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+            display: none;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 120px 40px 60px;
+            }
+
+            .hero-subtitle { margin: 0 auto 40px; }
+            .hero-actions { justify-content: center; }
+            .hero-image-wrapper { width: 360px; height: 420px; margin: 0 auto; }
+
+            .heritage-content,
+            .brand-story-content {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .collection-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .details-content {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+            }
+
+            .section { padding: 80px 40px; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 0 24px; }
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                right: 0;
+                background: var(--cream);
+                padding: 32px 24px;
+                gap: 20px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+                animation: fadeInDown 0.3s ease;
+            }
+
+            .hero-content { padding: 100px 24px 40px; gap: 40px; }
+            .hero-image-wrapper { width: 280px; height: 340px; }
+            .hero-float-tag { display: none; }
+            .hero-actions { flex-direction: column; width: 100%; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+
+            .collection-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+            .card-info { padding: 16px; }
+
+            .section { padding: 60px 24px; }
+
+            .footer-content { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+
+            .brand-story-text .stat-row {
+                flex-wrap: wrap;
+                gap: 24px;
+            }
+
+            .cta-actions { flex-direction: column; }
+            .btn-cta, .btn-outline-light { width: 100%; justify-content: center; }
+        }
+
+        @media (max-width: 480px) {
+            .collection-grid { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; }
+            .hero-image-wrapper { width: 240px; height: 300px; }
+            .hero-title { font-size: 2.5rem; }
+        }
+
+        /* ─── SMOOTH REVEAL ─── */
+        .reveal-container {
+            overflow: hidden;
+        }
+
+        .reveal-text {
+            transform: translateY(100%);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-text.visible {
+            transform: translateY(0);
+        }
+
+        /* ─── LOADING SCREEN ─── */
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: var(--charcoal);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 32px;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-logo {
+            font-family: 'Amiri', 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--sand);
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            animation: fadeIn 1s ease;
+        }
+
+        .loader-bar {
+            width: 120px;
+            height: 2px;
+            background: rgba(232,220,200,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loader-bar-fill {
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, var(--terracotta), var(--gold));
+            border-radius: 2px;
+            animation: loaderFill 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes loaderFill {
+            0% { width: 0; }
+            100% { width: 100%; }
+        }
+
+        /* ─── PARALLAX ─── */
+        .parallax-element {
+            will-change: transform;
+        }
+    </style>
+
+<!-- Loading Screen -->
+<div class="loader" id="loader">
+    <div class="loader-logo">SAHARA</div>
+    <div class="loader-bar">
+        <div class="loader-bar-fill"></div>
+    </div>
+</div>
+
+<!-- Cursor Dot -->
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- Navbar -->
+<nav class="navbar" id="navbar">
+    <a href="#" class="nav-logo">SA<span>H</span>ARA</a>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#collection">الكولكسيون</a></li>
+        <li><a href="#heritage">التراث</a></li>
+        <li><a href="#craftsmanship">الصنعة</a></li>
+        <li><a href="#story">حكايتنا</a></li>
+        <li><a href="#sizes">المقاسات</a></li>
+        <li><a href="#order" class="nav-cta">أطلب دروك</a></li>
+    </ul>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero" id="hero">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-geometric"></div>
+    <div class="hero-geometric-2"></div>
+
+    <div class="hero-content">
+        <div class="hero-text">
+            <div class="hero-badge">
+                <span class="dot"></span>
+                مصنوع في الدزاير
+            </div>
+            <h1 class="hero-title">
+                <span class="line"><span>لبس</span></span>
+                <span class="line"><span><em>تراثك</em></span></span>
+            </h1>
+            <p class="hero-subtitle">
+                التطريز الأمازيغي يتلاقى مع الستريت وير. كل قطعة SAHARA فيها قرون من الفن تاعنا — معاد تصميمو لجيل اليوم.
+            </p>
+            <div class="hero-actions">
+                <a href="#collection" class="btn-primary">
+                    <span>شوف الكولكسيون</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:relative;z-index:1;transform:scaleX(-1)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="#heritage" class="btn-secondary">حكايتنا</a>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="hero-image-wrapper">
+                <div class="hero-image-bg"></div>
+                <!-- Main T-shirt SVG -->
+                <svg class="hero-image-main" viewBox="0 0 400 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- T-shirt body - cream/sand color -->
+                    <path d="M90 120 L50 100 L10 150 L60 200 L60 440 L340 440 L340 200 L390 150 L350 100 L310 120 L280 90 C260 70 230 60 200 60 C170 60 140 70 120 90 Z" fill="#E8DCC8" stroke="#D4C4A8" stroke-width="1.5"/>
+                    <!-- Collar -->
+                    <path d="M120 90 C140 110 170 120 200 120 C230 120 260 110 280 90" fill="none" stroke="#C4B59A" stroke-width="2"/>
+                    <!-- Pinstripes -->
+                    <line x1="110" y1="130" x2="110" y2="440" stroke="#D4C4A8" stroke-width="0.5" opacity="0.5"/>
+                    <line x1="130" y1="120" x2="130" y2="440" stroke="#D4C4A8" stroke-width="0.5" opacity="0.5"/>
+                    <line x1="150" y1="110" x2="150" y2="440" stroke="#D4C4A8" stroke-width="0.5" opacity="0.5"/>
+                    <line x1="170" y1="100" x2="170" y2="440" stroke="#D4C4A8" stroke-width="0.5" opacity="0.5"/>
+                    <line x1="230" y1="100" x2="230" y2="440" stroke="#D4C4A8" stroke-width="0.5" opacity="0.5"/>
+                    <line x1="250" y1="110" x2="250" y2="440" stroke="#D4C4A8" stroke-width="0.5" opacity="0.5"/>
+                    <line x1="270" y1="120" x2="270" y2="440" stroke="#D4C4A8" stroke-width="0.5" opacity="0.5"/>
+                    <line x1="290" y1="130" x2="290" y2="440" stroke="#D4C4A8" stroke-width="0.5" opacity="0.5"/>
+                    <!-- Center embroidery band background -->
+                    <rect x="188" y="85" width="24" height="355" fill="#F5F0E6" rx="2"/>
+                    <!-- Amazigh pattern - repeating diamonds down center -->
+                    <g transform="translate(200, 100)">
+                        <!-- Pattern unit 1 -->
+                        <rect x="-6" y="0" width="12" height="12" transform="rotate(45 0 6)" fill="#C45A3C"/>
+                        <rect x="-3" y="3" width="6" height="6" transform="rotate(45 0 6)" fill="#D4A853"/>
+                        <!-- Pattern unit 2 -->
+                        <rect x="-6" y="28" width="12" height="12" transform="rotate(45 0 34)" fill="#5C6B4F"/>
+                        <rect x="-3" y="31" width="6" height="6" transform="rotate(45 0 34)" fill="#E8C97A"/>
+                        <!-- Pattern unit 3 -->
+                        <rect x="-6" y="56" width="12" height="12" transform="rotate(45 0 62)" fill="#D45B3E"/>
+                        <rect x="-3" y="59" width="6" height="6" transform="rotate(45 0 62)" fill="#C45A3C"/>
+                        <!-- Pattern unit 4 -->
+                        <rect x="-6" y="84" width="12" height="12" transform="rotate(45 0 90)" fill="#D4A853"/>
+                        <rect x="-3" y="87" width="6" height="6" transform="rotate(45 0 90)" fill="#5C6B4F"/>
+                        <!-- Pattern unit 5 -->
+                        <rect x="-6" y="112" width="12" height="12" transform="rotate(45 0 118)" fill="#C45A3C"/>
+                        <rect x="-3" y="115" width="6" height="6" transform="rotate(45 0 118)" fill="#D4A853"/>
+                        <!-- Pattern unit 6 -->
+                        <rect x="-6" y="140" width="12" height="12" transform="rotate(45 0 146)" fill="#5C6B4F"/>
+                        <rect x="-3" y="143" width="6" height="6" transform="rotate(45 0 146)" fill="#E8C97A"/>
+                        <!-- Pattern unit 7 -->
+                        <rect x="-6" y="168" width="12" height="12" transform="rotate(45 0 174)" fill="#D45B3E"/>
+                        <rect x="-3" y="171" width="6" height="6" transform="rotate(45 0 174)" fill="#D4A853"/>
+                        <!-- Pattern unit 8 -->
+                        <rect x="-6" y="196" width="12" height="12" transform="rotate(45 0 202)" fill="#D4A853"/>
+                        <rect x="-3" y="199" width="6" height="6" transform="rotate(45 0 202)" fill="#C45A3C"/>
+                        <!-- Pattern unit 9 -->
+                        <rect x="-6" y="224" width="12" height="12" transform="rotate(45 0 230)" fill="#C45A3C"/>
+                        <rect x="-3" y="227" width="6" height="6" transform="rotate(45 0 230)" fill="#5C6B4F"/>
+                        <!-- Pattern unit 10 -->
+                        <rect x="-6" y="252" width="12" height="12" transform="rotate(45 0 258)" fill="#5C6B4F"/>
+                        <rect x="-3" y="255" width="6" height="6" transform="rotate(45 0 258)" fill="#D4A853"/>
+                        <!-- Pattern unit 11 -->
+                        <rect x="-6" y="280" width="12" height="12" transform="rotate(45 0 286)" fill="#D45B3E"/>
+                        <rect x="-3" y="283" width="6" height="6" transform="rotate(45 0 286)" fill="#E8C97A"/>
+                        <!-- Pattern unit 12 -->
+                        <rect x="-6" y="308" width="12" height="12" transform="rotate(45 0 314)" fill="#D4A853"/>
+                        <rect x="-3" y="311" width="6" height="6" transform="rotate(45 0 314)" fill="#C45A3C"/>
+                    </g>
+                    <!-- Sleeve cuff embroidery left -->
+                    <rect x="48" y="185" width="16" height="10" fill="#F5F0E6" rx="1"/>
+                    <rect x="51" y="187" width="4" height="4" transform="rotate(45 53 189)" fill="#C45A3C"/>
+                    <rect x="57" y="187" width="4" height="4" transform="rotate(45 59 189)" fill="#D4A853"/>
+                    <!-- Sleeve cuff embroidery right -->
+                    <rect x="336" y="185" width="16" height="10" fill="#F5F0E6" rx="1"/>
+                    <rect x="339" y="187" width="4" height="4" transform="rotate(45 341 189)" fill="#5C6B4F"/>
+                    <rect x="345" y="187" width="4" height="4" transform="rotate(45 347 189)" fill="#D45B3E"/>
+                </svg>
+
+                <!-- Floating tags -->
+                <div class="hero-float-tag tag-1">
+                    <div class="tag-icon terracotta">✦</div>
+                    <div>
+                        <div style="font-size:0.7rem;color:var(--text-light)">خدمة يدوية</div>
+                        <div style="font-weight:700;color:var(--charcoal)">تطريز أمازيغي</div>
+                    </div>
+                </div>
+
+                <div class="hero-float-tag tag-2">
+                    <div class="tag-icon olive">◈</div>
+                    <div>
+                        <div style="font-size:0.7rem;color:var(--text-light)">كواليتي عالية</div>
+                        <div style="font-weight:700;color:var(--charcoal)">قطن 100%</div>
+                    </div>
+                </div>
+
+                <div class="hero-float-tag tag-3">
+                    <div class="tag-icon sand">✧</div>
+                    <div>
+                        <div style="font-size:0.7rem;color:var(--text-light)">كمية محدودة</div>
+                        <div style="font-weight:700;color:var(--charcoal)">4 ألوان</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Marquee Strip -->
+<div class="marquee-strip">
+    <div class="marquee-track">
+        <div class="marquee-item"><span class="marquee-dot"></span>صنع يدوي جزائري</div>
+        <div class="marquee-item"><span class="marquee-dot"></span>تراث أمازيغي</div>
+        <div class="marquee-item"><span class="marquee-dot"></span>قطن عالي الجودة</div>
+        <div class="marquee-item"><span class="marquee-dot"></span>ليفريزون مجاني لكل الولايات</div>
+        <div class="marquee-item"><span class="marquee-dot"></span>ستريت وير عصري</div>
+        <div class="marquee-item"><span class="marquee-dot"></span>هوية جزائرية</div>
+        <div class="marquee-item"><span class="marquee-dot"></span>صنع يدوي جزائري</div>
+        <div class="marquee-item"><span class="marquee-dot"></span>تراث أمازيغي</div>
+        <div class="marquee-item"><span class="marquee-dot"></span>قطن عالي الجودة</div>
+        <div class="marquee-item"><span class="marquee-dot"></span>ليفريزون مجاني لكل الولايات</div>
+        <div class="marquee-item"><span class="marquee-dot"></span>ستريت وير عصري</div>
+        <div class="marquee-item"><span class="marquee-dot"></span>هوية جزائرية</div>
+    </div>
+</div>
+
+<!-- Collection Section -->
+<section class="collection section" id="collection">
+    <div class="collection-header">
+        <div class="section-label animate-on-scroll">
+            <span class="line"></span>
+            الكولكسيون
+            <span class="line"></span>
+        </div>
+        <h2 class="section-title animate-on-scroll delay-1">ربعة ألوان، <em>تراث واحد</em></h2>
+        <p class="section-subtitle animate-on-scroll delay-2">كل قطعة فيها زخارف أمازيغية أصيلة، مطرّزة باليد على قطن مقلّم عالي الجودة.</p>
+    </div>
+
+    <div class="collection-grid">
+        <!-- Sand / Desert -->
+        <div class="collection-card animate-on-scroll delay-1">
+            <div class="card-image" style="background: linear-gradient(135deg, #F5F0E6, #EDE5D5)">
+                <div class="card-color-indicator" style="background: #E8DCC8"></div>
+                <div class="card-badge">الأكثر مبيعاً</div>
+                <div class="card-tshirt-visual">
+                    <svg viewBox="0 0 200 250" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:85%;height:85%">
+                        <path d="M45 65 L25 55 L5 80 L30 105 L30 230 L170 230 L170 105 L195 80 L175 55 L155 65 L140 48 C130 38 115 33 100 33 C85 33 70 38 60 48 Z" fill="#E8DCC8" stroke="#D4C4A8" stroke-width="1"/>
+                        <path d="M60 48 C70 58 85 63 100 63 C115 63 130 58 140 48" fill="none" stroke="#C4B59A" stroke-width="1.5"/>
+                        <line x1="70" y1="55" x2="70" y2="230" stroke="#D4C4A8" stroke-width="0.3" opacity="0.5"/>
+                        <line x1="85" y1="48" x2="85" y2="230" stroke="#D4C4A8" stroke-width="0.3" opacity="0.5"/>
+                        <line x1="115" y1="48" x2="115" y2="230" stroke="#D4C4A8" stroke-width="0.3" opacity="0.5"/>
+                        <line x1="130" y1="55" x2="130" y2="230" stroke="#D4C4A8" stroke-width="0.3" opacity="0.5"/>
+                        <rect x="94" y="45" width="12" height="185" fill="#F5F0E6" rx="1"/>
+                        <g transform="translate(100,55)">
+                            <rect x="-3" y="0" width="6" height="6" transform="rotate(45 0 3)" fill="#C45A3C"/>
+                            <rect x="-3" y="16" width="6" height="6" transform="rotate(45 0 19)" fill="#5C6B4F"/>
+                            <rect x="-3" y="32" width="6" height="6" transform="rotate(45 0 35)" fill="#D4A853"/>
+                            <rect x="-3" y="48" width="6" height="6" transform="rotate(45 0 51)" fill="#C45A3C"/>
+                            <rect x="-3" y="64" width="6" height="6" transform="rotate(45 0 67)" fill="#5C6B4F"/>
+                            <rect x="-3" y="80" width="6" height="6" transform="rotate(45 0 83)" fill="#D4A853"/>
+                            <rect x="-3" y="96" width="6" height="6" transform="rotate(45 0 99)" fill="#C45A3C"/>
+                            <rect x="-3" y="112" width="6" height="6" transform="rotate(45 0 115)" fill="#5C6B4F"/>
+                            <rect x="-3" y="128" width="6" height="6" transform="rotate(45 0 131)" fill="#D4A853"/>
+                            <rect x="-3" y="144" width="6" height="6" transform="rotate(45 0 147)" fill="#C45A3C"/>
+                            <rect x="-3" y="160" width="6" height="6" transform="rotate(45 0 163)" fill="#5C6B4F"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div class="card-info">
+                <div class="card-name">رمال الصحراء</div>
+                <div class="card-desc">لون الصحرا الكلاسيكي</div>
+                <div class="card-price-row">
+                    <div class="card-price">3,400 <span class="currency">د.ج</span></div>
+                    <button class="card-cart-btn" aria-label="أضف للسلة">
+                        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Noir / Black -->
+        <div class="collection-card animate-on-scroll delay-2">
+            <div class="card-image" style="background: linear-gradient(135deg, #2a2a2a, #1a1a1a)">
+                <div class="card-color-indicator" style="background: #1C1C1C"></div>
+                <div class="card-tshirt-visual">
+                    <svg viewBox="0 0 200 250" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:85%;height:85%">
+                        <path d="M45 65 L25 55 L5 80 L30 105 L30 230 L170 230 L170 105 L195 80 L175 55 L155 65 L140 48 C130 38 115 33 100 33 C85 33 70 38 60 48 Z" fill="#222222" stroke="#333333" stroke-width="1"/>
+                        <path d="M60 48 C70 58 85 63 100 63 C115 63 130 58 140 48" fill="none" stroke="#333333" stroke-width="1.5"/>
+                        <line x1="70" y1="55" x2="70" y2="230" stroke="#2a2a2a" stroke-width="0.3" opacity="0.8"/>
+                        <line x1="85" y1="48" x2="85" y2="230" stroke="#2a2a2a" stroke-width="0.3" opacity="0.8"/>
+                        <line x1="115" y1="48" x2="115" y2="230" stroke="#2a2a2a" stroke-width="0.3" opacity="0.8"/>
+                        <line x1="130" y1="55" x2="130" y2="230" stroke="#2a2a2a" stroke-width="0.3" opacity="0.8"/>
+                        <rect x="94" y="45" width="12" height="185" fill="#E8DCC8" rx="1"/>
+                        <g transform="translate(100,55)">
+                            <rect x="-3" y="0" width="6" height="6" transform="rotate(45 0 3)" fill="#C45A3C"/>
+                            <rect x="-3" y="16" width="6" height="6" transform="rotate(45 0 19)" fill="#D4A853"/>
+                            <rect x="-3" y="32" width="6" height="6" transform="rotate(45 0 35)" fill="#5C6B4F"/>
+                            <rect x="-3" y="48" width="6" height="6" transform="rotate(45 0 51)" fill="#D45B3E"/>
+                            <rect x="-3" y="64" width="6" height="6" transform="rotate(45 0 67)" fill="#D4A853"/>
+                            <rect x="-3" y="80" width="6" height="6" transform="rotate(45 0 83)" fill="#C45A3C"/>
+                            <rect x="-3" y="96" width="6" height="6" transform="rotate(45 0 99)" fill="#5C6B4F"/>
+                            <rect x="-3" y="112" width="6" height="6" transform="rotate(45 0 115)" fill="#D4A853"/>
+                            <rect x="-3" y="128" width="6" height="6" transform="rotate(45 0 131)" fill="#D45B3E"/>
+                            <rect x="-3" y="144" width="6" height="6" transform="rotate(45 0 147)" fill="#C45A3C"/>
+                            <rect x="-3" y="160" width="6" height="6" transform="rotate(45 0 163)" fill="#D4A853"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div class="card-info">
+                <div class="card-name">أسود الليل</div>
+                <div class="card-desc">إليقونس جزائرية خالصة</div>
+                <div class="card-price-row">
+                    <div class="card-price">3,400 <span class="currency">د.ج</span></div>
+                    <button class="card-cart-btn" aria-label="أضف للسلة">
+                        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- White -->
+        <div class="collection-card animate-on-scroll delay-3">
+            <div class="card-image" style="background: linear-gradient(135deg, #f0f0f0, #e5e5e5)">
+                <div class="card-color-indicator" style="background: #FFFFFF; border-color: #ddd;"></div>
+                <div class="card-tshirt-visual">
+                    <svg viewBox="0 0 200 250" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:85%;height:85%">
+                        <path d="M45 65 L25 55 L5 80 L30 105 L30 230 L170 230 L170 105 L195 80 L175 55 L155 65 L140 48 C130 38 115 33 100 33 C85 33 70 38 60 48 Z" fill="#FAFAFA" stroke="#E0E0E0" stroke-width="1"/>
+                        <path d="M60 48 C70 58 85 63 100 63 C115 63 130 58 140 48" fill="none" stroke="#E0E0E0" stroke-width="1.5"/>
+                        <line x1="70" y1="55" x2="70" y2="230" stroke="#EBEBEB" stroke-width="0.3" opacity="0.8"/>
+                        <line x1="85" y1="48" x2="85" y2="230" stroke="#EBEBEB" stroke-width="0.3" opacity="0.8"/>
+                        <line x1="115" y1="48" x2="115" y2="230" stroke="#EBEBEB" stroke-width="0.3" opacity="0.8"/>
+                        <line x1="130" y1="55" x2="130" y2="230" stroke="#EBEBEB" stroke-width="0.3" opacity="0.8"/>
+                        <rect x="94" y="45" width="12" height="185" fill="#F5F0E6" rx="1"/>
+                        <g transform="translate(100,55)">
+                            <rect x="-3" y="0" width="6" height="6" transform="rotate(45 0 3)" fill="#C45A3C"/>
+                            <rect x="-3" y="16" width="6" height="6" transform="rotate(45 0 19)" fill="#5C6B4F"/>
+                            <rect x="-3" y="32" width="6" height="6" transform="rotate(45 0 35)" fill="#D4A853"/>
+                            <rect x="-3" y="48" width="6" height="6" transform="rotate(45 0 51)" fill="#D45B3E"/>
+                            <rect x="-3" y="64" width="6" height="6" transform="rotate(45 0 67)" fill="#C45A3C"/>
+                            <rect x="-3" y="80" width="6" height="6" transform="rotate(45 0 83)" fill="#5C6B4F"/>
+                            <rect x="-3" y="96" width="6" height="6" transform="rotate(45 0 99)" fill="#D4A853"/>
+                            <rect x="-3" y="112" width="6" height="6" transform="rotate(45 0 115)" fill="#C45A3C"/>
+                            <rect x="-3" y="128" width="6" height="6" transform="rotate(45 0 131)" fill="#5C6B4F"/>
+                            <rect x="-3" y="144" width="6" height="6" transform="rotate(45 0 147)" fill="#D45B3E"/>
+                            <rect x="-3" y="160" width="6" height="6" transform="rotate(45 0 163)" fill="#D4A853"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div class="card-info">
+                <div class="card-name">أبيض الأطلس</div>
+                <div class="card-desc">نقاوة جبال الأطلس</div>
+                <div class="card-price-row">
+                    <div class="card-price">3,400 <span class="currency">د.ج</span></div>
+                    <button class="card-cart-btn" aria-label="أضف للسلة">
+                        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Olive / Military -->
+        <div class="collection-card animate-on-scroll delay-4">
+            <div class="card-image" style="background: linear-gradient(135deg, #5C6B4F, #4A5940)">
+                <div class="card-color-indicator" style="background: #5C6B4F"></div>
+                <div class="card-badge" style="background: var(--gold)">جديد</div>
+                <div class="card-tshirt-visual">
+                    <svg viewBox="0 0 200 250" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:85%;height:85%">
+                        <path d="M45 65 L25 55 L5 80 L30 105 L30 230 L170 230 L170 105 L195 80 L175 55 L155 65 L140 48 C130 38 115 33 100 33 C85 33 70 38 60 48 Z" fill="#5C6B4F" stroke="#4A5940" stroke-width="1"/>
+                        <path d="M60 48 C70 58 85 63 100 63 C115 63 130 58 140 48" fill="none" stroke="#4A5940" stroke-width="1.5"/>
+                        <line x1="70" y1="55" x2="70" y2="230" stroke="#657855" stroke-width="0.3" opacity="0.5"/>
+                        <line x1="85" y1="48" x2="85" y2="230" stroke="#657855" stroke-width="0.3" opacity="0.5"/>
+                        <line x1="115" y1="48" x2="115" y2="230" stroke="#657855" stroke-width="0.3" opacity="0.5"/>
+                        <line x1="130" y1="55" x2="130" y2="230" stroke="#657855" stroke-width="0.3" opacity="0.5"/>
+                        <rect x="94" y="45" width="12" height="185" fill="#E8DCC8" rx="1"/>
+                        <g transform="translate(100,55)">
+                            <rect x="-3" y="0" width="6" height="6" transform="rotate(45 0 3)" fill="#C45A3C"/>
+                            <rect x="-3" y="16" width="6" height="6" transform="rotate(45 0 19)" fill="#D4A853"/>
+                            <rect x="-3" y="32" width="6" height="6" transform="rotate(45 0 35)" fill="#D45B3E"/>
+                            <rect x="-3" y="48" width="6" height="6" transform="rotate(45 0 51)" fill="#E8C97A"/>
+                            <rect x="-3" y="64" width="6" height="6" transform="rotate(45 0 67)" fill="#C45A3C"/>
+                            <rect x="-3" y="80" width="6" height="6" transform="rotate(45 0 83)" fill="#D4A853"/>
+                            <rect x="-3" y="96" width="6" height="6" transform="rotate(45 0 99)" fill="#D45B3E"/>
+                            <rect x="-3" y="112" width="6" height="6" transform="rotate(45 0 115)" fill="#C45A3C"/>
+                            <rect x="-3" y="128" width="6" height="6" transform="rotate(45 0 131)" fill="#E8C97A"/>
+                            <rect x="-3" y="144" width="6" height="6" transform="rotate(45 0 147)" fill="#D4A853"/>
+                            <rect x="-3" y="160" width="6" height="6" transform="rotate(45 0 163)" fill="#C45A3C"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div class="card-info">
+                <div class="card-name">زيتوني جرجرة</div>
+                <div class="card-desc">روح جبال جرجرة</div>
+                <div class="card-price-row">
+                    <div class="card-price">3,400 <span class="currency">د.ج</span></div>
+                    <button class="card-cart-btn" aria-label="أضف للسلة">
+                        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Heritage Section -->
+<section class="heritage section" id="heritage">
+    <div class="heritage-content">
+        <div class="heritage-visual animate-on-scroll">
+            <div class="heritage-pattern-frame">
+                <!-- Decorative Amazigh pattern -->
+                <svg viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:70%;height:70%;opacity:0.9">
+                    <!-- Central vertical band -->
+                    <rect x="135" y="20" width="30" height="360" fill="#F5F0E6" rx="4"/>
+                    <!-- Row of diamonds -->
+                    <g transform="translate(150, 40)">
+                        <rect x="-8" y="0" width="16" height="16" transform="rotate(45 0 8)" fill="#C45A3C"/>
+                        <rect x="-4" y="4" width="8" height="8" transform="rotate(45 0 8)" fill="#D4A853"/>
+
+                        <rect x="-8" y="36" width="16" height="16" transform="rotate(45 0 44)" fill="#5C6B4F"/>
+                        <rect x="-4" y="40" width="8" height="8" transform="rotate(45 0 44)" fill="#E8C97A"/>
+
+                        <rect x="-8" y="72" width="16" height="16" transform="rotate(45 0 80)" fill="#D45B3E"/>
+                        <rect x="-4" y="76" width="8" height="8" transform="rotate(45 0 80)" fill="#C45A3C"/>
+
+                        <rect x="-8" y="108" width="16" height="16" transform="rotate(45 0 116)" fill="#D4A853"/>
+                        <rect x="-4" y="112" width="8" height="8" transform="rotate(45 0 116)" fill="#5C6B4F"/>
+
+                        <rect x="-8" y="144" width="16" height="16" transform="rotate(45 0 152)" fill="#C45A3C"/>
+                        <rect x="-4" y="148" width="8" height="8" transform="rotate(45 0 152)" fill="#D4A853"/>
+
+                        <rect x="-8" y="180" width="16" height="16" transform="rotate(45 0 188)" fill="#5C6B4F"/>
+                        <rect x="-4" y="184" width="8" height="8" transform="rotate(45 0 188)" fill="#E8C97A"/>
+
+                        <rect x="-8" y="216" width="16" height="16" transform="rotate(45 0 224)" fill="#D45B3E"/>
+                        <rect x="-4" y="220" width="8" height="8" transform="rotate(45 0 224)" fill="#D4A853"/>
+
+                        <rect x="-8" y="252" width="16" height="16" transform="rotate(45 0 260)" fill="#D4A853"/>
+                        <rect x="-4" y="256" width="8" height="8" transform="rotate(45 0 260)" fill="#C45A3C"/>
+
+                        <rect x="-8" y="288" width="16" height="16" transform="rotate(45 0 296)" fill="#C45A3C"/>
+                        <rect x="-4" y="292" width="8" height="8" transform="rotate(45 0 296)" fill="#5C6B4F"/>
+
+                        <rect x="-8" y="324" width="16" height="16" transform="rotate(45 0 332)" fill="#5C6B4F"/>
+                        <rect x="-4" y="328" width="8" height="8" transform="rotate(45 0 332)" fill="#D4A853"/>
+                    </g>
+                    <!-- Side accent lines -->
+                    <line x1="110" y1="30" x2="110" y2="370" stroke="#C45A3C" stroke-width="0.5" opacity="0.3"/>
+                    <line x1="190" y1="30" x2="190" y2="370" stroke="#C45A3C" stroke-width="0.5" opacity="0.3"/>
+                    <!-- Small side diamonds -->
+                    <g transform="translate(110, 80)">
+                        <rect x="-4" y="0" width="8" height="8" transform="rotate(45 0 4)" fill="#D4A853" opacity="0.4"/>
+                        <rect x="-4" y="60" width="8" height="8" transform="rotate(45 0 64)" fill="#C45A3C" opacity="0.4"/>
+                        <rect x="-4" y="120" width="8" height="8" transform="rotate(45 0 124)" fill="#5C6B4F" opacity="0.4"/>
+                        <rect x="-4" y="180" width="8" height="8" transform="rotate(45 0 184)" fill="#D4A853" opacity="0.4"/>
+                        <rect x="-4" y="240" width="8" height="8" transform="rotate(45 0 244)" fill="#C45A3C" opacity="0.4"/>
+                    </g>
+                    <g transform="translate(190, 80)">
+                        <rect x="-4" y="0" width="8" height="8" transform="rotate(45 0 4)" fill="#C45A3C" opacity="0.4"/>
+                        <rect x="-4" y="60" width="8" height="8" transform="rotate(45 0 64)" fill="#D4A853" opacity="0.4"/>
+                        <rect x="-4" y="120" width="8" height="8" transform="rotate(45 0 124)" fill="#D45B3E" opacity="0.4"/>
+                        <rect x="-4" y="180" width="8" height="8" transform="rotate(45 0 184)" fill="#5C6B4F" opacity="0.4"/>
+                        <rect x="-4" y="240" width="8" height="8" transform="rotate(45 0 244)" fill="#D4A853" opacity="0.4"/>
+                    </g>
+                </svg>
+            </div>
+        </div>
+
+        <div class="heritage-text">
+            <div class="section-label animate-on-scroll">
+                <span class="line"></span>
+                التراث
+            </div>
+            <h2 class="section-title animate-on-scroll delay-1">قرون من الفن، <br><em>تلبسها اليوم</em></h2>
+            <p class="animate-on-scroll delay-2">
+                الزخارف اللي على كل تيشيرت SAHARA ترجع لرمزية أمازيغية قديمة — كل شكل، كل لون عندو معنى. نجمعو بين التقليد والستريت وير، ونعطيو للشباب الجزائري طريقة يلبسو بيها جذورهم بالفخر.
+            </p>
+
+            <div class="heritage-features">
+                <div class="heritage-feature animate-on-scroll delay-3">
+                    <div class="heritage-feature-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C45A3C" stroke-width="2" stroke-linecap="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+                    </div>
+                    <div>
+                        <h4>صنع في الدزاير</h4>
+                        <p>مصمّم ومقصوص ومطرّز هنا عندنا — نسوبورتيو الحرفيين والورشات الجزائرية.</p>
+                    </div>
+                </div>
+
+                <div class="heritage-feature animate-on-scroll delay-4">
+                    <div class="heritage-feature-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D4A853" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                    </div>
+                    <div>
+                        <h4>تطريز باليد</h4>
+                        <p>كل زخرفة أمازيغية مخدومة بالعناية بأيادي ماهرة — ما كاين حتى زوج قطع كيف كيف.</p>
+                    </div>
+                </div>
+
+                <div class="heritage-feature animate-on-scroll delay-5">
+                    <div class="heritage-feature-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5C6B4F" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <div>
+                        <h4>قطن عالي الجودة</h4>
+                        <p>قطن ثقيل 220 غرام بنسيج مقلّم — مخدوم باش يدوم، مصمّم باش يبهر.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Craftsmanship Section -->
+<section class="details section" id="craftsmanship">
+    <div class="collection-header" style="margin-bottom: 80px;">
+        <div class="section-label animate-on-scroll" style="color: var(--gold)">
+            <span class="line" style="background: var(--gold)"></span>
+            الصنعة
+            <span class="line" style="background: var(--gold)"></span>
+        </div>
+        <h2 class="section-title animate-on-scroll delay-1" style="color: var(--sand)">مختلف بالديزاين، <em>فريد بالصنعة</em></h2>
+        <p class="section-subtitle animate-on-scroll delay-2" style="color: rgba(232,220,200,0.5); margin: 0 auto;">كل ديتاي مقصود — من وزن القماش لعدد الغرز.</p>
+    </div>
+
+    <div class="details-content">
+        <div class="detail-card animate-on-scroll delay-1">
+            <div class="detail-icon">🧵</div>
+            <h3>تطريز دقيق</h3>
+            <p>كل زخرفة أمازيغية مطرّزة بخيوط ملونة على شريط منسوج — نحافظو على تقنيات أصيلة توارثوها الأجيال.</p>
+        </div>
+
+        <div class="detail-card animate-on-scroll delay-2">
+            <div class="detail-icon">◈</div>
+            <h3>هندسة رمزية</h3>
+            <p>كل شكل في الزخرفة عندو معنى — الخصوبة، الحماية، الحرية. لبس رموز تهدر بلا كلام.</p>
+        </div>
+
+        <div class="detail-card animate-on-scroll delay-3">
+            <div class="detail-icon">⚖️</div>
+            <h3>راحة أوفرسايز</h3>
+            <p>قصة واسعة مريحة بأكتاف واطية. قطن مقلّم 220 غرام يولّي أنعم مع كل غسلة.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Brand Story Section -->
+<section class="brand-story section" id="story">
+    <div class="brand-story-content">
+        <div class="brand-story-text">
+            <div class="section-label animate-on-scroll">
+                <span class="line"></span>
+                حكايتنا
+            </div>
+            <h2 class="section-title animate-on-scroll delay-1">من الصحرا <br>إلى <em>الشوارع</em></h2>
+            <p class="section-subtitle animate-on-scroll delay-2">
+                SAHARA تولدت من إيمان بسيط: الهوية الجزائرية تستاهل لبس عالمي. خذينا الفن الهندسي تاع جدودنا — زخارف زيّنت الزرابي والفخار والحلي لآلاف السنين — وحطّيناها على ستريت وير عصري يهدر مع جيل جديد.
+            </p>
+            <p class="section-subtitle animate-on-scroll delay-3" style="margin-top: 16px;">
+                هذا ماشي غير تيشيرت. هذا بيان. جسر بين القديم واليوم. بين البلاد والبوليفار.
+            </p>
+
+            <div class="stat-row animate-on-scroll delay-4">
+                <div class="stat-item">
+                    <div class="stat-number">100<span>%</span></div>
+                    <div class="stat-label">صنع دزايري</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">220<span>غ</span></div>
+                    <div class="stat-label">وزن القطن</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">ألوان</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">تراث</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="brand-story-visual animate-on-scroll delay-2">
+            <div class="brand-image-stack">
+                <div class="brand-img brand-img-1">
+                    <!-- Sand t-shirt mini -->
+                    <svg viewBox="0 0 200 250" fill="none" style="width:70%;opacity:0.8">
+                        <path d="M45 65 L25 55 L5 80 L30 105 L30 230 L170 230 L170 105 L195 80 L175 55 L155 65 L140 48 C130 38 115 33 100 33 C85 33 70 38 60 48 Z" fill="#E8DCC8" stroke="#D4C4A8" stroke-width="1"/>
+                        <rect x="94" y="45" width="12" height="185" fill="#F5F0E6" rx="1"/>
+                        <g transform="translate(100,55)">
+                            <rect x="-3" y="0" width="6" height="6" transform="rotate(45 0 3)" fill="#C45A3C"/>
+                            <rect x="-3" y="20" width="6" height="6" transform="rotate(45 0 23)" fill="#5C6B4F"/>
+                            <rect x="-3" y="40" width="6" height="6" transform="rotate(45 0 43)" fill="#D4A853"/>
+                            <rect x="-3" y="60" width="6" height="6" transform="rotate(45 0 63)" fill="#C45A3C"/>
+                            <rect x="-3" y="80" width="6" height="6" transform="rotate(45 0 83)" fill="#5C6B4F"/>
+                            <rect x="-3" y="100" width="6" height="6" transform="rotate(45 0 103)" fill="#D4A853"/>
+                            <rect x="-3" y="120" width="6" height="6" transform="rotate(45 0 123)" fill="#C45A3C"/>
+                            <rect x="-3" y="140" width="6" height="6" transform="rotate(45 0 143)" fill="#5C6B4F"/>
+                            <rect x="-3" y="160" width="6" height="6" transform="rotate(45 0 163)" fill="#D4A853"/>
+                        </g>
+                    </svg>
+                </div>
+                <div class="brand-img brand-img-2">
+                    <!-- Black t-shirt mini -->
+                    <svg viewBox="0 0 200 250" fill="none" style="width:70%;opacity:0.8">
+                        <path d="M45 65 L25 55 L5 80 L30 105 L30 230 L170 230 L170 105 L195 80 L175 55 L155 65 L140 48 C130 38 115 33 100 33 C85 33 70 38 60 48 Z" fill="#333" stroke="#444" stroke-width="1"/>
+                        <rect x="94" y="45" width="12" height="185" fill="#E8DCC8" rx="1"/>
+                        <g transform="translate(100,55)">
+                            <rect x="-3" y="0" width="6" height="6" transform="rotate(45 0 3)" fill="#C45A3C"/>
+                            <rect x="-3" y="20" width="6" height="6" transform="rotate(45 0 23)" fill="#D4A853"/>
+                            <rect x="-3" y="40" width="6" height="6" transform="rotate(45 0 43)" fill="#5C6B4F"/>
+                            <rect x="-3" y="60" width="6" height="6" transform="rotate(45 0 63)" fill="#D45B3E"/>
+                            <rect x="-3" y="80" width="6" height="6" transform="rotate(45 0 83)" fill="#D4A853"/>
+                            <rect x="-3" y="100" width="6" height="6" transform="rotate(45 0 103)" fill="#C45A3C"/>
+                            <rect x="-3" y="120" width="6" height="6" transform="rotate(45 0 123)" fill="#5C6B4F"/>
+                            <rect x="-3" y="140" width="6" height="6" transform="rotate(45 0 143)" fill="#D4A853"/>
+                            <rect x="-3" y="160" width="6" height="6" transform="rotate(45 0 163)" fill="#C45A3C"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Size Guide -->
+<section class="size-guide section" id="sizes">
+    <div class="size-guide-content">
+        <div class="section-label animate-on-scroll">
+            <span class="line"></span>
+            دليل المقاسات
+            <span class="line"></span>
+        </div>
+        <h2 class="section-title animate-on-scroll delay-1">لقى <em>المقاس تاعك</em></h2>
+        <p class="section-subtitle animate-on-scroll delay-2" style="margin: 0 auto;">قصة أوفرسايز مريحة — ننصحوك تاخذ مقاسك العادي باش تحصل على الشكل المطلوب.</p>
+
+        <div class="size-table-wrapper animate-on-scroll delay-3">
+            <table class="size-table">
+                <thead>
+                    <tr>
+                        <th>المقاس</th>
+                        <th>الصدر (سم)</th>
+                        <th>الطول (سم)</th>
+                        <th>الكتف (سم)</th>
+                        <th>الكم (سم)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>S</td>
+                        <td>108</td>
+                        <td>70</td>
+                        <td>54</td>
+                        <td>24</td>
+                    </tr>
+                    <tr>
+                        <td>M</td>
+                        <td>114</td>
+                        <td>73</td>
+                        <td>56</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <td>L</td>
+                        <td>120</td>
+                        <td>76</td>
+                        <td>58</td>
+                        <td>26</td>
+                    </tr>
+                    <tr>
+                        <td>XL</td>
+                        <td>126</td>
+                        <td>79</td>
+                        <td>60</td>
+                        <td>27</td>
+                    </tr>
+                    <tr>
+                        <td>XXL</td>
+                        <td>132</td>
+                        <td>82</td>
+                        <td>62</td>
+                        <td>28</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials section" id="reviews">
+    <div class="testimonials-header">
+        <div class="section-label animate-on-scroll">
+            <span class="line"></span>
+            آراء الناس
+            <span class="line"></span>
+        </div>
+        <h2 class="section-title animate-on-scroll delay-1">واش <em>قالو</em></h2>
+        <p class="section-subtitle animate-on-scroll delay-2">آراء حقيقية من جزائريين يلبسو SAHARA.</p>
+    </div>
+
+    <div class="testimonials-grid">
+        <div class="testimonial-card animate-on-scroll delay-1">
+            <div class="testimonial-stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            </div>
+            <div class="testimonial-quote">"</div>
+            <p class="testimonial-text">الكواليتي تبارك الله، التطريز خرافي. لبستو في عرس وقاع الناس سقساتني منين شريتو. فخور نلبس حاجة جزائرية.</p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">ي</div>
+                <div>
+                    <div class="testimonial-name">ياسين ب.</div>
+                    <div class="testimonial-location">الجزائر العاصمة</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonial-card animate-on-scroll delay-2">
+            <div class="testimonial-stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            </div>
+            <div class="testimonial-quote">"</div>
+            <p class="testimonial-text">القصة الأوفرسايز بيرفاكت. قطن ثقيل ماشي كيما هاذوك التيشيرتات الرخاص. الزخرفة الأمازيغية تخليه فريد — شريت الربعة ألوان والله.</p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">أ</div>
+                <div>
+                    <div class="testimonial-name">أمينة ك.</div>
+                    <div class="testimonial-location">تيزي وزو</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonial-card animate-on-scroll delay-3">
+            <div class="testimonial-stars">
+                <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            </div>
+            <div class="testimonial-quote">"</div>
+            <p class="testimonial-text">أخيراً براند فاهم الستيل الجزائري. ماشي يكوبي البراندات البرانية — يخلق هوية تاعنا. الزيتوني نار خويا.</p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">م</div>
+                <div>
+                    <div class="testimonial-name">محمد ر.</div>
+                    <div class="testimonial-location">وهران</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Order Section -->
+<section class="cta-section section" id="order">
+    <div class="cta-content">
+        <div class="section-label animate-on-scroll" style="color: var(--gold); justify-content: center;">
+            <span class="line" style="background: var(--gold)"></span>
+            أطلب دروك
+            <span class="line" style="background: var(--gold)"></span>
+        </div>
+        <h2 class="section-title animate-on-scroll delay-1">واش راك مستعد <br>تلبس <em>تراثك</em>؟</h2>
+        <p class="section-subtitle animate-on-scroll delay-2">ليفريزون مجاني لكل 58 ولاية. الدفع عند الاستلام. عمّر الفورم وأطلب تاعك.</p>
+
+        <div class="order-form-wrapper animate-on-scroll delay-3">
+            <!-- Order Form -->
+            <form class="order-form" id="orderForm" onsubmit="return handleOrder(event)">
+
+                <!-- Color Selection -->
+                <div class="form-group">
+                    <label>اللون <span class="required">*</span></label>
+                    <div class="color-selector">
+                        <div class="color-option color-sand">
+                            <input type="radio" name="color" id="colorSand" value="رمال الصحراء" required checked>
+                            <label for="colorSand">
+                                <span class="color-name">رمال الصحراء</span>
+                            </label>
+                        </div>
+                        <div class="color-option color-black">
+                            <input type="radio" name="color" id="colorBlack" value="أسود الليل">
+                            <label for="colorBlack">
+                                <span class="color-name">أسود الليل</span>
+                            </label>
+                        </div>
+                        <div class="color-option color-white">
+                            <input type="radio" name="color" id="colorWhite" value="أبيض الأطلس">
+                            <label for="colorWhite">
+                                <span class="color-name">أبيض الأطلس</span>
+                            </label>
+                        </div>
+                        <div class="color-option color-olive">
+                            <input type="radio" name="color" id="colorOlive" value="زيتوني جرجرة">
+                            <label for="colorOlive">
+                                <span class="color-name">زيتوني جرجرة</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Size Selection -->
+                <div class="form-group" style="margin-top: 8px;">
+                    <label>المقاس <span class="required">*</span></label>
+                    <div class="size-selector">
+                        <div class="size-option">
+                            <input type="radio" name="size" id="sizeS" value="S" required>
+                            <label for="sizeS">S</label>
+                        </div>
+                        <div class="size-option">
+                            <input type="radio" name="size" id="sizeM" value="M" checked>
+                            <label for="sizeM">M</label>
+                        </div>
+                        <div class="size-option">
+                            <input type="radio" name="size" id="sizeL" value="L">
+                            <label for="sizeL">L</label>
+                        </div>
+                        <div class="size-option">
+                            <input type="radio" name="size" id="sizeXL" value="XL">
+                            <label for="sizeXL">XL</label>
+                        </div>
+                        <div class="size-option">
+                            <input type="radio" name="size" id="sizeXXL" value="XXL">
+                            <label for="sizeXXL">XXL</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-divider"></div>
+
+                <!-- Personal Info -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">الاسم الكامل <span class="required">*</span></label>
+                        <input type="text" id="fullName" name="fullName" placeholder="مثال: محمد بن علي" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">رقم الهاتف <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" placeholder="07XXXXXXXX" required pattern="0[5-7][0-9]{8}" dir="ltr" style="text-align: right;">
+                    </div>
+                </div>
+
+                <!-- Location -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="wilaya">الولاية <span class="required">*</span></label>
+                        <select id="wilaya" name="wilaya" required>
+                            <option value="" disabled selected>اختر الولاية</option>
+                            <option value="01 - أدرار">01 - أدرار</option>
+                            <option value="02 - الشلف">02 - الشلف</option>
+                            <option value="03 - الأغواط">03 - الأغواط</option>
+                            <option value="04 - أم البواقي">04 - أم البواقي</option>
+                            <option value="05 - باتنة">05 - باتنة</option>
+                            <option value="06 - بجاية">06 - بجاية</option>
+                            <option value="07 - بسكرة">07 - بسكرة</option>
+                            <option value="08 - بشار">08 - بشار</option>
+                            <option value="09 - البليدة">09 - البليدة</option>
+                            <option value="10 - البويرة">10 - البويرة</option>
+                            <option value="11 - تمنراست">11 - تمنراست</option>
+                            <option value="12 - تبسة">12 - تبسة</option>
+                            <option value="13 - تلمسان">13 - تلمسان</option>
+                            <option value="14 - تيارت">14 - تيارت</option>
+                            <option value="15 - تيزي وزو">15 - تيزي وزو</option>
+                            <option value="16 - الجزائر">16 - الجزائر</option>
+                            <option value="17 - الجلفة">17 - الجلفة</option>
+                            <option value="18 - جيجل">18 - جيجل</option>
+                            <option value="19 - سطيف">19 - سطيف</option>
+                            <option value="20 - سعيدة">20 - سعيدة</option>
+                            <option value="21 - سكيكدة">21 - سكيكدة</option>
+                            <option value="22 - سيدي بلعباس">22 - سيدي بلعباس</option>
+                            <option value="23 - عنابة">23 - عنابة</option>
+                            <option value="24 - قالمة">24 - قالمة</option>
+                            <option value="25 - قسنطينة">25 - قسنطينة</option>
+                            <option value="26 - المدية">26 - المدية</option>
+                            <option value="27 - مستغانم">27 - مستغانم</option>
+                            <option value="28 - المسيلة">28 - المسيلة</option>
+                            <option value="29 - معسكر">29 - معسكر</option>
+                            <option value="30 - ورقلة">30 - ورقلة</option>
+                            <option value="31 - وهران">31 - وهران</option>
+                            <option value="32 - البيض">32 - البيض</option>
+                            <option value="33 - إليزي">33 - إليزي</option>
+                            <option value="34 - برج بوعريريج">34 - برج بوعريريج</option>
+                            <option value="35 - بومرداس">35 - بومرداس</option>
+                            <option value="36 - الطارف">36 - الطارف</option>
+                            <option value="37 - تندوف">37 - تندوف</option>
+                            <option value="38 - تيسمسيلت">38 - تيسمسيلت</option>
+                            <option value="39 - الوادي">39 - الوادي</option>
+                            <option value="40 - خنشلة">40 - خنشلة</option>
+                            <option value="41 - سوق أهراس">41 - سوق أهراس</option>
+                            <option value="42 - تيبازة">42 - تيبازة</option>
+                            <option value="43 - ميلة">43 - ميلة</option>
+                            <option value="44 - عين الدفلى">44 - عين الدفلى</option>
+                            <option value="45 - النعامة">45 - النعامة</option>
+                            <option value="46 - عين تموشنت">46 - عين تموشنت</option>
+                            <option value="47 - غرداية">47 - غرداية</option>
+                            <option value="48 - غليزان">48 - غليزان</option>
+                            <option value="49 - تيميمون">49 - تيميمون</option>
+                            <option value="50 - برج باجي مختار">50 - برج باجي مختار</option>
+                            <option value="51 - أولاد جلال">51 - أولاد جلال</option>
+                            <option value="52 - بني عباس">52 - بني عباس</option>
+                            <option value="53 - عين صالح">53 - عين صالح</option>
+                            <option value="54 - عين قزام">54 - عين قزام</option>
+                            <option value="55 - تقرت">55 - تقرت</option>
+                            <option value="56 - جانت">56 - جانت</option>
+                            <option value="57 - المغير">57 - المغير</option>
+                            <option value="58 - المنيعة">58 - المنيعة</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="commune">البلدية <span class="required">*</span></label>
+                        <select id="commune" name="commune" required disabled>
+                            <option value="" disabled selected>اختر الولاية أولاً</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Quantity -->
+                <div class="form-group" style="margin-top: 8px;">
+                    <label>الكمية</label>
+                    <div class="quantity-control">
+                        <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
+                        <input type="number" class="qty-value" id="quantity" name="quantity" value="1" min="1" max="10" readonly>
+                        <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
+                    </div>
+                </div>
+
+                <div class="form-divider"></div>
+
+                <!-- Summary & Submit -->
+                <div class="order-summary">
+                    <span class="order-total-label">المجموع الكلي:</span>
+                    <span class="order-total-price" id="totalPrice">3,400 <span class="currency">د.ج</span></span>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <span>تأكيد الطلب</span>
+                </button>
+
+                <div class="form-note">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                    الدفع عند الاستلام — ما تدفع والو دروك
+                </div>
+            </form>
+
+            <!-- Success Message -->
+            <div class="form-success" id="formSuccess">
+                <div class="success-icon">✓</div>
+                <h3>تم تسجيل طلبك بنجاح!</h3>
+                <p>راح نتواصلو معاك قريب باش نأكدو الطلب تاعك.<br>شكراً أنك اخترت SAHARA.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-brand">
+            <a href="#" class="nav-logo">SA<span>H</span>ARA</a>
+            <p>وين التراث الجزائري يتلاقى مع الستريت وير العصري. كل قطعة فيها قرون من الفن الأمازيغي — معاد تصميمو لليوم.</p>
+            <div class="footer-socials">
+                <a href="#" class="social-link" aria-label="Instagram">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </a>
+                <a href="#" class="social-link" aria-label="TikTok">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V9.47a8.16 8.16 0 003.76.92V7.03a4.84 4.84 0 01-1-.34z"/></svg>
+                </a>
+                <a href="#" class="social-link" aria-label="Facebook">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer-col">
+            <h4>المتجر</h4>
+            <a href="#collection">كل التيشيرتات</a>
+            <a href="#sizes">دليل المقاسات</a>
+            <a href="#">الجديد</a>
+            <a href="#">كارت كادو</a>
+        </div>
+
+        <div class="footer-col">
+            <h4>المساعدة</h4>
+            <a href="#">اتصل بينا</a>
+            <a href="#">معلومات الليفريزون</a>
+            <a href="#">الاسترجاع والتبديل</a>
+            <a href="#">أسئلة شائعة</a>
+        </div>
+
+        <div class="footer-col">
+            <h4>الشركة</h4>
+            <a href="#story">حكايتنا</a>
+            <a href="#heritage">التراث</a>
+            <a href="#">البيع بالجملة</a>
+            <a href="#">الصحافة</a>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <span>&copy; 2026 SAHARA. كل الحقوق محفوظة. مصنوع بـ ♥ في الجزائر.</span>
+        <div class="payment-methods">
+            <span class="payment-icon">CIB</span>
+            <span class="payment-icon">EDAHABIA</span>
+            <span class="payment-icon">CASH</span>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // ─── Loader ───
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('loader').classList.add('hidden');
+        }, 1800);
+    });
+
+    // ─── Navbar scroll ───
+    const navbar = document.getElementById('navbar');
+    let lastScroll = 0;
+
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.scrollY;
+        if (currentScroll > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+        lastScroll = currentScroll;
+    });
+
+    // ─── Mobile menu ───
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuBtn.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    });
+
+    // Close menu on link click
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenuBtn.classList.remove('active');
+            navLinks.classList.remove('active');
+        });
+    });
+
+    // ─── Scroll animations (Intersection Observer) ───
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -60px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+    // ─── Smooth scroll ───
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // ─── Cursor dot (desktop only) ───
+    if (window.matchMedia('(pointer: fine)').matches) {
+        const dot = document.getElementById('cursorDot');
+        dot.style.display = 'block';
+
+        let mouseX = 0, mouseY = 0;
+        let dotX = 0, dotY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            dotX += (mouseX - dotX) * 0.15;
+            dotY += (mouseY - dotY) * 0.15;
+            dot.style.left = dotX - 4 + 'px';
+            dot.style.top = dotY - 4 + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Scale up on interactive elements
+        document.querySelectorAll('a, button, .collection-card').forEach(el => {
+            el.addEventListener('mouseenter', () => dot.style.transform = 'scale(3)');
+            el.addEventListener('mouseleave', () => dot.style.transform = 'scale(1)');
+        });
+    }
+
+    // ─── Parallax on hero ───
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        const heroBg = document.querySelector('.hero-image-bg');
+        const heroGeometric = document.querySelector('.hero-geometric');
+
+        if (heroBg && scrolled < window.innerHeight) {
+            heroBg.style.transform = `translate(-50%, -50%) scale(${1 + scrolled * 0.0003})`;
+        }
+        if (heroGeometric && scrolled < window.innerHeight) {
+            heroGeometric.style.transform = `rotate(${scrolled * 0.02}deg)`;
+        }
+    });
+
+    // ─── Collection card tilt effect ───
+    document.querySelectorAll('.collection-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-12px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+    });
+
+    // ─── Counter animation for stats ───
+    function animateCounters() {
+        document.querySelectorAll('.stat-number').forEach(stat => {
+            const text = stat.textContent;
+            const match = text.match(/(\d+)/);
+            if (!match) return;
+
+            const target = parseInt(match[1]);
+            const suffix = text.replace(match[1], '').trim();
+            let current = 0;
+            const increment = target / 60;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                stat.innerHTML = Math.floor(current) + '<span>' + suffix.replace(/[<>\/span]/g, '') + '</span>';
+            }, 16);
+        });
+    }
+
+    // Trigger counter animation when stats section is visible
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounters();
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    const statRow = document.querySelector('.stat-row');
+    if (statRow) statsObserver.observe(statRow);
+
+    // ─── Order Form ───
+    const PRICE = 3400;
+
+    function changeQty(delta) {
+        const input = document.getElementById('quantity');
+        let val = parseInt(input.value) + delta;
+        if (val < 1) val = 1;
+        if (val > 10) val = 10;
+        input.value = val;
+        updateTotal();
+    }
+
+    function updateTotal() {
+        const qty = parseInt(document.getElementById('quantity').value);
+        const total = (qty * PRICE).toLocaleString('en');
+        document.getElementById('totalPrice').innerHTML = total + ' <span class="currency">د.ج</span>';
+    }
+
+    function handleOrder(e) {
+        e.preventDefault();
+        const form = document.getElementById('orderForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formData = new FormData(form);
+
+        // Disable button while submitting
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'جاري التسجيل...';
+
+        // If WordPress AJAX is available, create a real WooCommerce order
+        if (window.sahara_ajax) {
+            formData.append('action', 'sahara_create_order');
+            formData.append('nonce', window.sahara_ajax.nonce);
+
+            fetch(window.sahara_ajax.url, {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    form.style.display = 'none';
+                    const successEl = document.getElementById('formSuccess');
+                    successEl.querySelector('p').innerHTML =
+                        'رقم الطلب: <strong>#' + data.data.order_number + '</strong><br>' +
+                        'المجموع: <strong>' + data.data.total + ' د.ج</strong><br>' +
+                        'راح نتواصلو معاك قريب باش نأكدو الطلب تاعك.';
+                    successEl.classList.add('show');
+                } else {
+                    alert(data.data.message || 'حدث خطأ، حاول مرة أخرى');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'أطلب دروك';
+                }
+            })
+            .catch(() => {
+                alert('خطأ في الاتصال، حاول مرة أخرى');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'أطلب دروك';
+            });
+        } else {
+            // Standalone mode (no WordPress)
+            console.log('Order submitted:', Object.fromEntries(formData));
+            form.style.display = 'none';
+            document.getElementById('formSuccess').classList.add('show');
+        }
+
+        return false;
+    }
+
+    // ─── Wilaya → Communes mapping ───
+    const communesByWilaya = {
+        "01 - أدرار": ["أدرار","تيميمون","رقان","أولف","زاوية كنتة","تسابيت","شروين","فنوغيل","تيت","برج باجي مختار","أولاد أحمد تيمي","بودة","أقبلي","تامنطيط","تمي","سبع","تينركوك","طيط","أنزجمير","إن زغمير","دلداول","ساحلي","تالمين","متليلي","البرانيس"],
+        "02 - الشلف": ["الشلف","تنس","بوقادير","الأبيض مجاجر","أولاد فارس","الكريمية","المرسى","صنجاس","شطية","بني حواء","حرشون","عين مران","واد فضة","الظهرة","بوزغاية","تاجنة","بني بوعتاب","بني راشد","مصدق","هرنفة","واد سلي","بني حواء","عمرة","أولاد بن عبد القادر","بوكادير","زبوجة","حمادية","ولاد عباس","أم الذروع","المناقل","لحلاف","ابو الحسن","بريرة"],
+        "03 - الأغواط": ["الأغواط","أفلو","حاسي الرمل","عين ماضي","قصر الحيران","بريدة","الحويطة","حاسي الدلاعة","الغيشة","سيدي بوزيد","تاجرونة","الحاج المشري","سبقاق","آفلو","بن ناصر بن شهرة","تاجموت","الأصنام","واد مرة","قلتة سيدي سعد","عين سيدي علي","بيضاء","تاويالة","الحوضين"],
+        "04 - أم البواقي": ["أم البواقي","عين البيضاء","عين مليلة","عين فكرون","مسكيانة","سيقوس","عين الزيتون","بريش","فكيرينة","الحرملية","قصر صبيحي","الضلعة","الزرق","أولاد حملة","بهير الشرقي","الفجوج","سوق نعمان","عين الدّيس","كشيدة","عين كرشة","الجازية","راحية"],
+        "05 - باتنة": ["باتنة","بريكة","عين التوتة","أريس","نقاوس","مروانة","تازولت","سريانة","منعة","الجزار","رأس العيون","القنطرة","تكوت","تيمقاد","عين جاسر","الشمرة","بوزينة","ثنية العابد","إشمول","وادي الشعبة","غسيرة","لارباع","فسديس","تيغانمين","المعذر","ألمعذر","جرمة","بيطام","حيدوسة","وادي الماء","لمسان","وادي الطاقة","تالخمت"],
+        "06 - بجاية": ["بجاية","أقبو","سيدي عيش","خراطة","تيشي","أميزور","صدوق","الكسّور","أكفادو","برباشة","سوق الإثنين","أوقاس","تيمزريت","أدكار","شميني","طاسكريوت","تازمالت","إفري أوزلاقن","فناية","تيفرا","تاوريرت إغيل","بوحمزة","بني جليل","بني معوش","أوريلال","تمقرة","أوزلاقن","مالبو","إغرام","مسيسنة","فرعون","شلاطة","تامريجت","سيدي عياد","تيبان","بني كسيلة","درقينة","بوخليفة"],
+        "07 - بسكرة": ["بسكرة","طولقة","أولاد جلال","سيدي عقبة","زريبة الوادي","الفيض","جمورة","أورلال","بوشقرون","المزيرعة","القنطرة","حاسي خليفة","ليشانة","الحاجب","خنقة سيدي ناجي","مشونش","البسباس","فوغالة","جلال","أوماش","برج بن عزوز","الغروس","لوطاية","ليوة","سيدي خالد","رأس الميعاد","بسباس"],
+        "08 - بشار": ["بشار","بني ونيف","كرزاز","عبادلة","تاغيت","بني عباس","القنادسة","لحمر","مشرية","إقلي","تبلبالة","لودياني"],
+        "09 - البليدة": ["البليدة","بوفاريك","بوعينان","أولاد يعيش","الأربعاء","بوقرة","الشفة","موزاية","الشريعة","وادي العلايق","الأخضرية","بني مراد","عين الرمانة","صوماعة","حمام ملوان","جبابرة","أولاد سلامة","مفتاح","الشبلي","قرواو","غبالو","بوعرفة","واد جر","بني طامو","وادي العلايق"],
+        "10 - البويرة": ["البويرة","لقدية","عين بسام","سور الغزلان","أهل القصر","الأسنام","بئر غبالو","مشدالة","الأخضرية","برج أوخريص","ديرة","بودربالة","شرفة","آيت لعزيز","معالة","سوق الخميس","ريدان","تقديرت","الحاج","جباحية","واد البردي","الحشيمية","خبوزية","المقراني","حيزر","عمر","أولاد راشد","قادرية","تاغزوت","بكيرة","أغبالو"],
+        "11 - تمنراست": ["تمنراست","عين قزام","إن أمقل","تين زواتين","عين صالح","إداليس","تاظروك","أبالسة","إن غار","فقارة الزوى"],
+        "12 - تبسة": ["تبسة","بئر العاتر","الشريعة","العوينات","الماء الأبيض","مرسط","ونزة","بكارية","الحمامات","نقرين","الكويف","ثليجان","بولحاف الدير","صفصاف الوسرة","بئر مقدم","أم علي","قمودة","فركان","ستيل","بوخضرة"],
+        "13 - تلمسان": ["تلمسان","مغنية","الغزوات","الرمشي","ندرومة","سبدو","هنين","بني سنوس","صبرة","منصورة","شتوان","عين فزة","سيدي بلعباس","أولاد ميمون","بني بوسعيد","مسيردة الفواقة","عين يوسف","سيدي الجيلالي","تيرني بني هديل","بوحلو","جبالة","عين الغراب","سوق التلاتة","الأحمر","سيدي مجاهد","العريشة","فلاوسن","الزناتة","أولاد رياح","باب العسة","دار يغمراسن","سوان","حنايا","بني صاف","أزايل"],
+        "14 - تيارت": ["تيارت","عين الذهب","فرندة","قصر الشلالة","مهدية","سوقر","مشرع الصفا","جيلالي بن عمار","دحموني","واد ليلي","رحوية","عين كرمس","الحمادية","سبعين","نادورة","عين بوشقيف","تاقدمت","عين الحديد","مدريسة","تيدة","مغيلة","جبيلات الرصفاء","فايجة","زمالة","آيت الراشد","سبت","مسد","تقصرين"],
+        "15 - تيزي وزو": ["تيزي وزو","عزازقة","ذراع الميزان","عين الحمام","الأربعاء ناث إيراثن","واقنون","بوغني","إفرحونن","واضية","ماكودة","بوزقن","تيقزيرت","تيزي راشد","ذراع بن خدة","إفليسن","مشتراس","بني يني","بني دوالة","عين الزاوية","تادمايت","إيغيل علي","فريحة","أيت محمود","الأخضرية","سوق الثلاثاء","بني عيسي","أقرو","أزفون","تيزي نثلاثة","ياطافن","بوجيمة","إبوضرارن","إيللتن","أغني قوفي","أيت عيسى ميمون","أيت تودرت","أقني قوفي","تيزي قنيف"],
+        "16 - الجزائر": ["الجزائر الوسطى","سيدي أمحمد","الأبيار","بولوغين","باب الوادي","القصبة","الحراش","بئر مراد رايس","بوزريعة","بئر خادم","المدنية","حيدرة","المحمدية","الدار البيضاء","باب الزوار","بن عكنون","دالي إبراهيم","الجزائر الوسطى","السحاولة","الحمامات","رايس حميدو","الرغاية","أولاد شبل","أولاد فايت","براقي","برج البحري","بئر توتة","تسالة المرجة","جسر قسنطينة","الأخضرية","سطاوالي","زرالدة","المعالمة","باينام","القبة","الخرايسية","سيدي موسى","عين بنيان","حسين داي","الكاليتوس","عين طاية","حمامات","المرسى","الدويرة","بابا حسن","الشراقة","دويدة"],
+        "17 - الجلفة": ["الجلفة","مسعد","عين وسارة","حاسي بحبح","الإدريسية","بيرين","شرف","دار الشيوخ","حد الصحاري","مليليحة","عين الإبل","الشارف","القديد","سد الرحال","فيض البطمة","بن يعقوب","زكار","حاسي فدول","الخميس","واد ملح","قتارة","مجبارة","تعضميت","عين معبد","عمورة","دلدول","بيضة","القرنيني","سلمانة"],
+        "18 - جيجل": ["جيجل","الميلية","الطاهير","تاكسنة","شكفة","سيدي معروف","الأمير عبد القادر","الشحنة","سطارة","برج الطهر","سيدي عبد العزيز","جيملة","وجانة","زيامة منصورية","غبالة","قاوس","بوسيف أولاد عسكر","العنصر","خيري واد عجول","بودريعة بني ياجيس","الربعة","سلمى بن زيادة","بويشعون","بوعرعر"],
+        "19 - سطيف": ["سطيف","العلمة","عين ولمان","عين أزال","بوعنداس","عين أرنات","قجال","حمام السخنة","حمام القرقور","عين الكبيرة","بيضاء برج","عموشة","جميلة","سرج الغول","بابور","الأورسية","ماوكلان","أيت نوال مزادة","أيت تيزي","بني وسين","الدهامشة","معاوية","بوطالب","القلتة الزرقاء","صالح باي","ريمشي","أولاد صابر","بللاعة","أولاد تبان","بازر الصخرة","تالة إيفاسن","غلاسة","تيزي نبشار"],
+        "20 - سعيدة": ["سعيدة","عين الحجر","الحساسنة","يوب","أولاد خالد","مولاي العربي","دوى ثابت","سيدي بوبكر","عين السخونة","أولاد ابراهيم","المعمورة","تيرسين","هونت","سيدي أحمد","حسيان","سيدي عمر"],
+        "21 - سكيكدة": ["سكيكدة","القل","عزابة","تامالوس","الحروش","ولد عطية","الزيتونة","بني زيد","أولاد حبابة","سيدي مزغيش","بكوش لخضر","بن عزوز مكي","رمضان جمال","بئر أحمد شريف","حمادي كرومة","أم الطوب","عين زويت","الغدير","جندل","وادي الزهور","بني والبان","خناق مايو","فلفلة","القنار","بوشتاتة","صالح بوشقوف"],
+        "22 - سيدي بلعباس": ["سيدي بلعباس","بن بادبيس","تلاغ","عين البرد","سيدي لحسن","رأس الماء","تسالة","مرين","مصطفى بن إبراهيم","سيدي بوزيد","سيدي ابراهيم","تنيرة","بوخنفيس","سفيزف","عين التريد","سيدي خالد","سيدي داهو","مكدرة","تغاليمت","سيدي حمادوش","أولاد ابراهيم","بن عشيبة","حاسي زهانة","تاودموث","لمطار","مرحوم","صيدة"],
+        "23 - عنابة": ["عنابة","الحجار","البوني","سيدي عمار","عين الباردة","الشرفة","وادي العنب","برحال","سرايدي","التريعات","شتايبي","عين بربار"],
+        "24 - قالمة": ["قالمة","بوشقوف","واد الزناتي","عين مخلوف","هيليوبوليس","حمام دباغ","قلعة بوصبع","بن جراح","عين صندل","رشمايا","بلخير","هوارة","حمام النبائل","بومهرة أحمد","عين حساينية","نشماية","بوحمدان","خزارة","دجال","بوعاتي محمود","مجاز عمار","عين العربي","بوحشانة","تاملوكة","الفجوج","واد فراغة","جبالة خميسي","برج صباط","بني مزلين","المزرعة","حمام أولاد علي"],
+        "25 - قسنطينة": ["قسنطينة","الخروب","عين أعبيد","حامة بوزيان","زيغود يوسف","ديديوش مراد","عين سمارة","بني حميدان","أولاد رحمون","ابن زياد","مسعود بوجريو","ابن باديس"],
+        "26 - المدية": ["المدية","البرواقية","قصر البخاري","تابلاط","شلالة العذاورة","عين بوسيف","خميس ميليانة","العمارية","بني سليمان","ثنية الحد","سي المحجوب","الحمدانية","أولاد أنهار","الكاف الأخضر","بوعيشون","وزرة","جواب","سغوان","عين القصير","عزيز","شنيقل","أولاد بوعشرة","بوغزول","مفتاح","تمسقيدة","بوسكن","ميهوب","درقانة"],
+        "27 - مستغانم": ["مستغانم","عين تادلس","سيدي علي","حاسي ماماش","عشعاشة","سيدي لخضر","بوقيرات","المنصورة","خير الدين","صيادة","ماسرى","ستيدية","عين النويصي","الحسيان","سور","ولايسيا","القراصة","فرناكة","بلاهول","تازقايت","نكمارية"],
+        "28 - المسيلة": ["المسيلة","بوسعادة","عين الملح","سيدي عيسى","حمام الضلعة","أولاد دراج","مقرة","الشهبونية","جبل مساعد","برهوم","عين الحجل","المعاضيد","خبانة","ونوغة","أولاد عدي","كف لخضر","المطارفة","الدهاهنة","تارمونت","بن سرور","الحوامد","سيدي هجرس","بلعايبة","بوطي السايح","ولتام","المعاريف","سليم"],
+        "29 - معسكر": ["معسكر","سيق","تيغنيف","الحشم","بوحنيفية","وادي الأبطال","غريس","عين فارس","عين فكان","المحمدية","تيزي","ماوسة","فروحة","مقطع الدوز","عوف","سيدي قادة","أولاد سليمان","الغمري","بوهني","خلوية","حسين"],
+        "30 - ورقلة": ["ورقلة","حاسي مسعود","تقرت","تماسين","الرويسات","عين البيضاء","سيدي خويلد","حاسي بن عبد الله","النزلة","المقارين","بلدة عمر","الحجيرة","الطيبات","نقوسة","الزاوية العابدية"],
+        "31 - وهران": ["وهران","بئر الجير","السانية","وادي تليلات","عين الترك","أرزيو","المحقن","بوتليليس","حاسي مفسوخ","سيدي الشحمي","مسرغين","عين البية","بوسفر","حاسي بن عقبة","قديل","سيدي بن يبقى","العنصر","مرسى الكبير","حاسي بونيف","الكرمة","بطيوة","الأنصر","وهران","الماءنيل"],
+        "32 - البيض": ["البيض","بوعلام","العبيلة","الأبيض سيدي الشيخ","بريزينة","أربوات","الشقة","بوقطب","ستيتن","ككدة","الغاسول","الكراكدة","الرقاصة","شلالة","سيدي طيفور","بوسمغون","بريدة الجمعة"],
+        "33 - إليزي": ["إليزي","جانت","برج عمر إدريس","برج الحواس","دبداب","عين أميناس"],
+        "34 - برج بوعريريج": ["برج بوعريريج","رأس الوادي","الأخضرية","المنصورة","عين تاغروت","برج الغدير","حسناوة","بئر قاصد علي","تقلعيت","جعافرة","الحمادية","حرازة","المهير","عين تسرة","خليل","بن داود","القلة","الرابطة","المزدور","غيلاسة","سيدي إمبارك","القصور","تكستار","الحمام","ولاد سيدي ابراهيم"],
+        "35 - بومرداس": ["بومرداس","بودواو","الثنية","برج منايل","خميس الخشنة","دلس","الأربعاء","القورصو","الناصرية","بغلية","تيجلابين","عمال","سي مصطفى","إسر","أولاد موسى","بن شود","لقاطة","أولاد عيسى","أولاد هداج","حمادي","زمّوري","شعبة العامر","صوامع","تاوريقة","جينات","بوزقزة قدارة","أفير","خراسية"],
+        "36 - الطارف": ["الطارف","القالة","بوحجار","بن مهيدي","بوثلجة","عين العسل","الذرعان","الشافية","البسباس","بحيرة الطيور","زريزر","بوقوس","السوارخ","أصفور","الشط","عين الكرمة","رمل السوق","حمام بني صالح","وادي الزيتون","عيون العصافير","الطارف الغربي"],
+        "37 - تندوف": ["تندوف","أم العسل"],
+        "38 - تيسمسيلت": ["تيسمسيلت","ثنية الحد","برج بونعامة","تازمالت","خميستي","لرجام","الأربعاء","بوقائد","لعيايدة","عمّاري","سيدي عابد","سيدي بوتوشنت","المعاصم","سيدي الحسني","يوسفية","الأزهرية","أولاد بسّام","بني شعيب","برج الأمير عبد القادر","لاحد","مناصرة"],
+        "39 - الوادي": ["الوادي","قمار","الدبيلة","حاسي خليفة","الرباح","الطالب العربي","بياضة","الرقيبة","ورماس","النخلة","المغير","سيدي خليل","تندلة","كوينين","حمراية","الحمراية","طريفاوي","سيدي عون","أولاد جلال","أم الطيور","بن قشة","الحجيرة","تغزوت","البياضة","حساني عبد الكريم"],
+        "40 - خنشلة": ["خنشلة","قايس","بابار","شلية","عين الطويلة","طامزة","أولاد رشاش","المحمل","مصارة","متوسة","يابوس","ششار","الرميلة","خيران","جلال","بغاي","ألمعذر","أنسيغة","القهمول"],
+        "41 - سوق أهراس": ["سوق أهراس","سدراتة","مداوروش","تاورة","الحدادة","عين الزانة","أم العظائم","المشروحة","حنانشة","ولاد دريس","الخضارة","الرقوبة","الزاوية","بئر بوحوش","المراهنة","تيفاش","أولاد مومن","الطرف","الحراكتة","عين سلطان","قيقبة","لخضارة","أويلدجة"],
+        "42 - تيبازة": ["تيبازة","شرشال","القليعة","حجوط","الكولية","فوكة","شنوة","سيدي عمر","سيدي راشد","دوبس","حمر العين","أحمر العين","مناصر","بورقيقة","ناصرية","سيدي غيلاس","أعطاف","بواسماعيل","قوراية","دلس","مسلمون","سيدي سميان","حطاطبة","مراد"],
+        "43 - ميلة": ["ميلة","فرجيوة","شلغوم العيد","تاجنانت","عين البيضاء أحريش","وادي النجاء","الشيقارة","التلاغمة","أولاد عسكر","عميرة أراس","بوحاتم","أحمد راشدي","قسنطينة","الروشاد","زغاية","وادي سيقان","تيبرقنت","سيدي خليفة","الطهير","تسالة لمطاعي","بني قشة","حمالة","سيدي مروان","بن يحيى عبد الرحمان","واد النجاء","جمال"],
+        "44 - عين الدفلى": ["عين الدفلى","خميس مليانة","مليانة","عريب","الأخضرية","حمام ريغة","المدينة","العطاف","بئر ولد خليفة","عين البنيان","بئر أولاد خليفة","جندل","العبادية","بوراشد","حسينية","الروينة","تاشتة","عين الاشياخ","الحسانية","الأمير عبد القادر","بطحية","عين لشياخ","سيدي لخضر","بلعاص","عين سلطان","عين بويحي","جليدة"],
+        "45 - النعامة": ["النعامة","عين الصفراء","المشرية","تيوت","مقرار","صفيصيفة","جنين بورزق","البيوض","عسلة","مغرار","القصدير","سفيسيفة"],
+        "46 - عين تموشنت": ["عين تموشنت","الملاح","عين الأربعاء","حمام بوحجر","بني صاف","أولاد بوجمعة","شنتوف","عقب الليل","عين الطلبة","سيدي بن عدة","عين كيحل","حاسي الغلة","أغلال","أولهاصة","العامرية","الحسيان","تامزوقة","سيدي بومدين","شعبة اللحم"],
+        "47 - غرداية": ["غرداية","المنيعة","متليلي","بريان","القرارة","ضاية بن ضحوة","بونورة","الغرارة","حاسي الفحل","زلفانة","سبسب","حاسي القارة"],
+        "48 - غليزان": ["غليزان","مازونة","واد رهيو","الرمكة","عين طارق","عمي موسى","المطمور","واريسنيس","مديونة","وادي الجمعة","الحناشر","بلعسل بوزقزة","المنصورية","القلعة","وادي السلام","سيدي خطاب","بن عشيبة شيلية","حد الشكالة","سيدي لعزيز","جديوية","يلل"],
+        "49 - تيميمون": ["تيميمون","أوقروت","طالمين","الميزب","شروين","دلداول","متيلي","تسابيت","تاوريرت"],
+        "50 - برج باجي مختار": ["برج باجي مختار","تيماسنين","عين برج"],
+        "51 - أولاد جلال": ["أولاد جلال","سيدي خالد","الدوسن","الشعيبة","البسباس","أولاد رحمة","مشتوي","رأس الميعاد","سيدي عمران","ليشانة","بسباس"],
+        "52 - بني عباس": ["بني عباس","الواتة","بني يخلف","تامتارت","إقلي","أولف","تيط","كرزاز"],
+        "53 - عين صالح": ["عين صالح","إن غار","فقارة الزوى","حاسي لقحل"],
+        "54 - عين قزام": ["عين قزام","تين زواتين","إن أمقل"],
+        "55 - تقرت": ["تقرت","تماسين","بلدة حمراء","النزلة","المقارين","الزاوية العابدية","سيدي سليمان","الطيبات","بن ناصر"],
+        "56 - جانت": ["جانت","برج الحواس","عين تالهة"],
+        "57 - المغير": ["المغير","جامعة","تندلة","أم الطيور","سيدي خليل","مرارة","حساني عبد الكريم","المزيرعة"],
+        "58 - المنيعة": ["المنيعة","حاسي الفحل","حاسي القارة","مسعود بوعناني"]
+    };
+
+    // ─── Wilaya → Commune dynamic select ───
+    const wilayaSelect = document.getElementById('wilaya');
+    const communeSelect = document.getElementById('commune');
+
+    wilayaSelect.addEventListener('change', function() {
+        const selectedWilaya = this.value;
+        const communes = communesByWilaya[selectedWilaya] || [];
+
+        communeSelect.innerHTML = '<option value="" disabled selected>اختر البلدية</option>';
+        communes.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c;
+            opt.textContent = c;
+            communeSelect.appendChild(opt);
+        });
+        communeSelect.disabled = false;
+    });
+
+    // Update nav CTA to scroll to order form
+    document.querySelectorAll('.card-cart-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+</script>
+

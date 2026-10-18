@@ -249,6 +249,34 @@
       animation: fadeUp 1s ease 0.2s both;
     }
     .hero-sub strong { color: white; font-weight: 700; }
+    /* Price right above the buttons: the decision point */
+    .hero-price {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin: -12px 0 32px;
+      animation: fadeUp 1s ease 0.3s both;
+    }
+    .hero-price-amount {
+      font-size: 46px;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .hero-price-amount small {
+      font-size: 18px;
+      font-weight: 700;
+      margin-inline-start: 6px;
+    }
+    .hero-price-meta {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      padding-inline-start: 18px;
+      border-inline-start: 1px solid rgba(255,255,255,0.15);
+    }
+    .hero-price-meta strong { color: white; font-weight: 700; }
     .hero-actions {
       display: flex;
       gap: 14px;
@@ -755,99 +783,6 @@
     }
 
 
-    /* ─── LEGAL (privacy / terms) ─── */
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      margin-bottom: 14px;
-    }
-    .footer-links a, .form-legal a {
-      color: var(--text-muted);
-      text-decoration: underline;
-      text-underline-offset: 4px;
-      text-decoration-color: rgba(255,255,255,0.25);
-      transition: color .2s;
-    }
-    .footer-links a { font-size: 14px; }
-    .footer-links a:hover, .form-legal a:hover { color: white; }
-    .form-legal {
-      font-size: 12px;
-      color: var(--text-muted);
-      text-align: center;
-      margin-top: 10px;
-      line-height: 1.7;
-    }
-    .legal-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 300;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(6px);
-    }
-    .legal-modal.show { display: flex; }
-    .legal-card {
-      position: relative;
-      width: 100%;
-      max-width: 760px;
-      max-height: 88vh;
-      display: flex;
-      flex-direction: column;
-      background: var(--dark-2);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
-    }
-    .legal-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 22px 28px;
-      border-bottom: 1px solid var(--border);
-    }
-    .legal-head h2 { font-size: 22px; font-weight: 800; }
-    .legal-head small { display: block; font-size: 12px; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
-    .legal-close {
-      flex-shrink: 0;
-      width: 38px; height: 38px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      background: var(--dark-3);
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
-    }
-    .legal-close:hover { background: var(--surface); }
-    .legal-body {
-      overflow-y: auto;
-      padding: 8px 28px 28px;
-      font-size: 15px;
-      line-height: 1.95;
-      color: rgba(255,255,255,0.82);
-    }
-    .legal-body h3 { font-size: 17px; font-weight: 700; color: white; margin: 22px 0 6px; }
-    .legal-body ul { padding-right: 20px; margin: 6px 0; }
-    .legal-body li { margin: 2px 0; }
-    .legal-body strong { color: white; }
-    .legal-body a { color: var(--teal-light); }
-    .legal-note {
-      margin-top: 14px;
-      padding: 12px 16px;
-      border-radius: 12px;
-      background: rgba(13,115,119,0.12);
-      border: 1px solid rgba(13,115,119,0.3);
-    }
-    @media (max-width: 600px) {
-      .legal-modal { padding: 0; align-items: flex-end; }
-      .legal-card { max-height: 92vh; border-radius: 22px 22px 0 0; }
-      .legal-head, .legal-body { padding-left: 20px; padding-right: 20px; }
-    }
-
     /* ─── SUCCESS OVERLAY ─── */
     .success-overlay {
       display: none;
@@ -952,6 +887,8 @@
         text-align: center;
       }
       .hero-sub { margin: 0 auto 30px; }
+      .hero-price { justify-content: center; margin: -6px 0 28px; }
+      .hero-price-amount { font-size: 40px; }
       .hero-actions { justify-content: center; }
       .hero-stats { justify-content: center; }
       .hero-visual { order: -1; }
@@ -1011,6 +948,13 @@
         <p class="hero-sub">
           <strong>كتاب شهريتي</strong> يعلّمك أساسيات إدارة الراتب، و<strong>تطبيق شهريتي</strong> يساعدك تطبّقها كل يوم. كود تفعيل مدى الحياة مرفق مع كل نسخة.
         </p>
+        <div class="hero-price">
+          <div class="hero-price-amount"><span class="js-book-price">2,700</span><small>د.ج</small></div>
+          <div class="hero-price-meta">
+            <strong>مرة وحدة، ومدى الحياة</strong><br>
+            أي أقل من <span class="js-book-per-day">8</span> د.ج في اليوم
+          </div>
+        </div>
         <div class="hero-actions">
           <a href="#order" class="btn-primary">اطلب نسختك الآن</a>
           <a href="#features" class="btn-outline">اكتشف المزايا</a>
@@ -1223,7 +1167,6 @@
             تأكيد الطلب
           </button>
           <p class="form-note">💳 الدفع عند الاستلام — لا حاجة لبطاقة بنكية</p>
-          <p class="form-legal">بتأكيد الطلب، أنت توافق على <a href="#terms">شروط الاستخدام</a> و<a href="#privacy">سياسة الخصوصية</a>.</p>
         </form>
       </div>
     </div>
@@ -1235,135 +1178,12 @@
       <img src="../CHAHRIYTI png.png" alt="شهريتي">
       <span>شهريتي</span>
     </div>
-    <div class="footer-links">
-      <a href="#privacy">سياسة الخصوصية</a>
-      <a href="#terms">شروط الاستخدام</a>
-      <a href="mailto:contact@chahriyti.app">تواصل معنا</a>
-    </div>
     <p class="footer-text">
       تطبيق إدارة الراتب الأول في الجزائر 🇩🇿<br>
       © 2026 شهريتي — جميع الحقوق محفوظة
     </p>
   </footer>
 
-
-  <!-- ─── PRIVACY POLICY ─── -->
-  <div class="legal-modal" id="privacy" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
-    <div class="legal-card">
-      <div class="legal-head">
-        <h2 id="privacyTitle">سياسة الخصوصية<small>آخر تحديث: 18 أكتوبر 2026</small></h2>
-        <button class="legal-close" data-legal-close aria-label="إغلاق">×</button>
-      </div>
-      <div class="legal-body">
-        <p>تشرح هذه السياسة ما هي البيانات التي تجمعها <strong>شهريتي</strong> (الموقع وتطبيق شهريتي)، ولماذا، وأين تُحفظ، وما هي حقوقك. نلتزم بالقانون الجزائري رقم 18-07 المتعلق بحماية الأشخاص الطبيعيين في مجال معالجة المعطيات ذات الطابع الشخصي.</p>
-
-        <h3>1. البيانات التي نجمعها</h3>
-        <p><strong>عند الطلب من الموقع:</strong></p>
-        <ul>
-          <li>الاسم الكامل ورقم الهاتف.</li>
-          <li>الولاية والبلدية وطريقة التوصيل (مكتب أو منزل).</li>
-        </ul>
-        <p><strong>عند التسجيل في التطبيق:</strong></p>
-        <ul>
-          <li>الاسم ورقم الهاتف والولاية والبلدية.</li>
-          <li>الفئة العمرية، مبلغ الراتب ويوم استلامه، الحالة الاجتماعية، هل تتبع مصاريفك حالياً، وأهدافك المالية.</li>
-          <li>رمز الإشعارات الخاص بهاتفك، لنتمكن من إرسال التذكيرات.</li>
-        </ul>
-        <p><strong>عند تفعيل الكود:</strong> معرّف الجهاز، لربط كود التفعيل بهاتفك ومنع استعماله على أجهزة أخرى.</p>
-
-        <h3>2. البيانات التي لا تغادر هاتفك</h3>
-        <p>مصاريفك، رصيدك، مدخراتك، ديونك، السلف وأهدافك داخل التطبيق <strong>تُحفظ على هاتفك فقط</strong> ولا تُرسل إلى خوادمنا. بصمة الإصبع أو الوجه (إن فعّلت قفل التطبيق) يتحقق منها نظام هاتفك ولا نصل إليها أبداً.</p>
-
-        <h3>3. لماذا نستعمل بياناتك</h3>
-        <ul>
-          <li>تسجيل طلبك، الاتصال بك لتأكيده، وتوصيله.</li>
-          <li>تفعيل التطبيق والتحقق من كود التفعيل.</li>
-          <li>إرسال تذكيرات وإشعارات متعلقة بالتطبيق.</li>
-          <li>فهم احتياجات مستعملينا لتحسين التطبيق والكتاب.</li>
-        </ul>
-        <p>لا نبيع بياناتك ولا نؤجرها لأي طرف.</p>
-
-        <h3>4. أين تُحفظ بياناتك ومن يطّلع عليها</h3>
-        <ul>
-          <li><strong>Google Firebase</strong> (خوادم Google Cloud في الولايات المتحدة): بيانات التسجيل وأكواد التفعيل.</li>
-          <li><strong>متجرنا على WordPress / WooCommerce</strong> (استضافة Hostinger): بيانات الطلبات.</li>
-          <li><strong>شركة التوصيل:</strong> الاسم والهاتف والعنوان فقط، لإيصال الطلب.</li>
-          <li><strong>فريق شهريتي:</strong> أشخاص مخوّلون فقط، للتواصل معك ومعالجة طلبك.</li>
-        </ul>
-        <p>بما أن بعض الخوادم خارج الجزائر، فإن استعمالك للموقع والتطبيق يعني موافقتك على نقل هذه البيانات وحفظها هناك.</p>
-
-        <h3>5. مدة الاحتفاظ</h3>
-        <p>نحتفظ ببياناتك طوال المدة اللازمة لتنفيذ طلبك وتقديم الدعم لك، أو حتى تطلب حذفها.</p>
-
-        <h3>6. حقوقك</h3>
-        <p>يحق لك الاطلاع على بياناتك، تصحيحها، طلب حذفها، أو الاعتراض على استعمالها. أرسل طلبك إلى <a href="mailto:contact@chahriyti.app">contact@chahriyti.app</a> مع رقم الهاتف المسجل، وسنرد عليك في أقرب وقت. يمكنك أيضاً حذف كل بيانات التطبيق من هاتفك عبر حذف التطبيق أو إعادة ضبطه من الإعدادات.</p>
-
-        <h3>7. حماية البيانات</h3>
-        <p>الاتصال بخوادمنا مشفّر، والوصول إلى البيانات محصور في حسابات مخوّلة. لا يوجد نظام آمن بنسبة 100%، لكننا نتخذ إجراءات معقولة لحماية بياناتك.</p>
-
-        <h3>8. القاصرون</h3>
-        <p>شهريتي موجّه للبالغين (18 سنة فما فوق) الذين يديرون دخلهم.</p>
-
-        <h3>9. تغيير السياسة</h3>
-        <p>قد نحدّث هذه السياسة، ويظهر تاريخ آخر تحديث أعلاه.</p>
-
-        <div class="legal-note">للتواصل بخصوص بياناتك: <a href="mailto:contact@chahriyti.app">contact@chahriyti.app</a></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ─── TERMS OF USE ─── -->
-  <div class="legal-modal" id="terms" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
-    <div class="legal-card">
-      <div class="legal-head">
-        <h2 id="termsTitle">شروط الاستخدام<small>آخر تحديث: 18 أكتوبر 2026</small></h2>
-        <button class="legal-close" data-legal-close aria-label="إغلاق">×</button>
-      </div>
-      <div class="legal-body">
-        <p>باستعمالك لموقع شهريتي أو تطبيق شهريتي، أو بتأكيد طلبك، فإنك توافق على هذه الشروط.</p>
-
-        <h3>1. ما تحصل عليه</h3>
-        <p>باقة شهريتي تضم: <strong>كتاب «شهريتي» الورقي</strong>، و<strong>كود تفعيل</strong> لتطبيق شهريتي على هاتف أندرويد.</p>
-
-        <h3>2. الطلب والتأكيد</h3>
-        <p>بعد إرسال الطلب، نتصل بك على رقم الهاتف الذي أدخلته لتأكيده قبل الشحن. قد يُلغى الطلب إذا تعذّر الاتصال بك أو كانت البيانات غير صحيحة.</p>
-
-        <h3>3. السعر والدفع</h3>
-        <p>السعر وثمن التوصيل (حسب الولاية وطريقة التوصيل) يظهران قبل تأكيد الطلب. الدفع <strong>نقداً عند الاستلام</strong>.</p>
-
-        <h3>4. التوصيل</h3>
-        <p>نوصّل إلى كل الولايات الـ58، إلى المكتب أو إلى المنزل. مدة التوصيل تقديرية وتختلف حسب الولاية وشركة التوصيل.</p>
-
-        <h3>5. كود التفعيل و«مدى الحياة»</h3>
-        <ul>
-          <li>كل كود يُفعَّل <strong>مرة واحدة على هاتف واحد</strong>، ويبقى مرتبطاً به.</li>
-          <li>«مدى الحياة» يعني أنك لا تدفع أي اشتراك شهري أو سنوي، وأن التطبيق يبقى مفعّلاً على ذلك الهاتف طالما تطبيق شهريتي متوفر ونواصل دعمه.</li>
-          <li>عند تغيير هاتفك أو ضياعه، تواصل معنا وسندرس طلب نقل التفعيل.</li>
-          <li>يُمنع بيع الكود أو مشاركته أو نشره. يحق لنا إلغاء أي كود يُستعمل بطريقة مخالفة.</li>
-        </ul>
-
-        <h3>6. الاستلام والاستبدال</h3>
-        <p>تفحّص طلبك عند الاستلام. إذا وصلك الكتاب تالفاً أو غير مطابق، تواصل معنا خلال 48 ساعة من الاستلام لاستبداله. بعد تفعيل الكود على هاتفك، لا يمكن استرجاع ثمنه.</p>
-
-        <h3>7. بياناتك داخل التطبيق</h3>
-        <p>بيانات التطبيق تُحفظ على هاتفك فقط. حذف التطبيق، إعادة ضبطه، أو ضياع الهاتف قد يؤدي إلى فقدان هذه البيانات، ولا يمكننا استرجاعها.</p>
-
-        <h3>8. ليست استشارة مالية</h3>
-        <p>الكتاب والتطبيق أدوات تعليمية وتنظيمية. ما يقدمانه نصائح عامة وليس استشارة مالية أو استثمارية شخصية، وقراراتك المالية مسؤوليتك.</p>
-
-        <h3>9. حدود المسؤولية</h3>
-        <p>نعمل على أن يكون التطبيق دقيقاً ومتاحاً دائماً، لكنه يُقدَّم «كما هو». لا نتحمل مسؤولية أي خسارة غير مباشرة ناتجة عن استعماله، وفي جميع الأحوال لا تتجاوز مسؤوليتنا المبلغ الذي دفعته.</p>
-
-        <h3>10. الملكية الفكرية</h3>
-        <p>محتوى الكتاب والتطبيق والموقع ملك لشهريتي. يُمنع نسخه أو إعادة نشره دون إذن.</p>
-
-        <h3>11. القانون المطبّق</h3>
-        <p>تخضع هذه الشروط للقانون الجزائري. قد نحدّثها، ويظهر تاريخ آخر تحديث أعلاه.</p>
-
-        <div class="legal-note">لأي سؤال أو مشكلة: <a href="mailto:contact@chahriyti.app">contact@chahriyti.app</a></div>
-      </div>
-    </div>
-  </div>
 
   <!-- ─── SUCCESS OVERLAY ─── -->
   <div class="success-overlay" id="successOverlay">
@@ -1377,7 +1197,7 @@
 
   <!-- ─── MOBILE FIXED CTA ─── -->
   <div class="mobile-cta">
-    <a href="#order">اطلب نسختك الآن</a>
+    <a href="#order">اطلب نسختك بـ <span class="js-book-price">2,700</span> د.ج</a>
   </div>
 
   <script>
@@ -1411,6 +1231,10 @@
     const BOOK_PRICE = 2700;
     let deliveryRates = {};
     let citiesData = [];
+
+    // Hero and sticky button show the same price as the order form
+    document.querySelectorAll('.js-book-price').forEach(el => { el.textContent = BOOK_PRICE.toLocaleString('en-US'); });
+    document.querySelectorAll('.js-book-per-day').forEach(el => { el.textContent = Math.ceil(BOOK_PRICE / 365); });
 
     function formatDZD(n) {
       return n.toLocaleString('ar-DZ') + ' د.ج';
@@ -1603,39 +1427,6 @@
       document.getElementById('totalPrice').textContent = '—';
     }
 
-    // ─── LEGAL MODALS: open from #privacy / #terms links or a direct URL ───
-    (function () {
-      const ids = ['privacy', 'terms'];
-      const close = () => {
-        document.querySelectorAll('.legal-modal.show').forEach((m) => m.classList.remove('show'));
-        document.body.style.overflow = '';
-        if (ids.includes(location.hash.slice(1))) {
-          history.replaceState(null, '', location.pathname + location.search);
-        }
-      };
-      const open = (id) => {
-        const m = document.getElementById(id);
-        if (!m) return;
-        close();
-        m.classList.add('show');
-        m.querySelector('.legal-body').scrollTop = 0;
-        document.body.style.overflow = 'hidden';
-      };
-      document.addEventListener('click', (e) => {
-        const link = e.target.closest('a[href="#privacy"], a[href="#terms"]');
-        if (link) {
-          e.preventDefault();
-          const id = link.getAttribute('href').slice(1);
-          history.replaceState(null, '', '#' + id);
-          open(id);
-          return;
-        }
-        if (e.target.closest('[data-legal-close]') || e.target.classList.contains('legal-modal')) close();
-      });
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
-      const initial = location.hash.slice(1);
-      if (ids.includes(initial)) open(initial);
-    })();
   </script>
 
 </body>
