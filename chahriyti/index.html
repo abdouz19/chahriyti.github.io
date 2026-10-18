@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شهريتي — تفعيل مدى الحياة 📢🔥 + الكتاب 📗</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="description" content="كتاب شهريتي + تطبيق إدارة الراتب مع كود تفعيل مدى الحياة. تحكّم في مصاريفك، وفّر أكثر، وعيش براحة بال.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --teal: #0D7377;
+      --teal-light: #0f9296;
+      --teal-dark: #095456;
+      --teal-glow: rgba(13,115,119,0.35);
+      --gold: #D4A843;
+      --white: #FFFFFF;
+      --dark: #080E10;
+      --dark-2: #0e1518;
+      --dark-3: #152023;
+      --surface: #1a282d;
+      --text-muted: rgba(255,255,255,0.55);
+      --border: rgba(255,255,255,0.08);
+      --positive: #34C759;
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--dark);
+      color: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--dark); }
+    ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 2px; }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(60px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideRight {
+      from { opacity: 0; transform: translateX(60px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideLeft {
+      from { opacity: 0; transform: translateX(-60px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-18px); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 0 30px var(--teal-glow); }
+      50% { box-shadow: 0 0 60px var(--teal-glow), 0 0 100px rgba(13,115,119,0.15); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes leafSpin {
+      0% { transform: rotate(0deg); opacity: 0.06; }
+      50% { transform: rotate(180deg); opacity: 0.12; }
+      100% { transform: rotate(360deg); opacity: 0.06; }
+    }
+    @keyframes countUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 100;
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(8,14,16,0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 40px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: white;
+      font-size: 22px;
+      font-weight: 800;
+    }
+    .nav-logo img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: white; }
+    .nav-cta {
+      background: var(--teal);
+      color: white;
+      border: none;
+      padding: 10px 28px;
+      border-radius: 50px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .nav-cta:hover {
+      background: var(--teal-light);
+      transform: translateY(-2px);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 30% 50%, rgba(13,115,119,0.2) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 80% 30%, rgba(212,168,67,0.06) 0%, transparent 60%);
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(13,115,119,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(13,115,119,0.04) 1px, transparent 1px);
+      background-size: 70px 70px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%);
+    }
+    .hero-leaf {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      top: 8%;
+      left: 5%;
+      opacity: 0.06;
+      animation: leafSpin 25s linear infinite;
+    }
+    .hero-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 120px 40px 80px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .hero-content { position: relative; z-index: 2; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(13,115,119,0.15);
+      border: 1px solid rgba(13,115,119,0.35);
+      border-radius: 50px;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #5dd6d9;
+      margin-bottom: 24px;
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #5dd6d9;
+      animation: pulse 2s ease infinite;
+    }
+    .hero-title {
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      animation: fadeUp 0.9s ease 0.1s both;
+    }
+    .hero-title .t1 { color: var(--white); }
+    .hero-title .t2 { color: var(--teal-light); display: block; }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--text-muted);
+      line-height: 1.9;
+      margin-bottom: 36px;
+      max-width: 480px;
+      animation: fadeUp 1s ease 0.2s both;
+    }
+    .hero-sub strong { color: white; font-weight: 700; }
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      animation: fadeUp 1s ease 0.3s both;
+    }
+    .btn-primary {
+      background: var(--teal);
+      color: white;
+      border: none;
+      padding: 16px 40px;
+      border-radius: 50px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      animation: glowPulse 3s ease infinite;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover {
+      background: var(--teal-light);
+      transform: translateY(-3px) scale(1.02);
+    }
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      padding: 16px 36px;
+      border-radius: 50px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-outline:hover {
+      border-color: rgba(255,255,255,0.5);
+      transform: translateY(-2px);
+    }
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 48px;
+      animation: fadeUp 1s ease 0.4s both;
+    }
+    .hero-stat-num {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--teal-light);
+    }
+    .hero-stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .hero-visual {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: slideLeft 1s ease 0.3s both;
+    }
+    .hero-phone-wrap {
+      position: relative;
+      width: 540px;
+      max-width: 100%;
+    }
+    .hero-phone-wrap img {
+      display: block;
+      width: 100%;
+      height: auto;
+      /* Transparent cut-out: shadow follows the book and phone shapes */
+      filter: drop-shadow(0 30px 50px rgba(0,0,0,0.55)) drop-shadow(0 0 40px var(--teal-glow));
+      animation: float 6s ease-in-out infinite;
+    }
+    .hero-phone-glow {
+      position: absolute;
+      inset: -40px;
+      background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: -1;
+      filter: blur(40px);
+    }
+
+    /* ─── SECTION SHARED ─── */
+    .section {
+      padding: 100px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(13,115,119,0.12);
+      border: 1px solid rgba(13,115,119,0.25);
+      border-radius: 50px;
+      padding: 6px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #5dd6d9;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 900;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .section-sub {
+      font-size: 17px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 600px;
+    }
+    .section-header { text-align: center; margin-bottom: 60px; }
+    .section-header .section-sub { margin: 0 auto; }
+
+    /* ─── WHAT YOU GET ─── */
+    .package-section {
+      background: var(--dark-2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .package-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 48px;
+    }
+    .package-card {
+      background: var(--dark-3);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .package-card:hover {
+      border-color: rgba(13,115,119,0.3);
+      transform: translateY(-4px);
+    }
+    .package-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .package-card:hover::before { opacity: 0.3; }
+    .package-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    .package-icon.book {
+      background: rgba(212,168,67,0.15);
+      color: var(--gold);
+    }
+    .package-icon.app {
+      background: rgba(13,115,119,0.15);
+      color: var(--teal-light);
+    }
+    .package-card h3 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .package-card p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+    .package-includes {
+      margin-top: 20px;
+      list-style: none;
+    }
+    .package-includes li {
+      padding: 8px 0;
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .package-includes li::before {
+      content: '✓';
+      color: var(--positive);
+      font-weight: 700;
+      font-size: 14px;
+      width: 22px;
+      height: 22px;
+      background: rgba(52,199,89,0.12);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ─── FEATURES ─── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--dark-2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px;
+      text-align: center;
+      transition: all 0.4s ease;
+    }
+    .feature-card:hover {
+      border-color: rgba(13,115,119,0.3);
+      transform: translateY(-6px);
+      background: var(--dark-3);
+    }
+    .feature-emoji {
+      font-size: 40px;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .feature-card h4 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ─── SCREENSHOTS ─── */
+    .screenshots-section { overflow: hidden; }
+    .screenshots-track {
+      display: flex;
+      gap: 24px;
+      padding: 20px 0;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .screenshots-track::-webkit-scrollbar { display: none; }
+    .screenshot-item {
+      flex-shrink: 0;
+      width: 240px;
+      scroll-snap-align: center;
+    }
+    .screenshot-item img {
+      width: 100%;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      transition: transform 0.4s ease;
+    }
+    .screenshot-item img:hover { transform: scale(1.04); }
+    .screenshot-label {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* ─── TESTIMONIAL / QUOTE ─── */
+    .quote-section {
+      text-align: center;
+      padding: 80px 40px;
+    }
+    .quote-text {
+      font-size: clamp(24px, 3.5vw, 40px);
+      font-weight: 800;
+      color: var(--teal-light);
+      line-height: 1.5;
+      max-width: 700px;
+      margin: 0 auto 20px;
+    }
+    .quote-attr {
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+
+    /* ─── ORDER FORM ─── */
+    .order-section {
+      background: var(--dark-2);
+      border-top: 1px solid var(--border);
+    }
+    .order-card {
+      background: var(--dark-3);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px;
+      max-width: 720px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .order-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      right: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--teal), var(--teal-light), var(--gold));
+      border-radius: 4px 4px 0 0;
+    }
+    .order-title {
+      font-size: 26px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .order-sub {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 36px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 8px;
+    }
+    .form-group label .req { color: var(--teal-light); }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 15px;
+      color: white;
+      outline: none;
+      transition: border-color 0.3s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='rgba(255,255,255,0.4)' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: left 16px center;
+      padding-left: 36px;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--teal);
+    }
+    .form-group input::placeholder {
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ─── DELIVERY CARDS ─── */
+    .delivery-section { margin-bottom: 20px; }
+    .delivery-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 10px;
+    }
+    .delivery-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .delivery-card {
+      position: relative;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 18px 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.03);
+    }
+    .delivery-card:hover { border-color: rgba(13,115,119,0.4); background: rgba(13,115,119,0.05); }
+    .delivery-card.selected { border-color: var(--teal); background: rgba(13,115,119,0.1); box-shadow: 0 0 20px var(--teal-glow); }
+    .delivery-card.unavailable { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
+    .delivery-card input[type="radio"] { display: none; }
+    .delivery-card-check {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--teal);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+    .delivery-card.selected .delivery-card-check { display: flex; }
+    .delivery-card-icon { font-size: 26px; margin-bottom: 6px; }
+    .delivery-card-name { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+    .delivery-card-price { font-size: 14px; font-weight: 700; color: var(--teal-light); direction: ltr; unicode-bidi: bidi-override; min-height: 20px; }
+    .delivery-card-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    .price-box {
+      background: rgba(13,115,119,0.08);
+      border: 1px solid rgba(13,115,119,0.2);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      font-size: 15px;
+      color: rgba(255,255,255,0.7);
+    }
+    .price-row.total {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin-top: 10px;
+      padding-top: 14px;
+      font-size: 18px;
+      font-weight: 800;
+      color: white;
+    }
+    .price-val { font-weight: 700; color: var(--teal-light); }
+    .price-row.total .price-val { color: white; font-size: 20px; }
+
+    .btn-submit {
+      width: 100%;
+      padding: 18px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 16px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-submit:hover {
+      background: var(--teal-light);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px var(--teal-glow);
+    }
+    .btn-submit:active { transform: translateY(0); }
+
+    .form-note {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px;
+      text-align: center;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .footer-logo img { width: 32px; height: 32px; }
+    .footer-logo span { font-size: 20px; font-weight: 800; }
+    .footer-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+
+    /* ─── LEGAL (privacy / terms) ─── */
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 14px;
+    }
+    .footer-links a, .form-legal a {
+      color: var(--text-muted);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-color: rgba(255,255,255,0.25);
+      transition: color .2s;
+    }
+    .footer-links a { font-size: 14px; }
+    .footer-links a:hover, .form-legal a:hover { color: white; }
+    .form-legal {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 10px;
+      line-height: 1.7;
+    }
+    .legal-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+    }
+    .legal-modal.show { display: flex; }
+    .legal-card {
+      position: relative;
+      width: 100%;
+      max-width: 760px;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--dark-2);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    }
+    .legal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .legal-head h2 { font-size: 22px; font-weight: 800; }
+    .legal-head small { display: block; font-size: 12px; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
+    .legal-close {
+      flex-shrink: 0;
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--dark-3);
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .legal-close:hover { background: var(--surface); }
+    .legal-body {
+      overflow-y: auto;
+      padding: 8px 28px 28px;
+      font-size: 15px;
+      line-height: 1.95;
+      color: rgba(255,255,255,0.82);
+    }
+    .legal-body h3 { font-size: 17px; font-weight: 700; color: white; margin: 22px 0 6px; }
+    .legal-body ul { padding-right: 20px; margin: 6px 0; }
+    .legal-body li { margin: 2px 0; }
+    .legal-body strong { color: white; }
+    .legal-body a { color: var(--teal-light); }
+    .legal-note {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: rgba(13,115,119,0.12);
+      border: 1px solid rgba(13,115,119,0.3);
+    }
+    @media (max-width: 600px) {
+      .legal-modal { padding: 0; align-items: flex-end; }
+      .legal-card { max-height: 92vh; border-radius: 22px 22px 0 0; }
+      .legal-head, .legal-body { padding-left: 20px; padding-right: 20px; }
+    }
+
+    /* ─── SUCCESS OVERLAY ─── */
+    .success-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+      align-items: center;
+      justify-content: center;
+    }
+    .success-overlay.show { display: flex; }
+    .success-card {
+      background: var(--dark-3);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px;
+      text-align: center;
+      max-width: 420px;
+      margin: 20px;
+      animation: scaleIn 0.4s ease;
+    }
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      background: rgba(52,199,89,0.12);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      margin: 0 auto 20px;
+    }
+    .success-card h3 { font-size: 24px; font-weight: 800; margin-bottom: 12px; }
+    .success-card p { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+    .success-close {
+      margin-top: 24px;
+      padding: 12px 36px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ─── MOBILE MENU ─── */
+    .nav-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    /* ─── MOBILE FIXED CTA ─── */
+    .mobile-cta {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      z-index: 90;
+      padding: 12px 20px;
+      padding-bottom: calc(12px + env(safe-area-inset-bottom));
+      background: rgba(8,14,16,0.92);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+    }
+    .mobile-cta a {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 16px;
+      background: var(--teal);
+      color: white;
+      border-radius: 14px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .mobile-cta a:hover { background: var(--teal-light); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .mobile-cta { display: block; }
+      footer { padding-bottom: 90px; }
+      nav { padding: 14px 20px; }
+      nav.scrolled { padding: 10px 20px; }
+      .nav-links { display: none; }
+      .nav-menu-btn { display: block; }
+
+      .hero-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 100px 24px 60px;
+        text-align: center;
+      }
+      .hero-sub { margin: 0 auto 30px; }
+      .hero-actions { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-visual { order: -1; }
+      .hero-phone-wrap { width: 340px; }
+
+      .package-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .section { padding: 60px 24px; }
+      .order-card { padding: 32px 24px; }
+    }
+    @media (max-width: 600px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 32px; }
+      .nav-cta { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAV ─── -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">
+      <img src="../CHAHRIYTI png.png" alt="شهريتي">
+      <span>شهريتي</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">المزايا</a></li>
+      <li><a href="#screenshots">التطبيق</a></li>
+      <li><a href="#order">اطلب الآن</a></li>
+    </ul>
+    <a href="#order" class="nav-cta">اطلب نسختك</a>
+    <button class="nav-menu-btn" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">☰</button>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <svg class="hero-leaf" viewBox="0 0 100 100" fill="none">
+      <path d="M50 5C50 5 85 25 85 55C85 75 70 95 50 95C30 95 15 75 15 55C15 25 50 5 50 5Z" stroke="rgba(13,115,119,0.3)" stroke-width="0.5" fill="none"/>
+      <path d="M50 20C50 20 50 80 50 80" stroke="rgba(13,115,119,0.2)" stroke-width="0.5"/>
+      <path d="M50 40C60 35 70 40 75 50" stroke="rgba(13,115,119,0.15)" stroke-width="0.5"/>
+      <path d="M50 55C40 50 30 55 25 65" stroke="rgba(13,115,119,0.15)" stroke-width="0.5"/>
+    </svg>
+
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <div class="hero-badge-dot"></div>
+          كتاب + تطبيق + كود تفعيل مدى الحياة
+        </div>
+        <h1 class="hero-title">
+          <span class="t1">المال الذي لا تديره</span>
+          <span class="t2">يديرك.</span>
+        </h1>
+        <p class="hero-sub">
+          <strong>كتاب شهريتي</strong> يعلّمك أساسيات إدارة الراتب، و<strong>تطبيق شهريتي</strong> يساعدك تطبّقها كل يوم. كود تفعيل مدى الحياة مرفق مع كل نسخة.
+        </p>
+        <div class="hero-actions">
+          <a href="#order" class="btn-primary">اطلب نسختك الآن</a>
+          <a href="#features" class="btn-outline">اكتشف المزايا</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-num">+7</div>
+            <div class="hero-stat-label">مزايا ذكية</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">مدى الحياة</div>
+            <div class="hero-stat-label">كود تفعيل دائم</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">58 ولاية</div>
+            <div class="hero-stat-label">توصيل لكل الجزائر</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-phone-wrap">
+          <div class="hero-phone-glow"></div>
+          <img src="../screenshots/book-app.webp" alt="كتاب شهريتي وتطبيق شهريتي" width="1000" height="862" fetchpriority="high">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── WHAT YOU GET ─── -->
+  <section class="package-section">
+    <div class="section" id="package">
+      <div class="section-header reveal">
+        <div class="section-label">📦 ماذا ستحصل عليه؟</div>
+        <h2 class="section-title">كتاب + تطبيق = تحكّم كامل</h2>
+        <p class="section-sub">نسخة واحدة تجمع بين المعرفة المالية والأداة العملية لتطبيقها يومياً</p>
+      </div>
+      <div class="package-grid">
+        <div class="package-card reveal">
+          <div class="package-icon book">📖</div>
+          <h3>كتاب شهريتي</h3>
+          <p>دليلك العملي لإدارة راتبك بذكاء — مكتوب بأسلوب بسيط ومباشر يناسب الجزائريين</p>
+          <ul class="package-includes">
+            <li>خطة عملية لتقسيم الراتب</li>
+            <li>طرق التوفير اليومية</li>
+            <li>إدارة الديون والالتزامات</li>
+            <li>بناء عادات مالية صحية</li>
+          </ul>
+        </div>
+        <div class="package-card reveal">
+          <div class="package-icon app">📱</div>
+          <h3>تطبيق شهريتي + كود التفعيل</h3>
+          <p>تطبيق ذكي يتابع مصاريفك ويحسب رصيدك لحظة بلحظة — مع كود تفعيل مدى الحياة</p>
+          <ul class="package-includes">
+            <li>تتبع المصاريف اليومية</li>
+            <li>حساب المبلغ الآمن للصرف يومياً</li>
+            <li>إحصائيات وتحليلات ذكية</li>
+            <li>تنبيهات قبل نفاد الرصيد</li>
+            <li>إدارة الديون والأهداف الادخارية</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FEATURES ─── -->
+  <section class="section" id="features">
+    <div class="section-header reveal">
+      <div class="section-label">✨ مزايا التطبيق</div>
+      <h2 class="section-title">كل ما تحتاجه في تطبيق واحد</h2>
+      <p class="section-sub">أدوات ذكية تساعدك تتحكّم في مصاريفك وتوفّر أكثر كل شهر</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <span class="feature-emoji">📊</span>
+        <h4>تتبع المصاريف</h4>
+        <p>سجّل كل مصروف بضغطة واحدة وشوف وين راحت فلوسك</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-emoji">💰</span>
+        <h4>الرصيد المتبقي</h4>
+        <p>اعرف رصيدك الحقيقي في أي لحظة بدون حساب يدوي</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-emoji">🛡️</span>
+        <h4>المبلغ الآمن يومياً</h4>
+        <p>التطبيق يحسب لك كم تقدر تصرف اليوم بدون ما تتجاوز الميزانية</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-emoji">📈</span>
+        <h4>إحصائيات ذكية</h4>
+        <p>تحليل عاداتك المالية مع رسوم بيانية واضحة</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-emoji">🎯</span>
+        <h4>أهداف ادخارية</h4>
+        <p>حدد هدف وتابع تقدمك نحو تحقيقه خطوة بخطوة</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-emoji">🔔</span>
+        <h4>تنبيهات ذكية</h4>
+        <p>تنبيهات قبل ما ينفد رصيدك لتجنّب المفاجآت</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SCREENSHOTS ─── -->
+  <section class="package-section screenshots-section" id="screenshots">
+    <div class="section">
+      <div class="section-header reveal">
+        <div class="section-label">📱 من داخل التطبيق</div>
+        <h2 class="section-title">تصميم بسيط وتجربة سلسة</h2>
+        <p class="section-sub">واجهة مصممة للاستخدام اليومي بدون تعقيد</p>
+      </div>
+      <div class="screenshots-track">
+        <div class="screenshot-item"><img src="../screenshots/dashboard.png" alt="لوحة التحكم"><div class="screenshot-label">لوحة التحكم</div></div>
+        <div class="screenshot-item"><img src="../screenshots/categories.png" alt="الفئات"><div class="screenshot-label">فئات المصاريف</div></div>
+        <div class="screenshot-item"><img src="../screenshots/statistics.png" alt="الإحصائيات"><div class="screenshot-label">الإحصائيات</div></div>
+        <div class="screenshot-item"><img src="../screenshots/goals.png" alt="الأهداف"><div class="screenshot-label">الأهداف</div></div>
+        <div class="screenshot-item"><img src="../screenshots/debts.png" alt="الديون"><div class="screenshot-label">إدارة الديون</div></div>
+        <div class="screenshot-item"><img src="../screenshots/savings.png" alt="الادخار"><div class="screenshot-label">الادخار</div></div>
+        <div class="screenshot-item"><img src="../screenshots/summary.png" alt="الملخص"><div class="screenshot-label">ملخص الدورة</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── QUOTE ─── -->
+  <section class="quote-section reveal">
+    <div class="quote-text">"قبل ما تزيد في راتبك، لازم تعرف وين راه يروح."</div>
+    <div class="quote-attr">— فلسفة شهريتي</div>
+  </section>
+
+  <!-- ─── ORDER FORM ─── -->
+  <section class="order-section" id="order">
+    <div class="section">
+      <div class="section-header reveal">
+        <div class="section-label">🛒 اطلب الآن</div>
+        <h2 class="section-title">احصل على نسختك</h2>
+        <p class="section-sub">كتاب شهريتي + كود تفعيل التطبيق مدى الحياة — توصيل لكل ولايات الجزائر</p>
+      </div>
+
+      <div class="order-card reveal">
+        <h3 class="order-title">📦 طلب كتاب شهريتي</h3>
+        <p class="order-sub">املأ البيانات وسنتواصل معك لتأكيد الطلب</p>
+
+        <form id="orderForm" onsubmit="return submitOrder(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>الاسم الكامل <span class="req">*</span></label>
+              <input type="text" name="fullName" placeholder="محمد بن علي" required>
+            </div>
+            <div class="form-group">
+              <label>رقم الهاتف <span class="req">*</span></label>
+              <input type="tel" name="phone" placeholder="07XXXXXXXX" required pattern="0[5-7][0-9]{8}" dir="ltr" style="text-align:right">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>الولاية <span class="req">*</span></label>
+              <select id="wilayaSelect" name="wilaya" required>
+                <option value="" disabled selected>اختر الولاية</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>البلدية <span class="req">*</span></label>
+              <select id="communeSelect" name="commune" required disabled>
+                <option value="" disabled selected>اختر الولاية أولاً</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="delivery-section">
+            <label class="delivery-label">طريقة التوصيل <span class="req">*</span></label>
+            <div class="delivery-grid">
+              <div class="delivery-card" id="bureauCard" onclick="selectDelivery(this,'bureau')">
+                <input type="radio" name="delivery_type" value="bureau">
+                <div class="delivery-card-check">✓</div>
+                <div class="delivery-card-icon">🏢</div>
+                <div class="delivery-card-name">للمكتب</div>
+                <div class="delivery-card-price" id="bureauPrice">—</div>
+                <div class="delivery-card-sub">أسرع وأرخص</div>
+              </div>
+              <div class="delivery-card" id="domicileCard" onclick="selectDelivery(this,'domicile')">
+                <input type="radio" name="delivery_type" value="domicile">
+                <div class="delivery-card-check">✓</div>
+                <div class="delivery-card-icon">🏠</div>
+                <div class="delivery-card-name">للبيت</div>
+                <div class="delivery-card-price" id="domicilePrice">—</div>
+                <div class="delivery-card-sub">توصيل لعندك</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="price-box">
+            <div class="price-row">
+              <span>📖 كتاب شهريتي + كود التفعيل</span>
+              <span class="price-val" id="bookPrice">—</span>
+            </div>
+            <div class="price-row">
+              <span>🚚 التوصيل</span>
+              <span class="price-val" id="deliveryPrice">اختر طريقة التوصيل</span>
+            </div>
+            <div class="price-row total">
+              <span>💳 الإجمالي — الدفع عند الاستلام</span>
+              <span class="price-val" id="totalPrice">—</span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn">
+            تأكيد الطلب
+          </button>
+          <p class="form-note">💳 الدفع عند الاستلام — لا حاجة لبطاقة بنكية</p>
+          <p class="form-legal">بتأكيد الطلب، أنت توافق على <a href="#terms">شروط الاستخدام</a> و<a href="#privacy">سياسة الخصوصية</a>.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-logo">
+      <img src="../CHAHRIYTI png.png" alt="شهريتي">
+      <span>شهريتي</span>
+    </div>
+    <div class="footer-links">
+      <a href="#privacy">سياسة الخصوصية</a>
+      <a href="#terms">شروط الاستخدام</a>
+      <a href="mailto:contact@chahriyti.app">تواصل معنا</a>
+    </div>
+    <p class="footer-text">
+      تطبيق إدارة الراتب الأول في الجزائر 🇩🇿<br>
+      © 2026 شهريتي — جميع الحقوق محفوظة
+    </p>
+  </footer>
+
+
+  <!-- ─── PRIVACY POLICY ─── -->
+  <div class="legal-modal" id="privacy" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+    <div class="legal-card">
+      <div class="legal-head">
+        <h2 id="privacyTitle">سياسة الخصوصية<small>آخر تحديث: 18 أكتوبر 2026</small></h2>
+        <button class="legal-close" data-legal-close aria-label="إغلاق">×</button>
+      </div>
+      <div class="legal-body">
+        <p>تشرح هذه السياسة ما هي البيانات التي تجمعها <strong>شهريتي</strong> (الموقع وتطبيق شهريتي)، ولماذا، وأين تُحفظ، وما هي حقوقك. نلتزم بالقانون الجزائري رقم 18-07 المتعلق بحماية الأشخاص الطبيعيين في مجال معالجة المعطيات ذات الطابع الشخصي.</p>
+
+        <h3>1. البيانات التي نجمعها</h3>
+        <p><strong>عند الطلب من الموقع:</strong></p>
+        <ul>
+          <li>الاسم الكامل ورقم الهاتف.</li>
+          <li>الولاية والبلدية وطريقة التوصيل (مكتب أو منزل).</li>
+        </ul>
+        <p><strong>عند التسجيل في التطبيق:</strong></p>
+        <ul>
+          <li>الاسم ورقم الهاتف والولاية والبلدية.</li>
+          <li>الفئة العمرية، مبلغ الراتب ويوم استلامه، الحالة الاجتماعية، هل تتبع مصاريفك حالياً، وأهدافك المالية.</li>
+          <li>رمز الإشعارات الخاص بهاتفك، لنتمكن من إرسال التذكيرات.</li>
+        </ul>
+        <p><strong>عند تفعيل الكود:</strong> معرّف الجهاز، لربط كود التفعيل بهاتفك ومنع استعماله على أجهزة أخرى.</p>
+
+        <h3>2. البيانات التي لا تغادر هاتفك</h3>
+        <p>مصاريفك، رصيدك، مدخراتك، ديونك، السلف وأهدافك داخل التطبيق <strong>تُحفظ على هاتفك فقط</strong> ولا تُرسل إلى خوادمنا. بصمة الإصبع أو الوجه (إن فعّلت قفل التطبيق) يتحقق منها نظام هاتفك ولا نصل إليها أبداً.</p>
+
+        <h3>3. لماذا نستعمل بياناتك</h3>
+        <ul>
+          <li>تسجيل طلبك، الاتصال بك لتأكيده، وتوصيله.</li>
+          <li>تفعيل التطبيق والتحقق من كود التفعيل.</li>
+          <li>إرسال تذكيرات وإشعارات متعلقة بالتطبيق.</li>
+          <li>فهم احتياجات مستعملينا لتحسين التطبيق والكتاب.</li>
+        </ul>
+        <p>لا نبيع بياناتك ولا نؤجرها لأي طرف.</p>
+
+        <h3>4. أين تُحفظ بياناتك ومن يطّلع عليها</h3>
+        <ul>
+          <li><strong>Google Firebase</strong> (خوادم Google Cloud في الولايات المتحدة): بيانات التسجيل وأكواد التفعيل.</li>
+          <li><strong>متجرنا على WordPress / WooCommerce</strong> (استضافة Hostinger): بيانات الطلبات.</li>
+          <li><strong>شركة التوصيل:</strong> الاسم والهاتف والعنوان فقط، لإيصال الطلب.</li>
+          <li><strong>فريق شهريتي:</strong> أشخاص مخوّلون فقط، للتواصل معك ومعالجة طلبك.</li>
+        </ul>
+        <p>بما أن بعض الخوادم خارج الجزائر، فإن استعمالك للموقع والتطبيق يعني موافقتك على نقل هذه البيانات وحفظها هناك.</p>
+
+        <h3>5. مدة الاحتفاظ</h3>
+        <p>نحتفظ ببياناتك طوال المدة اللازمة لتنفيذ طلبك وتقديم الدعم لك، أو حتى تطلب حذفها.</p>
+
+        <h3>6. حقوقك</h3>
+        <p>يحق لك الاطلاع على بياناتك، تصحيحها، طلب حذفها، أو الاعتراض على استعمالها. أرسل طلبك إلى <a href="mailto:contact@chahriyti.app">contact@chahriyti.app</a> مع رقم الهاتف المسجل، وسنرد عليك في أقرب وقت. يمكنك أيضاً حذف كل بيانات التطبيق من هاتفك عبر حذف التطبيق أو إعادة ضبطه من الإعدادات.</p>
+
+        <h3>7. حماية البيانات</h3>
+        <p>الاتصال بخوادمنا مشفّر، والوصول إلى البيانات محصور في حسابات مخوّلة. لا يوجد نظام آمن بنسبة 100%، لكننا نتخذ إجراءات معقولة لحماية بياناتك.</p>
+
+        <h3>8. القاصرون</h3>
+        <p>شهريتي موجّه للبالغين (18 سنة فما فوق) الذين يديرون دخلهم.</p>
+
+        <h3>9. تغيير السياسة</h3>
+        <p>قد نحدّث هذه السياسة، ويظهر تاريخ آخر تحديث أعلاه.</p>
+
+        <div class="legal-note">للتواصل بخصوص بياناتك: <a href="mailto:contact@chahriyti.app">contact@chahriyti.app</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TERMS OF USE ─── -->
+  <div class="legal-modal" id="terms" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
+    <div class="legal-card">
+      <div class="legal-head">
+        <h2 id="termsTitle">شروط الاستخدام<small>آخر تحديث: 18 أكتوبر 2026</small></h2>
+        <button class="legal-close" data-legal-close aria-label="إغلاق">×</button>
+      </div>
+      <div class="legal-body">
+        <p>باستعمالك لموقع شهريتي أو تطبيق شهريتي، أو بتأكيد طلبك، فإنك توافق على هذه الشروط.</p>
+
+        <h3>1. ما تحصل عليه</h3>
+        <p>باقة شهريتي تضم: <strong>كتاب «شهريتي» الورقي</strong>، و<strong>كود تفعيل</strong> لتطبيق شهريتي على هاتف أندرويد.</p>
+
+        <h3>2. الطلب والتأكيد</h3>
+        <p>بعد إرسال الطلب، نتصل بك على رقم الهاتف الذي أدخلته لتأكيده قبل الشحن. قد يُلغى الطلب إذا تعذّر الاتصال بك أو كانت البيانات غير صحيحة.</p>
+
+        <h3>3. السعر والدفع</h3>
+        <p>السعر وثمن التوصيل (حسب الولاية وطريقة التوصيل) يظهران قبل تأكيد الطلب. الدفع <strong>نقداً عند الاستلام</strong>.</p>
+
+        <h3>4. التوصيل</h3>
+        <p>نوصّل إلى كل الولايات الـ58، إلى المكتب أو إلى المنزل. مدة التوصيل تقديرية وتختلف حسب الولاية وشركة التوصيل.</p>
+
+        <h3>5. كود التفعيل و«مدى الحياة»</h3>
+        <ul>
+          <li>كل كود يُفعَّل <strong>مرة واحدة على هاتف واحد</strong>، ويبقى مرتبطاً به.</li>
+          <li>«مدى الحياة» يعني أنك لا تدفع أي اشتراك شهري أو سنوي، وأن التطبيق يبقى مفعّلاً على ذلك الهاتف طالما تطبيق شهريتي متوفر ونواصل دعمه.</li>
+          <li>عند تغيير هاتفك أو ضياعه، تواصل معنا وسندرس طلب نقل التفعيل.</li>
+          <li>يُمنع بيع الكود أو مشاركته أو نشره. يحق لنا إلغاء أي كود يُستعمل بطريقة مخالفة.</li>
+        </ul>
+
+        <h3>6. الاستلام والاستبدال</h3>
+        <p>تفحّص طلبك عند الاستلام. إذا وصلك الكتاب تالفاً أو غير مطابق، تواصل معنا خلال 48 ساعة من الاستلام لاستبداله. بعد تفعيل الكود على هاتفك، لا يمكن استرجاع ثمنه.</p>
+
+        <h3>7. بياناتك داخل التطبيق</h3>
+        <p>بيانات التطبيق تُحفظ على هاتفك فقط. حذف التطبيق، إعادة ضبطه، أو ضياع الهاتف قد يؤدي إلى فقدان هذه البيانات، ولا يمكننا استرجاعها.</p>
+
+        <h3>8. ليست استشارة مالية</h3>
+        <p>الكتاب والتطبيق أدوات تعليمية وتنظيمية. ما يقدمانه نصائح عامة وليس استشارة مالية أو استثمارية شخصية، وقراراتك المالية مسؤوليتك.</p>
+
+        <h3>9. حدود المسؤولية</h3>
+        <p>نعمل على أن يكون التطبيق دقيقاً ومتاحاً دائماً، لكنه يُقدَّم «كما هو». لا نتحمل مسؤولية أي خسارة غير مباشرة ناتجة عن استعماله، وفي جميع الأحوال لا تتجاوز مسؤوليتنا المبلغ الذي دفعته.</p>
+
+        <h3>10. الملكية الفكرية</h3>
+        <p>محتوى الكتاب والتطبيق والموقع ملك لشهريتي. يُمنع نسخه أو إعادة نشره دون إذن.</p>
+
+        <h3>11. القانون المطبّق</h3>
+        <p>تخضع هذه الشروط للقانون الجزائري. قد نحدّثها، ويظهر تاريخ آخر تحديث أعلاه.</p>
+
+        <div class="legal-note">لأي سؤال أو مشكلة: <a href="mailto:contact@chahriyti.app">contact@chahriyti.app</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SUCCESS OVERLAY ─── -->
+  <div class="success-overlay" id="successOverlay">
+    <div class="success-card">
+      <div class="success-icon">✓</div>
+      <h3>تم تسجيل طلبك بنجاح!</h3>
+      <p>سنتواصل معك قريباً لتأكيد الطلب وترتيب التوصيل. شكراً لثقتك في شهريتي!</p>
+      <button class="success-close" onclick="document.getElementById('successOverlay').classList.remove('show')">حسناً</button>
+    </div>
+  </div>
+
+  <!-- ─── MOBILE FIXED CTA ─── -->
+  <div class="mobile-cta">
+    <a href="#order">اطلب نسختك الآن</a>
+  </div>
+
+  <script>
+    // ─── NAV SCROLL + MOBILE CTA VISIBILITY ───
+    const nav = document.getElementById('nav');
+    const mobileCta = document.querySelector('.mobile-cta');
+    const orderSection = document.getElementById('order');
+
+    const orderObserver = new IntersectionObserver(([entry]) => {
+      mobileCta.style.display = entry.isIntersecting ? 'none' : '';
+    }, { threshold: 0.15 });
+    orderObserver.observe(orderSection);
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ─── SCROLL REVEAL ───
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    // ─── CONSTANTS ───
+    const BOOK_PRICE = 2700;
+    let deliveryRates = {};
+    let citiesData = [];
+
+    function formatDZD(n) {
+      return n.toLocaleString('ar-DZ') + ' د.ج';
+    }
+
+    // ─── LOAD DATA ───
+    // Load cities CSV + delivery rates JSON in parallel
+    Promise.all([
+      fetch('./algeria_cities.csv').then(r => r.text()),
+      fetch('./Tarifs_Wilayas_Domicile_Bureau.json').then(r => r.json())
+    ]).then(([csv, tarifs]) => {
+      // Parse cities
+      const lines = csv.trim().split('\n').slice(1);
+      citiesData = lines.map(line => {
+        const parts = line.split(',');
+        return { c: parts[0], wc: parts[1], wn: parts[2] };
+      });
+
+      // Build wilaya map
+      const wilayaMap = {};
+      citiesData.forEach(r => {
+        if (!wilayaMap[r.wc]) wilayaMap[r.wc] = { name: r.wn, communes: [] };
+        wilayaMap[r.wc].communes.push(r.c);
+      });
+      window._wilayaMap = wilayaMap;
+
+      // Build delivery rates keyed by "code - arabicName"
+      tarifs.forEach(t => {
+        const code = String(t.Code).padStart(2, '0');
+        const w = wilayaMap[code];
+        if (w) {
+          deliveryRates[code + ' - ' + w.name] = {
+            bureau: t['Livraison bureau'],
+            domicile: t['Livraison à domicile']
+          };
+        }
+      });
+
+      // Populate wilaya select
+      const sel = document.getElementById('wilayaSelect');
+      Object.keys(wilayaMap).sort((a, b) => parseInt(a) - parseInt(b)).forEach(code => {
+        const opt = document.createElement('option');
+        opt.value = code + ' - ' + wilayaMap[code].name;
+        opt.textContent = code + ' - ' + wilayaMap[code].name;
+        sel.appendChild(opt);
+      });
+
+      sel.addEventListener('change', function() {
+        const code = this.value.split(' - ')[0];
+        const communes = (wilayaMap[code] || {}).communes || [];
+        const cSel = document.getElementById('communeSelect');
+        cSel.innerHTML = '<option value="" disabled selected>اختر البلدية</option>';
+        communes.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c;
+          opt.textContent = c;
+          cSel.appendChild(opt);
+        });
+        cSel.disabled = false;
+        updateDeliveryCards();
+      });
+    });
+
+    // ─── DELIVERY CARDS ───
+    function selectDelivery(card, type) {
+      if (card.classList.contains('unavailable')) return;
+      document.querySelectorAll('.delivery-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      card.querySelector('input[type="radio"]').checked = true;
+      updatePricing();
+    }
+
+    function updateDeliveryCards() {
+      const wilaya = document.getElementById('wilayaSelect').value;
+      const rates = deliveryRates[wilaya];
+      const bureauCard = document.getElementById('bureauCard');
+      const domicileCard = document.getElementById('domicileCard');
+      const bureauPriceEl = document.getElementById('bureauPrice');
+      const domicilePriceEl = document.getElementById('domicilePrice');
+
+      // Reset delivery selection
+      document.querySelectorAll('.delivery-card').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('.delivery-card input').forEach(r => r.checked = false);
+
+      if (rates) {
+        bureauPriceEl.textContent = rates.bureau > 0 ? formatDZD(rates.bureau) : '—';
+        domicilePriceEl.textContent = formatDZD(rates.domicile);
+
+        if (rates.bureau === 0) {
+          bureauCard.classList.add('unavailable');
+        } else {
+          bureauCard.classList.remove('unavailable');
+        }
+        domicileCard.classList.remove('unavailable');
+      } else {
+        bureauPriceEl.textContent = '—';
+        domicilePriceEl.textContent = '—';
+        bureauCard.classList.add('unavailable');
+        domicileCard.classList.add('unavailable');
+      }
+
+      // Reset pricing
+      document.getElementById('bookPrice').textContent = formatDZD(BOOK_PRICE);
+      document.getElementById('deliveryPrice').textContent = 'اختر طريقة التوصيل';
+      document.getElementById('totalPrice').textContent = '—';
+    }
+
+    function updatePricing() {
+      const wilaya = document.getElementById('wilayaSelect').value;
+      const checked = document.querySelector('input[name="delivery_type"]:checked');
+      if (!wilaya || !checked) return;
+
+      const rates = deliveryRates[wilaya];
+      if (!rates) return;
+
+      const fee = rates[checked.value] || 0;
+      document.getElementById('bookPrice').textContent = formatDZD(BOOK_PRICE);
+      document.getElementById('deliveryPrice').textContent = formatDZD(fee);
+      document.getElementById('totalPrice').textContent = formatDZD(BOOK_PRICE + fee);
+    }
+
+    // ─── FORM SUBMIT ───
+    function submitOrder(e) {
+      e.preventDefault();
+      const form = document.getElementById('orderForm');
+      const formData = new FormData(form);
+      const btn = document.getElementById('submitBtn');
+
+      // Validate delivery type
+      if (!formData.get('delivery_type')) {
+        alert('اختر طريقة التوصيل');
+        return false;
+      }
+
+      // Compute delivery fee
+      const wilayaVal = formData.get('wilaya');
+      const deliveryType = formData.get('delivery_type');
+      const deliveryFee = (wilayaVal && deliveryRates[wilayaVal]) ? deliveryRates[wilayaVal][deliveryType] : 0;
+      formData.append('delivery_fee', deliveryFee);
+
+      btn.disabled = true;
+      btn.textContent = 'جاري التسجيل...';
+
+      if (window.chahriyti_ajax) {
+        // WooCommerce mode
+        formData.append('action', 'chahriyti_create_order');
+        formData.append('nonce', window.chahriyti_ajax.nonce);
+
+        fetch(window.chahriyti_ajax.url, { method: 'POST', body: formData })
+          .then(r => r.json())
+          .then(data => {
+            if (data.success) {
+              form.style.display = 'none';
+              const msg = document.querySelector('.success-card p');
+              msg.innerHTML = 'رقم الطلب: <strong>#' + data.data.order_number + '</strong><br>سنتواصل معك قريباً لتأكيد الطلب وترتيب التوصيل. شكراً لثقتك في شهريتي!';
+              document.getElementById('successOverlay').classList.add('show');
+            } else {
+              alert(data.data.message || 'حدث خطأ، حاول مرة أخرى');
+              btn.disabled = false;
+              btn.textContent = 'تأكيد الطلب';
+            }
+          })
+          .catch(() => {
+            alert('خطأ في الاتصال، حاول مرة أخرى');
+            btn.disabled = false;
+            btn.textContent = 'تأكيد الطلب';
+          });
+      } else {
+        // Static mode — no WP
+        setTimeout(() => {
+          form.reset();
+          resetForm();
+          document.getElementById('successOverlay').classList.add('show');
+          btn.textContent = 'تأكيد الطلب';
+          btn.disabled = false;
+        }, 1200);
+      }
+      return false;
+    }
+
+    function resetForm() {
+      document.getElementById('communeSelect').disabled = true;
+      document.getElementById('communeSelect').innerHTML = '<option value="" disabled selected>اختر الولاية أولاً</option>';
+      document.querySelectorAll('.delivery-card').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('.delivery-card input').forEach(r => r.checked = false);
+      document.getElementById('bureauPrice').textContent = '—';
+      document.getElementById('domicilePrice').textContent = '—';
+      document.getElementById('bookPrice').textContent = '—';
+      document.getElementById('deliveryPrice').textContent = 'اختر طريقة التوصيل';
+      document.getElementById('totalPrice').textContent = '—';
+    }
+
+    // ─── LEGAL MODALS: open from #privacy / #terms links or a direct URL ───
+    (function () {
+      const ids = ['privacy', 'terms'];
+      const close = () => {
+        document.querySelectorAll('.legal-modal.show').forEach((m) => m.classList.remove('show'));
+        document.body.style.overflow = '';
+        if (ids.includes(location.hash.slice(1))) {
+          history.replaceState(null, '', location.pathname + location.search);
+        }
+      };
+      const open = (id) => {
+        const m = document.getElementById(id);
+        if (!m) return;
+        close();
+        m.classList.add('show');
+        m.querySelector('.legal-body').scrollTop = 0;
+        document.body.style.overflow = 'hidden';
+      };
+      document.addEventListener('click', (e) => {
+        const link = e.target.closest('a[href="#privacy"], a[href="#terms"]');
+        if (link) {
+          e.preventDefault();
+          const id = link.getAttribute('href').slice(1);
+          history.replaceState(null, '', '#' + id);
+          open(id);
+          return;
+        }
+        if (e.target.closest('[data-legal-close]') || e.target.classList.contains('legal-modal')) close();
+      });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+      const initial = location.hash.slice(1);
+      if (ids.includes(initial)) open(initial);
+    })();
+  </script>
+
+</body>
+</html>
