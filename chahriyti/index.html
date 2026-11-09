@@ -669,7 +669,7 @@
       color: rgba(255,255,255,0.7);
       margin-bottom: 10px;
     }
-    .delivery-grid {
+    .delivery-grid, .pay-grid, .edition-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
@@ -705,6 +705,7 @@
     .delivery-card-name { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
     .delivery-card-price { font-size: 14px; font-weight: 700; color: var(--teal-light); direction: ltr; unicode-bidi: bidi-override; min-height: 20px; }
     .delivery-card-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .success-icon.failed { background: rgba(255,59,48,0.12); }
 
     .price-box {
       background: rgba(13,115,119,0.08);
@@ -986,7 +987,7 @@
     .dm-snack { position: absolute; left: 16px; right: 16px; bottom: 28px; z-index: 40; background: #1A1A2E; color: #fff; border-radius: 10px; padding: 14px 16px; font-size: 14px; animation: dmUp .25s ease both; }
 
     /* Fake push notification */
-    .dm-notif { position: absolute; top: 54px; left: 10px; right: 10px; z-index: 50; display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 22px; background: rgba(245,245,247,0.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 10px 30px rgba(0,0,0,0.18); transform: translateY(-170%); transition: transform .45s cubic-bezier(.2,.9,.3,1.15); cursor: pointer; }
+    .dm-notif { position: absolute; top: 54px; left: 10px; right: 10px; z-index: 50; display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 22px; background: rgba(245,245,247,0.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 10px 30px rgba(0,0,0,0.18); transform: translateY(calc(-100% - 80px)); transition: transform .45s cubic-bezier(.2,.9,.3,1.15); cursor: pointer; }
     .dm-notif.show { transform: translateY(0); }
     .dm-notif img { width: 38px; height: 38px; border-radius: 9px; background: #fff; object-fit: contain; flex-shrink: 0; }
     .dm-notif .top { display: flex; justify-content: space-between; font-size: 12px; color: #6B7280; }
@@ -1005,6 +1006,23 @@
     .dm-dots i.cur { width: 16px; }
     .tour-next { min-width: 96px; height: 44px; border: 0; border-radius: 14px; background: #0D6E6E; color: #fff; font-size: 16px; font-weight: 600; padding: 0 20px; cursor: pointer; }
 
+    /* Immersive: the visitor "enters" the app */
+    .dm-exit { display: none; }
+    .dm-stage.dm-im { position: fixed; inset: 0; z-index: 300; width: auto; height: auto; background: radial-gradient(ellipse at center, #0f2a2c 0%, #080E10 70%); animation: dmFade .25s ease both; }
+    .dm-stage.dm-im .dm-exit {
+      display: flex; align-items: center; gap: 6px; position: fixed; top: 20px; left: 20px; z-index: 310;
+      font-family: 'Cairo', sans-serif; font-size: 15px; font-weight: 700; color: #fff; cursor: pointer;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 50px; padding: 8px 16px;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+    .dm-stage.dm-im .dm-exit:hover { background: rgba(255,255,255,0.18); }
+    .dm-phone.bare { padding: 0; border-radius: 0; box-shadow: none; width: 390px; height: auto; background: #F8F9FA; }
+    .dm-phone.bare .dm-screen { border-radius: 0; }
+    .dm-phone.bare .dm-island, .dm-phone.bare .dm-home-ind { display: none; }
+    .dm-phone.bare .dm-status > * { visibility: hidden; }
+    /* On a phone the pill sits in the app's (empty) status bar */
+    .dm-stage.dm-bare .dm-exit { top: calc(8px + env(safe-area-inset-top)); left: 10px; font-size: 13px; padding: 4px 12px; background: rgba(26,26,46,0.75); border-color: transparent; }
+    html.dm-locked, html.dm-locked body { overflow: hidden; }
     @media (prefers-reduced-motion: reduce) {
       .dm-page, .dm-sheet, .dm-dialog, .dm-scrim, .dm-snack, .dm-notif, .dm-tip, .track > i { animation: none !important; transition: none !important; }
     }
@@ -1376,7 +1394,48 @@
             </div>
           </div>
 
-          <div class="form-row">
+          <div class="delivery-section">
+            <label class="delivery-label">نوع النسخة <span class="req">*</span></label>
+            <div class="edition-grid">
+              <div class="delivery-card selected" onclick="selectEdition(this,'paper')">
+                <input type="radio" name="edition" value="paper" checked>
+                <div class="delivery-card-check">✓</div>
+                <div class="delivery-card-icon">📖</div>
+                <div class="delivery-card-name">نسخة ورقية</div>
+                <div class="delivery-card-sub">الكتاب المطبوع + كود التفعيل، يوصلك لدارك — الدفع عند الاستلام</div>
+              </div>
+              <div class="delivery-card" onclick="selectEdition(this,'digital')">
+                <input type="radio" name="edition" value="digital">
+                <div class="delivery-card-check">✓</div>
+                <div class="delivery-card-icon">📄</div>
+                <div class="delivery-card-name">نسخة رقمية</div>
+                <div class="delivery-card-sub">كتاب PDF + كود التفعيل — وفّر مصاريف التوصيل</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="delivery-section" id="paySection" style="display:none">
+            <label class="delivery-label">طريقة الدفع <span class="req">*</span></label>
+            <div class="pay-grid">
+              <div class="delivery-card selected" onclick="selectPayment(this,'card')">
+                <input type="radio" name="payment_method" value="card" checked disabled>
+                <div class="delivery-card-check">✓</div>
+                <div class="delivery-card-icon">💳</div>
+                <div class="delivery-card-name">الذهبية / CIB</div>
+                <div class="delivery-card-sub">ادفع أونلاين واستلم PDF والكود على بريدك فوراً</div>
+              </div>
+              <div class="delivery-card" onclick="selectPayment(this,'baridimob')">
+                <input type="radio" name="payment_method" value="baridimob" disabled>
+                <div class="delivery-card-check">✓</div>
+                <div class="delivery-card-icon">📲</div>
+                <div class="delivery-card-name">BaridiMob</div>
+                <div class="delivery-card-sub">تكمّل الدفع معانا على واتساب وتستلم PDF والكود</div>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="payment_method" value="cod" id="codMethod">
+
+          <div class="form-row" id="addressRow">
             <div class="form-group">
               <label>الولاية <span class="req">*</span></label>
               <select id="wilayaSelect" name="wilaya" required>
@@ -1391,7 +1450,7 @@
             </div>
           </div>
 
-          <div class="delivery-section">
+          <div class="delivery-section" id="deliverySection">
             <label class="delivery-label">طريقة التوصيل <span class="req">*</span></label>
             <div class="delivery-grid">
               <div class="delivery-card" id="bureauCard" onclick="selectDelivery(this,'bureau')">
@@ -1415,15 +1474,15 @@
 
           <div class="price-box">
             <div class="price-row">
-              <span>📖 كتاب شهريتي + كود التفعيل</span>
+              <span id="bookLabel">📖 كتاب شهريتي + كود التفعيل</span>
               <span class="price-val" id="bookPrice">—</span>
             </div>
-            <div class="price-row">
+            <div class="price-row" id="deliveryRow">
               <span>🚚 التوصيل</span>
               <span class="price-val" id="deliveryPrice">اختر طريقة التوصيل</span>
             </div>
             <div class="price-row total">
-              <span>💳 الإجمالي — الدفع عند الاستلام</span>
+              <span id="totalLabel">💳 الإجمالي — الدفع عند الاستلام</span>
               <span class="price-val" id="totalPrice">—</span>
             </div>
           </div>
@@ -1431,7 +1490,7 @@
           <button type="submit" class="btn-submit" id="submitBtn">
             تأكيد الطلب
           </button>
-          <p class="form-note">💳 الدفع عند الاستلام — لا حاجة لبطاقة بنكية</p>
+          <p class="form-note" id="payNote">💳 الدفع عند الاستلام — لا حاجة لبطاقة بنكية</p>
         </form>
       </div>
     </div>
@@ -1566,7 +1625,7 @@
     // ─── DELIVERY CARDS ───
     function selectDelivery(card, type) {
       if (card.classList.contains('unavailable')) return;
-      document.querySelectorAll('.delivery-card').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('.delivery-grid .delivery-card').forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
       card.querySelector('input[type="radio"]').checked = true;
       updatePricing();
@@ -1581,8 +1640,8 @@
       const domicilePriceEl = document.getElementById('domicilePrice');
 
       // Reset delivery selection
-      document.querySelectorAll('.delivery-card').forEach(c => c.classList.remove('selected'));
-      document.querySelectorAll('.delivery-card input').forEach(r => r.checked = false);
+      document.querySelectorAll('.delivery-grid .delivery-card').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('.delivery-grid .delivery-card input').forEach(r => r.checked = false);
 
       if (rates) {
         bureauPriceEl.textContent = rates.bureau > 0 ? formatDZD(rates.bureau) : '—';
@@ -1608,6 +1667,11 @@
     }
 
     function updatePricing() {
+      if (isDigital()) {
+        document.getElementById('bookPrice').textContent = formatDZD(BOOK_PRICE);
+        document.getElementById('totalPrice').textContent = formatDZD(BOOK_PRICE);
+        return;
+      }
       const wilaya = document.getElementById('wilayaSelect').value;
       const checked = document.querySelector('input[name="delivery_type"]:checked');
       if (!wilaya || !checked) return;
@@ -1621,6 +1685,110 @@
       document.getElementById('totalPrice').textContent = formatDZD(BOOK_PRICE + fee);
     }
 
+    // ─── PAYMENT METHOD ───
+    // Card = digital copy (PDF + code), so the address and delivery disappear
+    function paymentMethod() {
+      const digital = document.querySelector('input[name="edition"]:checked').value === 'digital';
+      return digital ? document.querySelector('.pay-grid input:checked').value : 'cod';
+    }
+    function isDigital() {
+      return paymentMethod() !== 'cod';
+    }
+
+    // Paper: printed book, delivery, cash on delivery. Digital: PDF + code,
+    // paid by card (Chargily) or BaridiMob (finished on WhatsApp)
+    const WHATSAPP_NUMBER = '213776159994';
+    // Digital orders are kept in the Chahriyti platform, not in WooCommerce
+    const DIGITAL_ORDER_URL = 'https://us-central1-chahriyati.cloudfunctions.net/createDigitalOrder';
+
+    function selectEdition(card, edition) {
+      document.querySelectorAll('.edition-grid .delivery-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      card.querySelector('input[type="radio"]').checked = true;
+      const digital = edition === 'digital';
+
+      // Hidden fields are disabled so they're neither required nor sent
+      const wilaya = document.getElementById('wilayaSelect');
+      const commune = document.getElementById('communeSelect');
+      document.getElementById('addressRow').style.display = digital ? 'none' : '';
+      document.getElementById('deliverySection').style.display = digital ? 'none' : '';
+      document.getElementById('deliveryRow').style.display = digital ? 'none' : '';
+      document.getElementById('paySection').style.display = digital ? '' : 'none';
+      wilaya.disabled = digital;
+      commune.disabled = digital || !wilaya.value;
+      document.querySelectorAll('.delivery-grid input').forEach(r => r.disabled = digital);
+      document.querySelectorAll('.pay-grid input').forEach(r => r.disabled = !digital);
+      document.getElementById('codMethod').disabled = digital;
+
+      document.getElementById('bookLabel').textContent = digital
+        ? '📄 كتاب شهريتي PDF + كود التفعيل'
+        : '📖 كتاب شهريتي + كود التفعيل';
+      updatePaymentTexts();
+      updatePricing();
+    }
+
+    function selectPayment(card, method) {
+      document.querySelectorAll('.pay-grid .delivery-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      card.querySelector('input[type="radio"]').checked = true;
+      updatePaymentTexts();
+    }
+
+    function updatePaymentTexts() {
+      const m = paymentMethod();
+      document.getElementById('totalLabel').textContent = {
+        cod: '💳 الإجمالي — الدفع عند الاستلام',
+        card: '💳 الإجمالي — الدفع بالبطاقة الآن',
+        baridimob: '📲 الإجمالي — الدفع بـ BaridiMob',
+      }[m];
+      document.getElementById('payNote').textContent = {
+        cod: '💳 الدفع عند الاستلام — لا حاجة لبطاقة بنكية',
+        card: '📄 تستلم الكتاب PDF وكود التفعيل على بريدك الإلكتروني مباشرة بعد الدفع — بدون توصيل',
+        baridimob: '📲 يتفتح واتساب برسالة جاهزة: نبعتولك معلومات الدفع، ومن بعد التحويل تستلم PDF والكود',
+      }[m];
+      document.getElementById('submitBtn').textContent = submitLabel();
+    }
+
+    function submitLabel() {
+      return { cod: 'تأكيد الطلب', card: 'ادفع واستلم نسختك', baridimob: 'كمّل على واتساب' }[paymentMethod()];
+    }
+
+    // Opens WhatsApp with the order already written out
+    function openWhatsApp(formData, orderNumber) {
+      const text = [
+        'السلام عليكم، حبيت نشري النسخة الرقمية من كتاب شهريتي (PDF + كود التفعيل) ونخلّص بـ BaridiMob.',
+        'الاسم: ' + formData.get('fullName'),
+        'الهاتف: ' + formData.get('phone'),
+        orderNumber ? 'رقم الطلب: #' + orderNumber : '',
+        'المبلغ: ' + BOOK_PRICE.toLocaleString('en-US') + ' د.ج',
+      ].filter(Boolean).join('\n');
+      window.location.href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(text);
+    }
+
+    // ─── RETURN FROM CHARGILY ───
+    // The order is marked paid by the webhook; this only tells the customer
+    (function () {
+      const params = new URLSearchParams(location.search);
+      const status = params.get('payment');
+      if (status !== 'success' && status !== 'failed') return;
+      const order = (params.get('order') || '').replace(/[^0-9A-Z]/gi, '');
+      const icon = document.querySelector('.success-icon');
+      const title = document.querySelector('.success-card h3');
+      const msg = document.querySelector('.success-card p');
+      if (status === 'success') {
+        title.textContent = 'تم الدفع بنجاح!';
+        msg.innerHTML = (order ? 'رقم الطلب: <strong>#' + order + '</strong><br>' : '') +
+          'أرسلنا نسخة الكتاب PDF وكود تفعيل التطبيق إلى بريدك الإلكتروني (تفقّد أيضاً مجلد الرسائل غير المرغوب فيها). شكراً لثقتك في شهريتي!';
+      } else {
+        icon.textContent = '✕';
+        icon.classList.add('failed');
+        title.textContent = 'لم يتم الدفع';
+        msg.textContent = 'لم تكتمل عملية الدفع ولم يُخصم أي مبلغ. يمكنك إعادة المحاولة، الدفع بـ BaridiMob، أو طلب النسخة الورقية والدفع عند الاستلام.';
+      }
+      document.getElementById('successOverlay').classList.add('show');
+      history.replaceState(null, '', location.pathname + location.hash);
+    })();
+
     // ─── FORM SUBMIT ───
     function submitOrder(e) {
       e.preventDefault();
@@ -1629,29 +1797,50 @@
       const btn = document.getElementById('submitBtn');
 
       // Validate delivery type
-      if (!formData.get('delivery_type')) {
+      if (!isDigital() && !formData.get('delivery_type')) {
         alert('اختر طريقة التوصيل');
         return false;
       }
 
-      // Compute delivery fee
-      const wilayaVal = formData.get('wilaya');
-      const deliveryType = formData.get('delivery_type');
-      const deliveryFee = (wilayaVal && deliveryRates[wilayaVal]) ? deliveryRates[wilayaVal][deliveryType] : 0;
-      formData.append('delivery_fee', deliveryFee);
+      // The server recomputes the delivery fee and the total
+      formData.append('return_url', location.origin + location.pathname);
 
       btn.disabled = true;
       btn.textContent = 'جاري التسجيل...';
 
-      if (window.chahriyti_ajax) {
-        // WooCommerce mode
+      let request = null;
+      if (isDigital()) {
+        // Digital copy: the platform takes the order (and opens Chargily for a card)
+        request = fetch(DIGITAL_ORDER_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fullName: formData.get('fullName'),
+            phone: formData.get('phone'),
+            payment_method: paymentMethod(),
+            return_url: formData.get('return_url'),
+          }),
+        });
+      } else if (window.chahriyti_ajax) {
+        // Printed book: WooCommerce order, cash on delivery
         formData.append('action', 'chahriyti_create_order');
         formData.append('nonce', window.chahriyti_ajax.nonce);
+        request = fetch(window.chahriyti_ajax.url, { method: 'POST', body: formData });
+      }
 
-        fetch(window.chahriyti_ajax.url, { method: 'POST', body: formData })
+      if (request) {
+        request
           .then(r => r.json())
           .then(data => {
-            if (data.success) {
+            if (paymentMethod() === 'baridimob') {
+              // The order is recorded either way; the payment is arranged on WhatsApp
+              btn.textContent = 'جاري فتح واتساب...';
+              openWhatsApp(formData, data.success ? data.data.order_number : '');
+              setTimeout(() => { btn.disabled = false; btn.textContent = submitLabel(); }, 2000);
+            } else if (data.success && data.data.checkout_url) {
+              btn.textContent = 'جاري التحويل لصفحة الدفع...';
+              window.location.href = data.data.checkout_url;
+            } else if (data.success) {
               form.style.display = 'none';
               const msg = document.querySelector('.success-card p');
               msg.innerHTML = 'رقم الطلب: <strong>#' + data.data.order_number + '</strong><br>سنتواصل معك قريباً لتأكيد الطلب وترتيب التوصيل. شكراً لثقتك في شهريتي!';
@@ -1659,13 +1848,19 @@
             } else {
               alert(data.data.message || 'حدث خطأ، حاول مرة أخرى');
               btn.disabled = false;
-              btn.textContent = 'تأكيد الطلب';
+              btn.textContent = submitLabel();
             }
           })
           .catch(() => {
+            if (paymentMethod() === 'baridimob') {
+              openWhatsApp(formData, '');
+              btn.disabled = false;
+              btn.textContent = submitLabel();
+              return;
+            }
             alert('خطأ في الاتصال، حاول مرة أخرى');
             btn.disabled = false;
-            btn.textContent = 'تأكيد الطلب';
+            btn.textContent = submitLabel();
           });
       } else {
         // Static mode — no WP
@@ -1683,8 +1878,8 @@
     function resetForm() {
       document.getElementById('communeSelect').disabled = true;
       document.getElementById('communeSelect').innerHTML = '<option value="" disabled selected>اختر الولاية أولاً</option>';
-      document.querySelectorAll('.delivery-card').forEach(c => c.classList.remove('selected'));
-      document.querySelectorAll('.delivery-card input').forEach(r => r.checked = false);
+      document.querySelectorAll('.delivery-grid .delivery-card').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('.delivery-grid .delivery-card input').forEach(r => r.checked = false);
       document.getElementById('bureauPrice').textContent = '—';
       document.getElementById('domicilePrice').textContent = '—';
       document.getElementById('bookPrice').textContent = '—';
@@ -1703,16 +1898,71 @@
       const overlay = document.getElementById('dmOverlay');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Fit the 414×868 phone into the page
+      // Fit the 414×868 phone into the page. Immersive: on a phone the app
+      // screen becomes the whole viewport, elsewhere a big phone is centered
+      let onRefit = () => {};
       function fit() {
-        const w = Math.min(380, window.innerWidth * 0.86);
-        const k = w / 414;
-        phone.style.transform = `scale(${k})`;
-        stage.style.width = `${w}px`;
-        stage.style.height = `${868 * k}px`;
+        const vw = window.innerWidth, vh = window.innerHeight;
+        const im = stage.classList.contains('dm-im');
+        const bare = im && vw < 600;
+        phone.classList.toggle('bare', bare);
+        stage.classList.toggle('dm-bare', bare);
+        if (bare) {
+          const k = vw / 390;
+          phone.style.transform = `scale(${k})`;
+          phone.style.top = phone.style.right = '0';
+          screenEl.style.height = `${vh / k}px`;
+          stage.style.width = stage.style.height = '';
+        } else if (im) {
+          const k = Math.min((vh - 32) / 868, (vw - 32) / 414);
+          phone.style.transform = `scale(${k})`;
+          phone.style.top = `${(vh - 868 * k) / 2}px`;
+          phone.style.right = `${(vw - 414 * k) / 2}px`;
+          screenEl.style.height = '';
+          stage.style.width = stage.style.height = '';
+        } else {
+          const w = Math.min(380, window.innerWidth * 0.86);
+          const k = w / 414;
+          phone.style.transform = `scale(${k})`;
+          phone.style.top = phone.style.right = '';
+          screenEl.style.height = '';
+          stage.style.width = `${w}px`;
+          stage.style.height = `${868 * k}px`;
+        }
+        onRefit();
       }
       fit();
       window.addEventListener('resize', fit);
+
+      // ── Immersive mode: "enter" the app (only where the page offers it) ──
+      const enterBtns = document.querySelectorAll('[data-demo-enter]');
+      const exitBtn = document.getElementById('dmExit');
+      function enterApp() {
+        if (stage.classList.contains('dm-im')) return;
+        stage.classList.add('dm-im');
+        document.documentElement.classList.add('dm-locked');
+        history.pushState({ dmIm: true }, '');
+        // Phones: hide the browser bars too where the browser allows it
+        const root = document.documentElement;
+        if (window.innerWidth < 600 && root.requestFullscreen) root.requestFullscreen().catch(() => {});
+        fit();
+        exitBtn && exitBtn.focus();
+      }
+      function leaveApp(fromHistory) {
+        if (!stage.classList.contains('dm-im')) return;
+        stage.classList.remove('dm-im');
+        document.documentElement.classList.remove('dm-locked');
+        if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+        if (!fromHistory && history.state && history.state.dmIm) history.back();
+        fit();
+      }
+      if (enterBtns.length) {
+        enterBtns.forEach((b) => b.addEventListener('click', enterApp));
+        exitBtn && exitBtn.addEventListener('click', () => leaveApp(false));
+        window.addEventListener('popstate', () => leaveApp(true));
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !document.fullscreenElement) leaveApp(false); });
+        document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) leaveApp(false); });
+      }
 
       // ── Icons: Iconsax glyphs (same font as the app) ──
       const IC = {"l": {"trend_down": 60479, "trend_up": 60480, "add": 59655, "chart": 59830, "more": 60205, "tag": 60439, "add_circle": 59656, "edit_2": 59946, "trash": 60476, "arrow_up": 59710, "arrow_down": 59692, "arrow_left": 59695, "arrow_right": 59699, "tick_circle": 60458, "info_circle": 60085, "check": 59838, "lock": 60121, "notification_bing": 60237, "eye_slash": 59971, "alarm": 59664, "more_2": 60206, "chart_square": 59836, "note_2": 60228, "warning_2": 60534, "moneys": 60197, "bag_2": 59726, "home_2": 60072, "coffee": 59867, "hospital": 60077, "car": 59813, "bag_happy": 59729, "reserve": 60326, "teacher": 60446, "money_change": 60193, "strongbox": 60433, "wallet": 60523, "calendar_1": 59792, "document_text": 59935, "clock": 59846, "close_circle": 59848, "profile": 60273, "flag": 59984, "dollar_circle": 59938, "shield_tick": 60386, "search_normal_1": 60355}, "b": {"card_add": 59815, "setting_2": 60379, "wallet": 60532, "dollar_circle": 59942, "money_change": 60199, "calendar_1": 59792, "magic_star": 60135, "chart_2": 59832, "shield_tick": 60392, "flag": 59988, "notification_bing": 60243, "bag_2": 59726, "home_2": 60076, "diamonds": 59906, "hospital": 60081, "car": 59813, "bag_happy": 59729, "reserve": 60332, "teacher": 60452, "strongbox": 60439, "profile": 60279, "verify": 60507, "warning_2": 60543, "trash": 60482, "calendar": 59791, "clock": 59846, "cup": 59893, "lamp_on": 60101, "judge": 60092, "money_remove": 60202, "danger": 59894, "shopping_cart": 60397, "tick_circle": 60464, "document_text": 59939, "moneys": 60203, "finger_scan": 59986, "trend_up": 60486, "chart_square": 59836, "info_circle": 60089, "coffee": 59867}};
@@ -2556,12 +2806,13 @@
         const target = views.querySelector(`[data-tour="${key}"]`);
         if (!target) { if (step < STEPS.length - 1) { step++; return showStep(); } return endTour(); }
         const body = target.closest('.dm-body');
-        if (body) body.scrollTop = Math.max(0, target.offsetTop - body.offsetTop - 844 * 0.35 + target.offsetHeight / 2);
+        const H = screenEl.offsetHeight; // 844, or the viewport's height when immersive
+        if (body) body.scrollTop = Math.max(0, target.offsetTop - body.offsetTop - H * 0.35 + target.offsetHeight / 2);
         const r = layoutRect(target); const P = 6;
         const hx = r.x - P, hy = r.y - P, hw = r.w + P * 2, hh = r.h + P * 2;
-        const cardH = 230; const below = hy + hh + 14; const top = below + cardH < 844 - 20 ? below : Math.max(56, hy - 14 - cardH);
+        const cardH = 230; const below = hy + hh + 14; const top = below + cardH < H - 20 ? below : Math.max(56, hy - 14 - cardH);
         tourEl.innerHTML = `
-          <svg class="mask" viewBox="0 0 390 844"><path fill="rgba(0,0,0,.68)" fill-rule="evenodd" d="M0 0H390V844H0Z M${hx + 18} ${hy}H${hx + hw - 18}A18 18 0 0 1 ${hx + hw} ${hy + 18}V${hy + hh - 18}A18 18 0 0 1 ${hx + hw - 18} ${hy + hh}H${hx + 18}A18 18 0 0 1 ${hx} ${hy + hh - 18}V${hy + 18}A18 18 0 0 1 ${hx + 18} ${hy}Z"/>
+          <svg class="mask" viewBox="0 0 390 ${H}"><path fill="rgba(0,0,0,.68)" fill-rule="evenodd" d="M0 0H390V${H}H0Z M${hx + 18} ${hy}H${hx + hw - 18}A18 18 0 0 1 ${hx + hw} ${hy + 18}V${hy + hh - 18}A18 18 0 0 1 ${hx + hw - 18} ${hy + hh}H${hx + 18}A18 18 0 0 1 ${hx} ${hy + hh - 18}V${hy + 18}A18 18 0 0 1 ${hx + 18} ${hy}Z"/>
             <rect x="${hx}" y="${hy}" width="${hw}" height="${hh}" rx="18" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="2"/></svg>
           <div class="hole-hit" style="left:${hx}px;top:${hy}px;width:${hw}px;height:${hh}px"></div>
           <div class="dm-tip" style="top:${top}px">
@@ -2578,6 +2829,7 @@
         tourEl.querySelector('.hole-hit').onclick = next;
         tourEl.querySelectorAll('[data-t]').forEach((b) => b.onclick = { next, back: () => { if (step > 0) { step--; showStep(); } }, skip: endTour }[b.dataset.t]);
       }
+      onRefit = () => { if (tourOn && tourEl) showStep(); };
       function next() { if (step < STEPS.length - 1) { step++; showStep(); } else endTour(); }
       function startTour() {
         closeOverlay(); stack.length = 1; render();
